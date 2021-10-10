@@ -4,7 +4,7 @@
 	>ResConfig：用于对比资源版本和文件哈希值  
 	>ResLoadType：选择从外部目录、StreamingAssets或者编辑器目录加载资源  
 	>ResManager  
-		>> LoadAssetBundle //加载指定的AB包  
+	>>LoadAssetBundle //加载指定的AB包  
 		>>LoadAsset<T> //加载指定类型的资源  
 		>>Dispose()  
 		>>...  
