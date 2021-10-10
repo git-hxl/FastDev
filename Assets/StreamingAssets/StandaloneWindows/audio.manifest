@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 2312143744
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 10e6578559b09d78e057b169ec047f83
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+Assets:
+- Assets/Example/Res/shot.mp3
+- "Assets/Example/Res/music - \u526F\u672C (6).mp3"
+- "Assets/Example/Res/music - \u526F\u672C (2).mp3"
+- "Assets/Example/Res/music - \u526F\u672C (5).mp3"
+- "Assets/Example/Res/music - \u526F\u672C (3).mp3"
+- "Assets/Example/Res/music - \u526F\u672C (4).mp3"
+- Assets/Example/Res/music.mp3
+- "Assets/Example/Res/music - \u526F\u672C.mp3"
+Dependencies: []
