@@ -1,18 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 namespace Bigger
 {
     public abstract class UIPanel : MonoBehaviour, Ipanel
     {
-        public virtual void PlayAnimaOnOpen() { }
-        public virtual void PlayAnimaOnClose() { }
+        public virtual void PlayAnimaOnOpen(Action Active) { Active?.Invoke(); }
+        public virtual void PlayAnimaOnClose(Action Inactive) { Inactive?.Invoke(); }
 
         public virtual void Open()
         {
             if (!UIManager.Instance.openedPanels.Contains(this))
             {
-                PlayAnimaOnOpen();
+                PlayAnimaOnOpen(() => gameObject.SetActive(true));
                 UIManager.Instance.openedPanels.Add(this);
-                gameObject.SetActive(true);
             }
         }
 
@@ -20,9 +20,8 @@ namespace Bigger
         {
             if (UIManager.Instance.openedPanels.Contains(this))
             {
-                PlayAnimaOnClose();
+                PlayAnimaOnClose(() => gameObject.SetActive(false));
                 UIManager.Instance.openedPanels.Remove(this);
-                gameObject.SetActive(false);
             }
         }
     }
