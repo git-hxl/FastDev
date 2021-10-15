@@ -27,7 +27,7 @@ namespace Bigger
                 if (poolObj != null)
                     return poolObj;
             }
-            GameObject obj = Instantiate(ResManager.Instance.LoadAsset<GameObject>(BundleConstant.Prefab, assetPath));
+            GameObject obj = Instantiate(ResManager.Instance.LoadAsset<GameObject>(BundleConstant.prefab, assetPath));
             obj.name = objName;
             return obj;
         }

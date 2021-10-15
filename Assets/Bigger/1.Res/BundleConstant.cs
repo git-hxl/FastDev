@@ -1,10 +1,11 @@
-﻿namespace Bigger
+namespace Bigger
 {
     public static class BundleConstant
     {
-        public const string UI = "ui";
-        public const string Prefab = "prefab";
-        public const string Audio = "audio";
+        public const string audio = "audio";
+		public const string prefab = "prefab";
+		public const string texture2d = "texture2d";
+		public const string ui = "ui";
+		
     }
-
 }

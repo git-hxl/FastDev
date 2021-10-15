@@ -1,5 +1,4 @@
-﻿using System.IO;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 namespace Bigger
 {
@@ -8,16 +7,15 @@ namespace Bigger
         [MenuItem("Assets/创建SpriteFont")]
         static void CreateFont()
         {
-            if (Selection.assetGUIDs == null) return;
-            string assetPath = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
-            if (!File.Exists(assetPath))
+            Texture2D tex = Selection.activeObject as Texture2D;
+            if(tex == null)
             {
-                Debug.LogError("请右键选择精灵图集");
+                Debug.LogError("should select a texture2d");
                 return;
             }
+            string assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
             string assetDir = assetPath.Substring(0, assetPath.LastIndexOf('/'));
             Object[] sprites = AssetDatabase.LoadAllAssetsAtPath(assetPath);
-            Texture2D tex = sprites[0] as Texture2D;
             string fontPath = assetDir + "/" + Selection.objects[0].name + ".fontsettings";
             string matPath = assetDir + "/" + Selection.objects[0].name + ".mat";
 

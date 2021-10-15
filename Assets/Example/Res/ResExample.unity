@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resLoadType: 1
-  versionUrl: www.baidu.com1
+  versionUrl: www.baidu.com
   checkUpdate: 0
 --- !u!1 &1357851476
 GameObject:

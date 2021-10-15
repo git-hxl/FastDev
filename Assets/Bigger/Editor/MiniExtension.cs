@@ -13,18 +13,18 @@ public class MiniExtension
         textEditor.OnFocus();
         textEditor.Copy();
     }
-    [MenuItem("Bigger/Tool/打开StreamingAssets")]
+    [MenuItem("Bigger/Tools/打开StreamingAssets")]
     static void OpenStreamingAssetsFinder()
     {
         EditorUtility.RevealInFinder(Application.streamingAssetsPath);
     }
-    [MenuItem("Bigger/Tool/打开PersisentData")]
+    [MenuItem("Bigger/Tools/打开PersisentData")]
     static void OpenPersistentDataFinder()
     {
         EditorUtility.RevealInFinder(Application.persistentDataPath);
     }
     
-    [MenuItem("Bigger/Tool/Clear PlayerPrefs")]
+    [MenuItem("Bigger/Tools/Clear PlayerPrefs")]
     static void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();

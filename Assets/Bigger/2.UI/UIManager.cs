@@ -25,7 +25,7 @@ namespace Bigger
             }
             if (panel == null)
             {
-                GameObject assetObj = ResManager.Instance.LoadAsset<GameObject>(BundleConstant.UI, path);
+                GameObject assetObj = ResManager.Instance.LoadAsset<GameObject>(BundleConstant.ui, path);
                 GameObject panelObj = Instantiate(assetObj, transform);
                 panel = panelObj.GetComponent<UIPanel>();
                 if (panelObj != null)
