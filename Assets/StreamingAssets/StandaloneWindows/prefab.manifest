@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3348456619
+CRC: 2201659712
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b517cd001ead9a55ec1c7e814375ebb7
+    Hash: 241442e6a87a13ab42970303e2127609
   TypeTreeHash:
     serializedVersion: 2
     Hash: 0f75531b062bf7fe8a1754f51bc44fd6
@@ -55,4 +55,4 @@ Assets:
 - Assets/Example/Res/Cube.prefab
 - Assets/Example/UI/UI Panel1.prefab
 Dependencies:
-- C:/UnityProjects/MiniFramework/Assets/StreamingAssets/StandaloneWindows/texture2d
+- D:/Bigger/Assets/StreamingAssets/StandaloneWindows/texture2d

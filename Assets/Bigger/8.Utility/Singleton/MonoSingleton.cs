@@ -27,7 +27,7 @@ namespace Bigger
                 instance = this as T;
                 DontDestroyOnLoad(gameObject);
             }
-            else
+            else if (instance != this)
                 DestroyImmediate(gameObject);
         }
 

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3209898666
+CRC: 3256881854
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d2631b98cddea76139e60329e510ed1d
+    Hash: 9c90e02e9ce1c4b2f1296592b8fd839a
   TypeTreeHash:
     serializedVersion: 2
     Hash: ea5a42e0fd8ea905efa7aa926a3b8944
@@ -14,38 +14,8 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 Assets:
-- "Assets/Example/Res/2 - \u526F\u672C (9).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C.jpg"
-- "Assets/Example/Res/3 - \u526F\u672C.jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (7).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (5).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C (6).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C (4).jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (3).jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (9).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (10).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C (7).jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (2).jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (8).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (3).jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (5).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (6).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (9).jpg"
 - Assets/Example/Res/2.jpg
-- "Assets/Example/Res/2 - \u526F\u672C (10).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (4).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (2).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C.jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (10).jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (4).jpg"
 - "Assets/Example/Res/\u7EB9\u7406.jpg"
-- "Assets/Example/Res/3 - \u526F\u672C (7).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C (8).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C (3).jpg"
-- "Assets/Example/Res/2 - \u526F\u672C (2).jpg"
 - Assets/Example/Res/1.jpg
-- "Assets/Example/Res/3 - \u526F\u672C (6).jpg"
-- "Assets/Example/Res/1 - \u526F\u672C (8).jpg"
 - Assets/Example/Res/3.jpg
-- "Assets/Example/Res/2 - \u526F\u672C (5).jpg"
 Dependencies: []
