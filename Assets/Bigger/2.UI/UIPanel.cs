@@ -4,15 +4,16 @@ namespace Bigger
 {
     public abstract class UIPanel : MonoBehaviour, Ipanel
     {
-        public virtual void PlayAnimaOnOpen(Action Active) { Active?.Invoke(); }
-        public virtual void PlayAnimaOnClose(Action Inactive) { Inactive?.Invoke(); }
+        public virtual void OpenByAnima() { Open(); }
+        public virtual void CloseByAnima() { Close(); }
 
         public virtual void Open()
         {
             if (!UIManager.Instance.openedPanels.Contains(this))
             {
-                PlayAnimaOnOpen(() => gameObject.SetActive(true));
                 UIManager.Instance.openedPanels.Add(this);
+                if (!gameObject.activeSelf)
+                    gameObject.SetActive(true);
             }
         }
 
@@ -20,8 +21,9 @@ namespace Bigger
         {
             if (UIManager.Instance.openedPanels.Contains(this))
             {
-                PlayAnimaOnClose(() => gameObject.SetActive(false));
                 UIManager.Instance.openedPanels.Remove(this);
+                if (gameObject.activeSelf)
+                    gameObject.SetActive(false);
             }
         }
     }
