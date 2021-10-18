@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Bigger
 {
@@ -33,6 +34,22 @@ namespace Bigger
             return ip;
         }
 
+        /// <summary>
+        /// 只保留字符串数字
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string GetNumberAlpha(this string source)
+        {
+            string pattern = "[A-Za-z0-9]";
+            string strRet = "";
+            MatchCollection results = Regex.Matches(source, pattern);
+            foreach (var v in results)
+            {
+                strRet += v.ToString();
+            }
+            return strRet;
+        }
     }
 
 }

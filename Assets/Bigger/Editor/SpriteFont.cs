@@ -10,7 +10,7 @@ namespace Bigger
             Texture2D tex = Selection.activeObject as Texture2D;
             if(tex == null)
             {
-                Debug.LogError("should select a texture2d");
+                Debug.LogError("should select a spriteAsset");
                 return;
             }
             string assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
