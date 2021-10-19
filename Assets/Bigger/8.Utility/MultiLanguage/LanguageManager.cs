@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using UnityEngine;
 namespace Bigger
 {
@@ -76,6 +72,24 @@ namespace Bigger
         public void SetToChinese()
         {
             curLanguage = LanguageType.Chinese;
+        }
+
+        public Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
+        {
+            string path = "Assets/Resources/Language.json";
+            string str = FileUtil.ReadFromExternal(path);
+            Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
+            if (!string.IsNullOrEmpty(str))
+            {
+                languageDict = str.ToObject<Dictionary<string, LanguageStruct>>();
+            }
+            return languageDict;
+        }
+
+        public void SaveEditorLanguageJson(Dictionary<string, LanguageStruct> languageDict)
+        {
+            System.IO.File.WriteAllText("Assets/Resources/Language.json", System.Text.RegularExpressions.Regex.Unescape(languageDict.ToJson()));
+            UnityEditor.AssetDatabase.Refresh();
         }
     }
 }

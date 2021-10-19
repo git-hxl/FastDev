@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Bigger;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 public class MiniExtension
@@ -6,10 +7,9 @@ public class MiniExtension
     [MenuItem("Assets/获取AssetPath")]
     static void GetResAssetPath()
     {
-        if (Selection.assetGUIDs == null) return;
-        string assetPath = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
+        if (Selection.activeObject == null) return;
         TextEditor textEditor = new TextEditor();
-        textEditor.text = assetPath;
+        textEditor.text = AssetDatabase.GetAssetPath(Selection.activeObject);
         textEditor.OnFocus();
         textEditor.Copy();
     }
@@ -23,7 +23,7 @@ public class MiniExtension
     {
         EditorUtility.RevealInFinder(Application.persistentDataPath);
     }
-    
+
     [MenuItem("Bigger/Tools/Clear PlayerPrefs")]
     static void ClearPlayerPrefs()
     {
@@ -33,9 +33,24 @@ public class MiniExtension
     [MenuItem("Assets/打印文件Hash")]
     static void DebugFileHash()
     {
-        if (Selection.assetGUIDs == null) return;
-        string assetPath = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
+        if (Selection.activeObject == null) return;
+        string assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
         string hash = Bigger.FileUtil.GetFileMD5(assetPath);
         Debug.Log(hash);
+    }
+
+    [MenuItem("GameObject/更新当前对象的多语言", false, 0)]
+    static void ExcuteLanguageUpdate()
+    {
+        if (Selection.activeGameObject == null) return;
+
+        System.Collections.Generic.Dictionary<string, LanguageStruct> languageDict = LanguageManager.Instance.ReadEditorLanguageJson();
+
+        LanguageText[] languageTexts = Selection.activeGameObject.GetComponentsInChildren<LanguageText>(true);
+        foreach (var item in languageTexts)
+        {
+            item.AddLanguageText(languageDict);
+        }
+        LanguageManager.Instance.SaveEditorLanguageJson(languageDict);
     }
 }

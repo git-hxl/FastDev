@@ -25,11 +25,15 @@ namespace Bigger
             InitText();
         }
 
-        private string InitKey()
+        public string InitKey()
         {
             text = GetComponent<Text>();
             textMeshPro = GetComponent<TextMeshProUGUI>();
             multiKey = text ? FileUtil.GetStrMD5(text.text) : FileUtil.GetStrMD5(textMeshPro.text);
+            return multiKey;
+        }
+        public string GetDefaultStr()
+        {
             return text ? text.text : textMeshPro.text;
         }
 
@@ -49,22 +53,18 @@ namespace Bigger
         [ContextMenu("多语言")]
         public void ExcuteUpdate()
         {
-            string chineseStr = InitKey();
-            if (string.IsNullOrEmpty(multiKey))
-                return;
-            string path = "Assets/Resources/Language.json";
-            string str = FileUtil.ReadFromExternal(path);
-            Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
-            if (!string.IsNullOrEmpty(str))
-            {
-                languageDict = str.ToObject<Dictionary<string, LanguageStruct>>();
-            }
+            Dictionary<string, LanguageStruct> languageDict = LanguageManager.Instance.ReadEditorLanguageJson();
+            AddLanguageText(languageDict);
+            LanguageManager.Instance.SaveEditorLanguageJson(languageDict);
+        }
+
+        public void AddLanguageText(Dictionary<string, LanguageStruct> languageDict)
+        {
+            InitKey();
             if (!languageDict.ContainsKey(multiKey))
             {
-                languageDict.Add(multiKey, new LanguageStruct() { Chinese = chineseStr });
+                languageDict.Add(multiKey, new LanguageStruct() { Chinese = GetDefaultStr() });
             }
-            File.WriteAllText(path, Regex.Unescape(languageDict.ToJson()));
-            AssetDatabase.Refresh();
         }
     }
 }
