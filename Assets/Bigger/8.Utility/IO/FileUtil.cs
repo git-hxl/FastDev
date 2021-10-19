@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using Cysharp.Threading.Tasks;
+using ExcelDataReader;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -31,7 +32,7 @@ namespace Bigger
 
         public static string ReadFromExternal(string path)
         {
-            if(File.Exists(path))
+            if (File.Exists(path))
                 return File.ReadAllText(path);
             return "";
         }
@@ -64,8 +65,20 @@ namespace Bigger
             var stream = new FileStream(path, FileMode.Open);
             byte[] hashByte = hash.ComputeHash(stream);
             stream.Close();
-            return BitConverter.ToString(hashByte).ToLower().Replace("-","");
+            return BitConverter.ToString(hashByte).ToLower().Replace("-", "");
         }
- 
+
+        public static System.Data.DataTable ReadExcel(string path,int table = 0)
+        {
+            using (var stream = File.Open(path, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var result = reader.AsDataSet();
+                    return result.Tables[table];
+                }
+            }
+        }
+
     }
 }
