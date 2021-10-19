@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -11,14 +12,14 @@ namespace Bigger
         Chinese,
         English
     }
+    public struct LanguageStruct
+    {
+        public string Chinese;
+        public string English;
+    }
+
     public class LanguageManager : MonoSingleton<LanguageManager>
     {
-        public struct LanguageStruct
-        {
-            public string Chinese;
-            public string English;
-        }
-
         private LanguageType _curLanguage;
         public LanguageType curLanguage
         {
@@ -30,24 +31,51 @@ namespace Bigger
             }
             set
             {
+                if (_curLanguage == value)
+                    return;
                 PlayerPrefs.SetInt("Language", (int)value);
                 _curLanguage = value;
+                EventManager.Instance.Dispatch(MsgID.OnLanguageChange, null);
             }
         }
+        private static Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
 
-        private Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
-
-
-        protected override void Awake()
+        protected override void Init()
         {
-            base.Awake();
-            InitLanguage();
+            TextAsset textAsset = ResManager.Instance.LoadAsset<TextAsset>("config", "Assets/Resources/Language.json");
+            languageDict = textAsset.text.ToObject<Dictionary<string, LanguageStruct>>();
+
+            Debug.Log("curlanguage:" + curLanguage);
         }
 
-        public void InitLanguage()
+        public string GetText(string key)
         {
-            TextAsset textAsset = ResManager.Instance.LoadAsset<TextAsset>("config", "Assets/Bigger/8.Utility/MultiLanguage/Language.json");
-            languageDict = textAsset.text.ToObject<Dictionary<string, LanguageStruct>>();
+            string text = null;
+            if (languageDict.ContainsKey(key))
+            {
+                switch (curLanguage)
+                {
+                    case LanguageType.Chinese:
+                        text = languageDict[key].Chinese;
+                        break;
+                    case LanguageType.English:
+                        text = languageDict[key].English;
+                        break;
+                }
+            }
+            return text;
+        }
+
+        [ContextMenu("SetToEnglish")]
+        public void SetToEnglish()
+        {
+            curLanguage = LanguageType.English;
+        }
+
+        [ContextMenu("SetToChinese")]
+        public void SetToChinese()
+        {
+            curLanguage = LanguageType.Chinese;
         }
     }
 }

@@ -35,7 +35,7 @@ public class MiniExtension
     {
         if (Selection.assetGUIDs == null) return;
         string assetPath = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
-        string hash = Bigger.FileUtil.GetMD5(assetPath);
+        string hash = Bigger.FileUtil.GetFileMD5(assetPath);
         Debug.Log(hash);
     }
 }

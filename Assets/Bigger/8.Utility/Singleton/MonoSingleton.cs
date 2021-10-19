@@ -20,15 +20,23 @@ namespace Bigger
                 return instance;
             }
         }
-        protected virtual void Awake()
+        private void Awake()
         {
             if (instance == null)
             {
                 instance = this as T;
                 DontDestroyOnLoad(gameObject);
+                Init();
             }
             else if (instance != this)
+            {
                 DestroyImmediate(gameObject);
+            }
+        }
+
+        protected virtual void Init()
+        {
+
         }
 
         public virtual void Dispose()

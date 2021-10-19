@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using Cysharp.Threading.Tasks;
-using ExcelDataReader;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -59,7 +59,7 @@ namespace Bigger
             return bundlesHash;
         }
 
-        public static string GetMD5(string path)
+        public static string GetFileMD5(string path)
         {
             var hash = MD5.Create();
             var stream = new FileStream(path, FileMode.Open);
@@ -68,16 +68,11 @@ namespace Bigger
             return BitConverter.ToString(hashByte).ToLower().Replace("-", "");
         }
 
-        public static System.Data.DataTable ReadExcel(string path,int table = 0)
+        public static string GetStrMD5(string content)
         {
-            using (var stream = File.Open(path, FileMode.Open, FileAccess.Read))
-            {
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
-                {
-                    var result = reader.AsDataSet();
-                    return result.Tables[table];
-                }
-            }
+            var hash = MD5.Create();
+            byte[] hashByte = hash.ComputeHash(Encoding.UTF8.GetBytes(content));
+            return BitConverter.ToString(hashByte).ToLower().Replace("-", "");
         }
 
     }

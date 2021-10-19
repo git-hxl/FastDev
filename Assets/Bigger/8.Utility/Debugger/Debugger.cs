@@ -19,9 +19,8 @@ namespace Bigger
         private int curFrame;
         private float curTime;
         private int fps;
-        protected override void Awake()
+        protected override void Init()
         {
-            base.Awake();
             logPath = Application.persistentDataPath + "/log.txt";
             if (File.Exists(logPath))
                 File.Delete(logPath);

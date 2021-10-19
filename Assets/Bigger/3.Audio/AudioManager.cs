@@ -12,12 +12,7 @@ namespace Bigger
         private string settingPath;
         private AudioSource audioSource;
         private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-        protected override void Awake()
-        {
-            base.Awake();
-            Init();
-        }
-        private void Init()
+        protected override void Init()
         {
             audioSource = GetComponent<AudioSource>();
             if (audioSource == null)
