@@ -32,7 +32,7 @@ namespace Bigger
                     return;
                 }
             }
-            await Init();
+            await ReadConfig();
             initSuccessCallback?.Invoke();
         }
 
@@ -83,7 +83,7 @@ namespace Bigger
         /// </summary>
         /// <returns></returns>
         [ContextMenu("Reload")]
-        private async UniTask Init()
+        private async UniTask ReadConfig()
         {
             if (!PlatformUtil.IsEditor && resLoadType == ResLoadType.FromEditor)
                 resLoadType = ResLoadType.FromStreamingAssets;
