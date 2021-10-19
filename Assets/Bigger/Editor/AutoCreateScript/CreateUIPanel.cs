@@ -9,6 +9,7 @@ namespace Bigger
     {
         public enum UIElementType
         {
+            TextMeshProUGUI,
             Text,
             RawImage,
             Button,
@@ -24,6 +25,7 @@ namespace Bigger
 @"using Bigger;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class $类名 : UIPanel
 {
     #region UIAttribute
