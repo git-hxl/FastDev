@@ -2,7 +2,6 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using LitJson;
 namespace Bigger
 {
@@ -85,8 +84,9 @@ namespace Bigger
                 builds[i] = build;
             }
             AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(GetTargetPath(), builds, baseAttr.option, baseAttr.platform);
-            Dictionary<string, string> hash = FileUtil.LoadABManifest(manifest);
-            CreateConfig(hash);
+            Dictionary<string, string> hash = FileUtil.LoadABHash(manifest);
+            hash.Add(baseAttr.platform.ToString(), FileUtil.GetFileMD5(GetTargetPath() + "/" + baseAttr.platform));
+            UpdateConfig(hash);
             AssetDatabase.Refresh();
         }
         private void OnDestroy()
@@ -109,16 +109,28 @@ namespace Bigger
         }
 
         /// <summary>
-        /// 生成配置文件
+        /// 更新配置文件
         /// </summary>
         /// <param name="hash"></param>
-        private void CreateConfig(Dictionary<string, string> hash)
+        private void UpdateConfig(Dictionary<string, string> hash)
         {
-            string configPath = GetTargetPath() + "/resConfig.txt";
             ResConfig ResConfig = new ResConfig();
+            string configPath = GetTargetPath() + "/ResConfig.json";
+            if(File.Exists(configPath))
+            {
+                ResConfig = File.ReadAllText(configPath).ToObject<ResConfig>();
+            }
+            foreach (var item in hash)
+            {
+                if (ResConfig.resDict.ContainsKey(item.Key))
+                {
+                    ResConfig.resDict[item.Key] = item.Value;
+                }
+                else
+                    ResConfig.resDict.Add(item.Key, item.Value);
+            }
             ResConfig.appVersion = baseAttr.appVersion;
             ResConfig.resVersion = baseAttr.resVersion;
-            ResConfig.resDict = hash;
             File.WriteAllText(configPath, JsonMapper.ToJson(ResConfig));
             Debug.Log("写入成功");
         }

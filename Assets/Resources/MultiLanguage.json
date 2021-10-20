@@ -1,14 +1,15 @@
+
 {
-  "e33eb83044bbca19705dbe31d4c13da3": {
-    "Chinese": "哟哟",
-    "English": null
-  },
-  "830b11b1804947100ac081f62ef23198": {
-    "Chinese": "切克闹",
-    "English": null
-  },
-  "ba08216f13dd1742157412386eee1225": {
-    "Chinese": "游戏",
-    "English": null
-  }
+    "e33eb83044bbca19705dbe31d4c13da3" : {
+        "Chinese" : "哟哟",
+        "English" : null
+    },
+    "830b11b1804947100ac081f62ef23198" : {
+        "Chinese" : "切克闹",
+        "English" : null
+    },
+    "ba08216f13dd1742157412386eee1225" : {
+        "Chinese" : "游戏",
+        "English" : null
+    }
 }

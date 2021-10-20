@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 4021033072
+CRC: 2088148585
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -12,3 +12,7 @@ AssetBundleManifest:
       Name: prefab
       Dependencies:
         Dependency_0: texture2d
+        Dependency_1: audio
+    Info_3:
+      Name: ui
+      Dependencies: {}

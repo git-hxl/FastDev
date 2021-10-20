@@ -35,5 +35,11 @@ public class ResExample : MonoBehaviour
         sprite = ResManager.Instance.LoadAsset<Sprite>("texture2d", "Assets/Example/Res/1.jpg");
         texture = ResManager.Instance.LoadAsset<Texture>("texture2d", "Assets/Example/Res/1.jpg");
         texture2D = ResManager.Instance.LoadAsset<Texture2D>("texture2d", "Assets/Example/Res/1.jpg");
+
+        string[] d = ResManager.Instance.GetAllDependencies("prefab");
+        foreach (var item in d)
+        {
+            Debug.Log("AB包 依赖：" + item);
+        }
     }
 }

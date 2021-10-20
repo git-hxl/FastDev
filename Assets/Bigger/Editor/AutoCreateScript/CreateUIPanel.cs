@@ -32,8 +32,7 @@ public class $类名 : UIPanel
     $UIAttribute
     #endregion UIAttribute
 }";
-        [MenuItem("Bigger/Tools/Script/自动生成UIPanel.cs")]
-        [MenuItem("Assets/自动生成UIPanel.cs")]
+        [MenuItem("Assets/自动生成/UIPanel.cs")]
         public static void Create()
         {
             GameObject obj = Selection.activeGameObject;

@@ -22,6 +22,7 @@ namespace Bigger
         private string resConfigPath;
         private ResConfig resConfig;
         private Dictionary<string, AssetBundle> bundles = new Dictionary<string, AssetBundle>();
+        private AssetBundleManifest assetBundleManifest;
         private async UniTaskVoid Start()
         {
             if (!PlatformUtil.IsEditor || checkUpdate && !string.IsNullOrEmpty(versionUrl))
@@ -31,6 +32,7 @@ namespace Bigger
                     updateErrorCallback?.Invoke();
                     return;
                 }
+                resLoadType = ResLoadType.FromPersistentPath;
             }
             await ReadConfig();
             initSuccessCallback?.Invoke();
@@ -44,7 +46,7 @@ namespace Bigger
                 Debug.LogError("Update Error!");
                 return false;
             }
-            string resConfigUrl = resUrl + "/" + PlatformUtil.GetPlatformName() + "/resConfig.txt";
+            string resConfigUrl = resUrl + "/" + PlatformUtil.GetPlatformName() + "/ResConfig.json";
             string resConfigStr = await WebRequestManager.Instance.Get(resConfigUrl);
             resConfig = JsonMapper.ToObject<ResConfig>(resConfigStr);
             if (resConfig == null)
@@ -52,7 +54,7 @@ namespace Bigger
                 Debug.LogError("Update Error!");
                 return false;
             }
-            string localResConfigPath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName() + "/resConfig.txt";
+            string localResConfigPath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName() + "/ResConfig.json";
             ResConfig localResConfig = JsonMapper.ToObject<ResConfig>(FileUtil.ReadFromExternal(localResConfigPath));
             List<string> needUpdateFileNames = new List<string>();
             foreach (var item in resConfig.resDict)
@@ -98,7 +100,7 @@ namespace Bigger
                     resDir = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName();
                     break;
             }
-            resConfigPath = resDir + "/resConfig.txt";
+            resConfigPath = resDir + "/ResConfig.json";
             string resConfigText = await FileUtil.ReadFile(resConfigPath);
             if (!string.IsNullOrEmpty(resConfigText))
             {
@@ -113,6 +115,11 @@ namespace Bigger
             {
                 var assetBundle = await LoadAssetBundle(item.Key);
                 bundles.Add(item.Key, assetBundle);
+
+                if (item.Key == PlatformUtil.GetPlatformName())
+                {
+                    assetBundleManifest = assetBundle.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+                }
             }
         }
         /// <summary>
@@ -128,6 +135,12 @@ namespace Bigger
             await request;
             return request.assetBundle;
         }
+
+        public string[] GetAllDependencies(string bundleName)
+        {
+            return assetBundleManifest.GetAllDependencies(bundleName);
+        }
+
         /// <summary>
         /// 加载资源
         /// </summary>

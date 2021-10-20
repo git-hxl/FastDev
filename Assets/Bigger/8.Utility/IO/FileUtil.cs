@@ -47,7 +47,7 @@ namespace Bigger
             return file.Length;
         }
 
-        public static Dictionary<string, string> LoadABManifest(AssetBundleManifest manifest)
+        public static Dictionary<string, string> LoadABHash(AssetBundleManifest manifest)
         {
             Dictionary<string, string> bundlesHash = new Dictionary<string, string>();
             string[] bundlesName = manifest.GetAllAssetBundles();

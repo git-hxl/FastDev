@@ -49,9 +49,12 @@ namespace Bigger
             return (T)obj;
         }
 
-        public static string ToJson(this object o)
+        public static string ToJson(this object o, bool prettyPrint = false)
         {
-            return JsonMapper.ToJson(o);
+            JsonWriter jsonWriter = new JsonWriter();
+            jsonWriter.PrettyPrint = prettyPrint;
+            JsonMapper.ToJson(o, jsonWriter);
+            return System.Text.RegularExpressions.Regex.Unescape(jsonWriter.TextWriter.ToString());
         }
 
         public static T ToObject<T>(this string json)

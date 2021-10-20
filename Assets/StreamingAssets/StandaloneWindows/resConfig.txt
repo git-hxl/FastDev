@@ -1,1 +1,0 @@
-{"resVersion":"1.0.1","appVersion":"1.0.0","resDict":{"audio":"21ef689101f3d6cde80d28acbae241b3","prefab":"241442e6a87a13ab42970303e2127609","texture2d":"9c90e02e9ce1c4b2f1296592b8fd839a"}}

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
-
 namespace Bigger
 {
     public class MultiLanguageTool
@@ -20,7 +19,7 @@ namespace Bigger
 
         public static void SaveEditorLanguageJson(Dictionary<string, LanguageStruct> languageDict)
         {
-            File.WriteAllText("Assets/Resources/MultiLanguage.json", System.Text.RegularExpressions.Regex.Unescape(languageDict.ToJson()));
+            File.WriteAllText("Assets/Resources/MultiLanguage.json",languageDict.ToJson(true));
             AssetDatabase.Refresh();
         }
 
