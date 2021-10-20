@@ -1,9 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 namespace Bigger
@@ -48,23 +44,6 @@ namespace Bigger
                 text.text = LanguageManager.Instance.GetText(multiKey);
             else
                 textMeshPro.text = LanguageManager.Instance.GetText(multiKey);
-        }
-
-        [ContextMenu("多语言")]
-        public void ExcuteUpdate()
-        {
-            Dictionary<string, LanguageStruct> languageDict = LanguageManager.Instance.ReadEditorLanguageJson();
-            AddLanguageText(languageDict);
-            LanguageManager.Instance.SaveEditorLanguageJson(languageDict);
-        }
-
-        public void AddLanguageText(Dictionary<string, LanguageStruct> languageDict)
-        {
-            InitKey();
-            if (!languageDict.ContainsKey(multiKey))
-            {
-                languageDict.Add(multiKey, new LanguageStruct() { Chinese = GetDefaultStr() });
-            }
         }
     }
 }

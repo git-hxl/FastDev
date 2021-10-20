@@ -38,7 +38,7 @@ namespace Bigger
 
         protected override void Init()
         {
-            TextAsset textAsset = ResManager.Instance.LoadAsset<TextAsset>("config", "Assets/Resources/Language.json");
+            TextAsset textAsset = ResManager.Instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
             languageDict = textAsset.text.ToObject<Dictionary<string, LanguageStruct>>();
 
             Debug.Log("curlanguage:" + curLanguage);
@@ -72,24 +72,6 @@ namespace Bigger
         public void SetToChinese()
         {
             curLanguage = LanguageType.Chinese;
-        }
-
-        public Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
-        {
-            string path = "Assets/Resources/Language.json";
-            string str = FileUtil.ReadFromExternal(path);
-            Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
-            if (!string.IsNullOrEmpty(str))
-            {
-                languageDict = str.ToObject<Dictionary<string, LanguageStruct>>();
-            }
-            return languageDict;
-        }
-
-        public void SaveEditorLanguageJson(Dictionary<string, LanguageStruct> languageDict)
-        {
-            System.IO.File.WriteAllText("Assets/Resources/Language.json", System.Text.RegularExpressions.Regex.Unescape(languageDict.ToJson()));
-            UnityEditor.AssetDatabase.Refresh();
         }
     }
 }

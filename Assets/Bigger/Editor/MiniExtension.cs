@@ -43,14 +43,15 @@ public class MiniExtension
     static void ExcuteLanguageUpdate()
     {
         if (Selection.activeGameObject == null) return;
-
-        System.Collections.Generic.Dictionary<string, LanguageStruct> languageDict = LanguageManager.Instance.ReadEditorLanguageJson();
-
         LanguageText[] languageTexts = Selection.activeGameObject.GetComponentsInChildren<LanguageText>(true);
-        foreach (var item in languageTexts)
+        if (languageTexts != null && languageTexts.Length > 0)
         {
-            item.AddLanguageText(languageDict);
+            var languageDict = MultiLanguageTool.ReadEditorLanguageJson();
+            foreach (var item in languageTexts)
+            {
+                MultiLanguageTool.AddNewLanguageText(item.InitKey(), item.GetDefaultStr(), languageDict);
+            }
+            MultiLanguageTool.SaveEditorLanguageJson(languageDict);
         }
-        LanguageManager.Instance.SaveEditorLanguageJson(languageDict);
     }
 }
