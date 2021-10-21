@@ -105,11 +105,10 @@ namespace Bigger
             if (!string.IsNullOrEmpty(resConfigText))
             {
                 resConfig = JsonMapper.ToObject<ResConfig>(resConfigText);
-                await LoadAllAssetBundle();
             }
         }
 
-        private async UniTask LoadAllAssetBundle()
+        public async UniTask LoadAllAssetBundle()
         {
             foreach (var item in resConfig.resDict)
             {
@@ -122,6 +121,7 @@ namespace Bigger
                 }
             }
         }
+
         /// <summary>
         /// 加载AssetBundle
         /// </summary>

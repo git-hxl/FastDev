@@ -9,7 +9,7 @@ namespace Bigger
     {
         private AssetBundleEditorAttribute baseAttr;
         private string[] buildBundles;
-        [MenuItem("Bigger/AssetBundle")]
+        [MenuItem("Bigger/AssetBundle工具")]
         public static void OpenWindow()
         {
             AssetBundleEditor window = (AssetBundleEditor)EditorWindow.GetWindow(typeof(AssetBundleEditor), false, "AssetBundle");

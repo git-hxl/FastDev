@@ -32,7 +32,7 @@ public class $类名 : UIPanel
     $UIAttribute
     #endregion UIAttribute
 }";
-        [MenuItem("Assets/自动生成/UIPanel.cs")]
+        [MenuItem("Bigger/自动生成/当前对象的UIPanel.cs")]
         public static void Create()
         {
             GameObject obj = Selection.activeGameObject;
@@ -83,7 +83,7 @@ public class $类名 : UIPanel
                         string varStr = "private $typeName $varName;\r\n\t";
                         string attrStr = "public $typeName $attrName { get { if ($varName == null) { $varName = transform.Find(\"$path\").GetComponent<$typeName>(); } return $varName; } }\r\n\t";
                         string typeName = component.GetType().Name;
-                        string attrName = $"{ component.GetType().Name.ToLower()}{component.gameObject.name}".GetNumberAlpha();
+                        string attrName = $"{ component.GetType().Name.ToLower()}{component.gameObject.name}".ToAlphaNumber();
                         string varName = "_" + attrName;
                         string path = component.transform.GetRouteNoRoot();
 

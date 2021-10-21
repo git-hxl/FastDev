@@ -13,7 +13,7 @@ namespace Bigger
         $变量
     }
 }";
-        [MenuItem("Assets/自动生成/BundleConstant.cs")]
+        [MenuItem("Bigger/自动生成/BundleConstant.cs")]
         public static void Create()
         {
             string s = "";

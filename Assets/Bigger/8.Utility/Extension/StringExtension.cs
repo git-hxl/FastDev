@@ -37,18 +37,28 @@ namespace Bigger
         /// <summary>
         /// 只保留字符串数字
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        public static string GetNumberAlpha(this string source)
+        public static string ToAlphaNumber(this string s, bool isTrim = true)
         {
-            string pattern = "[A-Za-z0-9]";
-            string strRet = "";
-            MatchCollection results = Regex.Matches(source, pattern);
-            foreach (var v in results)
-            {
-                strRet += v.ToString();
-            }
-            return strRet;
+            string pattern = @"[^a-zA-Z0-9\s]";
+            if (isTrim)
+                pattern = @"[^a-zA-Z0-9]";
+            s = Regex.Replace(s, pattern, "");
+            return s;
+        }
+        /// <summary>
+        /// 只保留字符串数字汉字
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string ToAlphaNumberAndChinese(this string s, bool isTrim = true)
+        {
+            string pattern = @"[^a-zA-Z0-9\u4e00-\u9fa5\s]";
+            if (isTrim)
+                pattern = @"[^a-zA-Z0-9\u4e00-\u9fa5]";
+            s = Regex.Replace(s, pattern, "");
+            return s;
         }
     }
 

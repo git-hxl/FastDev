@@ -20,6 +20,15 @@ public class UtilityExample : MonoBehaviour
 
         node = CoroutineUtil.Create(this).AppendRepeat(-1, 1, () => Debug.Log("xxx"));
         node.Start();
+
+        string s1 = " 123     abc哈      哈 ~！《》？：”{}|·。，、；’【】、,./;'[]~@213abc ";
+        Debug.Log(s1.ToAlphaNumber());
+        Debug.Log(s1.ToAlphaNumberAndChinese(false));
+
+
+        string s2 = "ad   213";
+        Debug.Log(s2.Replace(" ", ""));
+        Debug.Log(s2.Replace(" ", "_"));
     }
 
     private void OnGUI()

@@ -17,9 +17,9 @@ public class ResExample : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
-    private void UpdateProcess(string name,float process)
+    private void UpdateProcess(string name, float process)
     {
         Debug.Log(name + ":" + process);
     }
@@ -28,18 +28,25 @@ public class ResExample : MonoBehaviour
         Debug.LogError("更新失败");
     }
 
-    void InitSuccess()
+    async void InitSuccess()
     {
         Debug.Log("资源初始化完成");
-        //Instantiate(ResManager.Instance.LoadAsset<GameObject>("prefab", "Assets/Example/Pool/Cube.prefab"));
-        sprite = ResManager.Instance.LoadAsset<Sprite>("texture2d", "Assets/Example/Res/1.jpg");
-        texture = ResManager.Instance.LoadAsset<Texture>("texture2d", "Assets/Example/Res/1.jpg");
-        texture2D = ResManager.Instance.LoadAsset<Texture2D>("texture2d", "Assets/Example/Res/1.jpg");
+        await ResManager.Instance.LoadAllAssetBundle();
 
-        string[] d = ResManager.Instance.GetAllDependencies("prefab");
-        foreach (var item in d)
-        {
-            Debug.Log("AB包 依赖：" + item);
-        }
+        ResManager.Instance.LoadAsset<Texture>("texture2d", "Assets/Example/Res/1.jpg");
+        //ResManager.Instance.LoadAsset<AudioClip>("audio", "Assets/Example/Res/shot.mp3");
+        ResManager.Instance.LoadAsset<GameObject>("prefab", "Assets/Example/Res/Cube.prefab");
+
+        AudioManager.Instance.PlayMusic("Assets/Example/Res/music.mp3");
+        //Instantiate(ResManager.Instance.LoadAsset<GameObject>("prefab", "Assets/Example/Pool/Cube.prefab"));
+        //sprite = ResManager.Instance.LoadAsset<Sprite>("texture2d", "Assets/Example/Res/1.jpg");
+        //texture = ResManager.Instance.LoadAsset<Texture>("texture2d", "Assets/Example/Res/1.jpg");
+        //texture2D = ResManager.Instance.LoadAsset<Texture2D>("texture2d", "Assets/Example/Res/1.jpg");
+
+        //string[] d = ResManager.Instance.GetAllDependencies("prefab");
+        //foreach (var item in d)
+        //{
+        //    Debug.Log("AB包 依赖：" + item);
+        //}
     }
 }

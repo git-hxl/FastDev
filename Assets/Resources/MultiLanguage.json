@@ -6,10 +6,26 @@
     },
     "830b11b1804947100ac081f62ef23198" : {
         "Chinese" : "切克闹",
-        "English" : null
+        "English" : "abc"
     },
     "ba08216f13dd1742157412386eee1225" : {
         "Chinese" : "游戏",
+        "English" : null
+    },
+    "38cf16f2204ffab8a6e0187070558721" : {
+        "Chinese" : "确定",
+        "English" : null
+    },
+    "625fb26b4b3340f7872b411f401e754c" : {
+        "Chinese" : "取消",
+        "English" : null
+    },
+    "cb4e0070adb3beb98519e83566a5d088" : {
+        "Chinese" : "确   定",
+        "English" : null
+    },
+    "d7bbfa9d624335271025d7fd74c708ae" : {
+        "Chinese" : "拉拉拉拉啊啦啦啦，拉拉拉拉啊啦啦啦。",
         "English" : null
     }
 }
