@@ -29,6 +29,19 @@ public class UtilityExample : MonoBehaviour
         string s2 = "ad   213";
         Debug.Log(s2.Replace(" ", ""));
         Debug.Log(s2.Replace(" ", "_"));
+
+        //16位加密
+        string txt = SecurityUtil.AESEncrypt("213asd,.';阿萨大大2", "1234567890123456");
+        Debug.Log("加密："+ txt);
+        Debug.Log("解密：" + SecurityUtil.AESDecrypt(txt, "1234567890123456"));
+        //24位加密
+        txt = SecurityUtil.AESEncrypt("213asd,.';阿萨大大2", "123456789012345678901234");
+        Debug.Log("加密：" + txt);
+        Debug.Log("解密：" + SecurityUtil.AESDecrypt(txt, "123456789012345678901234"));
+        //32位加密
+        txt = SecurityUtil.AESEncrypt("213asd,.';阿萨大大2", "12345678901234567890123456789012");
+        Debug.Log("加密：" + txt);
+        Debug.Log("解密：" + SecurityUtil.AESDecrypt(txt, "12345678901234567890123456789012"));
     }
 
     private void OnGUI()
