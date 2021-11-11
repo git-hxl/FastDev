@@ -35,9 +35,9 @@ namespace Bigger
         }
 
         /// <summary>
-        /// 只保留字符串数字
+        /// 只保留字母数字
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">是否移除空格</param>
         /// <returns></returns>
         public static string ToAlphaNumber(this string s, bool isTrim = true)
         {
@@ -48,9 +48,9 @@ namespace Bigger
             return s;
         }
         /// <summary>
-        /// 只保留字符串数字汉字
+        /// 只保留字母数字汉字
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">是否移除空格</param>
         /// <returns></returns>
         public static string ToAlphaNumberAndChinese(this string s, bool isTrim = true)
         {
