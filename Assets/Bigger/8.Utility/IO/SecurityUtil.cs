@@ -55,7 +55,7 @@ namespace Bigger
         /// 
         /// </summary>
         /// <param name="txt"></param>
-        /// <param name="key">支持16，32，64位，分别对应128，192，256位加密</param>
+        /// <param name="key">支持16，24，32长度，分别对应128，192，256位加密</param>
         /// <returns></returns>
         public static string AESEncrypt(string txt, string key)
         {
