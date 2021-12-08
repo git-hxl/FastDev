@@ -1,19 +1,35 @@
 
 {
-    "ba08216f13dd1742157412386eee1225" : {
-        "Chinese" : "游戏",
+    "38cf16f2204ffab8a6e0187070558721" : {
+        "Chinese" : "确定",
         "English" : null
     },
-    "82dd98f1d663acc318e6a8ec4ab69b7a" : {
-        "Chinese" : "Unity",
+    "625fb26b4b3340f7872b411f401e754c" : {
+        "Chinese" : "取消",
         "English" : null
     },
-    "be5332955b7f02e5cad1c257ed3c4696" : {
-        "Chinese" : "游戏2",
+    "cb4e0070adb3beb98519e83566a5d088" : {
+        "Chinese" : "确   定",
         "English" : null
     },
-    "41b1031d2e94a8033205fa22b4a3ee0e" : {
-        "Chinese" : "Unity2",
+    "da2885b2ca51b0e57d336253376d318b" : {
+        "Chinese" : "拉拉拉拉啊啦啦啦\n拉拉拉拉啊啦啦啦。",
+        "English" : "asdadad\nasdadad"
+    },
+    "ea63eba6cc52ab86f860dbb9070b1f43" : {
+        "Chinese" : "拉拉拉拉啊啦啦啦 拉拉拉拉啊啦啦啦。",
+        "English" : null
+    },
+    "18e691d3e1ee08d4ccd1f2b0face9612" : {
+        "Chinese" : "阿斯顿1",
+        "English" : null
+    },
+    "f98574ac6ce7a5633362a82d298b4150" : {
+        "Chinese" : "阿斯顿  2",
+        "English" : null
+    },
+    "9843cbf07f0027f8830f26dd90da7ee0" : {
+        "Chinese" : "阿斯顿  3",
         "English" : null
     }
 }

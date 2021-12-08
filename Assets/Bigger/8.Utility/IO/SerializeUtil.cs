@@ -1,6 +1,8 @@
 ﻿using System;
 using LitJson;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+
 namespace Bigger
 {
     public static class SerializeUtil
@@ -54,12 +56,13 @@ namespace Bigger
             JsonWriter jsonWriter = new JsonWriter();
             jsonWriter.PrettyPrint = prettyPrint;
             JsonMapper.ToJson(o, jsonWriter);
-            return System.Text.RegularExpressions.Regex.Unescape(jsonWriter.TextWriter.ToString());
+            return Regex.Unescape(jsonWriter.ToString());
         }
 
         public static T ToObject<T>(this string json)
         {
-            return JsonMapper.ToObject<T>(json);
+            JsonReader jsonReader = new JsonReader(json);
+            return JsonMapper.ToObject<T>(jsonReader);
         }
     }
 }

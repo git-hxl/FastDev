@@ -20,6 +20,7 @@ namespace Bigger
             EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
         [MenuItem("Bigger/Tools/获取AssetPath")]
+        [MenuItem("Assets/Tools/获取AssetPath")]
         static void GetResAssetPath()
         {
             if (Selection.activeObject == null) return;
@@ -27,8 +28,10 @@ namespace Bigger
             textEditor.text = AssetDatabase.GetAssetPath(Selection.activeObject);
             textEditor.OnFocus();
             textEditor.Copy();
+            Debug.Log("已复制：" + textEditor.text);
         }
         [MenuItem("Bigger/Tools/打印文件Hash")]
+        [MenuItem("Assets/Tools/打印文件Hash")]
         static void DebugFileHash()
         {
             if (Selection.activeObject == null) return;

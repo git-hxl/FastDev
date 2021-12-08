@@ -30,7 +30,8 @@ namespace Bigger
         }
         public string GetDefaultStr()
         {
-            return text ? text.text : textMeshPro.text;
+            string str = text ? text.text : textMeshPro.text;
+            return str;
         }
 
         private void OnLanguageChange(Hashtable obj)

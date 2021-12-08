@@ -3,10 +3,14 @@ namespace Bigger
 {
     public static class LanguageConstant
     {
-        public const string 游戏 = "ba08216f13dd1742157412386eee1225";
-		public const string Unity = "82dd98f1d663acc318e6a8ec4ab69b7a";
-		public const string 游戏2 = "be5332955b7f02e5cad1c257ed3c4696";
-		public const string Unity2 = "41b1031d2e94a8033205fa22b4a3ee0e";
+        public const string 确定 = "38cf16f2204ffab8a6e0187070558721";
+		public const string 取消 = "625fb26b4b3340f7872b411f401e754c";
+		public const string 确___定 = "cb4e0070adb3beb98519e83566a5d088";
+		public const string 拉拉拉拉啊啦啦啦n拉拉拉拉啊啦啦啦 = "da2885b2ca51b0e57d336253376d318b";
+		public const string 拉拉拉拉啊啦啦啦_拉拉拉拉啊啦啦啦 = "ea63eba6cc52ab86f860dbb9070b1f43";
+		public const string 阿斯顿1 = "18e691d3e1ee08d4ccd1f2b0face9612";
+		public const string 阿斯顿__2 = "f98574ac6ce7a5633362a82d298b4150";
+		public const string 阿斯顿__3 = "9843cbf07f0027f8830f26dd90da7ee0";
 		
     }
 }

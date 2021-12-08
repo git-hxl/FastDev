@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Bigger
     public class MultiLanguageTool
     {
         [MenuItem("Bigger/自动生成/当前对象的多语言")]
+        [MenuItem("Assets/自动生成/当前对象的多语言")]
         static void ExcuteLanguageUpdate()
         {
             if (Selection.activeGameObject == null) return;
@@ -25,11 +27,11 @@ namespace Bigger
                     AddNewLanguageText(item.InitKey(), item.GetDefaultStr(), languageDict);
                 }
                 SaveEditorLanguageJson(languageDict);
-                AutoCreateLanguageConstant();
+                AutoCreateLanguageConstant(languageDict);
             }
         }
 
-        public static Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
+        private static Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
         {
             string path = "Assets/Resources/MultiLanguage.json";
             string str = FileUtil.ReadFromExternal(path);
@@ -41,13 +43,7 @@ namespace Bigger
             return languageDict;
         }
 
-        public static void SaveEditorLanguageJson(Dictionary<string, LanguageStruct> languageDict)
-        {
-            File.WriteAllText("Assets/Resources/MultiLanguage.json", languageDict.ToJson(true));
-            AssetDatabase.Refresh();
-        }
-
-        public static Dictionary<string, LanguageStruct> AddNewLanguageText(string multiKey, string chineseStr, Dictionary<string, LanguageStruct> languageDict)
+        private static Dictionary<string, LanguageStruct> AddNewLanguageText(string multiKey, string chineseStr, Dictionary<string, LanguageStruct> languageDict)
         {
             if (!languageDict.ContainsKey(multiKey))
             {
@@ -56,7 +52,22 @@ namespace Bigger
             return languageDict;
         }
 
-        public static void AutoCreateLanguageConstant()
+        private static void SaveEditorLanguageJson(Dictionary<string, LanguageStruct> languageDict)
+        {
+            for (int i = 0; i < languageDict.Count; i++)
+            {
+                LanguageStruct languageStruct = languageDict.ElementAt(i).Value;
+                languageStruct.Chinese = languageStruct.Chinese.Replace("\n", "\\n");
+                if (languageStruct.English != null)
+                    languageStruct.English = languageStruct.English.Replace("\n", "\\n");
+                languageDict[languageDict.ElementAt(i).Key] = languageStruct;
+            }
+
+            File.WriteAllText("Assets/Resources/MultiLanguage.json", languageDict.ToJson(true));
+            AssetDatabase.Refresh();
+        }
+
+        private static void AutoCreateLanguageConstant(Dictionary<string, LanguageStruct> languageDict)
         {
             string classStr = @"
 namespace Bigger
@@ -67,10 +78,9 @@ namespace Bigger
     }
 }";
             string var = "";
-            var dict = ReadEditorLanguageJson();
-            foreach (var item in dict)
+            foreach (var item in languageDict)
             {
-                var += $"public const string {item.Value.Chinese.ToAlphaNumberAndChinese(false).Replace(" ", "_")} = \"{item.Key}\";\r\n\t\t";
+                var += $"public const string {item.Value.Chinese.ToAlphaNumberAndChinese(false).Replace(" ", "_").Replace("\n", "n")} = \"{item.Key}\";\r\n\t\t";
             }
             classStr = classStr.Replace("$变量", var);
             File.WriteAllText($"{Application.dataPath}/Bigger/8.Utility/MultiLanguage/LanguageConstant.cs", classStr);

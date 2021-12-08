@@ -5,7 +5,7 @@ using System.Reflection;
 using System;
 namespace Bigger
 {
-    public class CreateUIPanel
+    public class GenerateUIPanel
     {
         public enum UIElementType
         {
@@ -33,6 +33,7 @@ public class $类名 : UIPanel
     #endregion UIAttribute
 }";
         [MenuItem("Bigger/自动生成/当前对象的UIPanel.cs")]
+        [MenuItem("Assets/自动生成/当前对象的UIPanel.cs")]
         public static void Create()
         {
             GameObject obj = Selection.activeGameObject;

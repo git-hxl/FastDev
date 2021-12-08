@@ -78,7 +78,7 @@ namespace Bigger
             AudioClip audioClip = null;
             if (!audioClips.TryGetValue(assetPath, out audioClip))
             {
-                audioClip = ResManager.Instance.LoadAsset<AudioClip>(BundleConstant.audio, assetPath);
+                audioClip = ResManager.Instance.LoadAsset<AudioClip>(ABConstant.audio, assetPath);
                 audioClips.Add(assetPath, audioClip);
             }
             return audioClip;

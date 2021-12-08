@@ -1,6 +1,6 @@
 namespace Bigger
 {
-    public static class BundleConstant
+    public static class ABConstant
     {
         public const string audio = "audio";
 		public const string prefab = "prefab";

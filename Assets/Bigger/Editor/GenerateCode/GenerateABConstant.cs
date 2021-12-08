@@ -3,17 +3,17 @@ using UnityEditor;
 using System.IO;
 namespace Bigger
 {
-    public class CreatBundleConstant
+    public class GenerateABConstant
     {
         public static string classStr =
 @"namespace Bigger
 {
-    public static class BundleConstant
+    public static class ABConstant
     {
         $变量
     }
 }";
-        [MenuItem("Bigger/自动生成/BundleConstant.cs")]
+        [MenuItem("Bigger/自动生成/ABConstant.cs")]
         public static void Create()
         {
             string s = "";
@@ -22,7 +22,7 @@ namespace Bigger
                 s += $"public const string {item} = \"{item}\";\r\n\t\t";
             }
             classStr = classStr.Replace("$变量", s);
-            File.WriteAllText($"{Application.dataPath}/Bigger/1.Res/BundleConstant.cs", classStr);
+            File.WriteAllText($"{Application.dataPath}/Bigger/1.Res/ABConstant.cs", classStr);
             AssetDatabase.Refresh();
         }
     }
