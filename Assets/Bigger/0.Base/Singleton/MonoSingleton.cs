@@ -14,7 +14,8 @@ namespace Bigger
                     if (instance == null)
                     {
                         GameObject obj = new GameObject(typeof(T).Name);
-                        instance = obj.AddComponent<T>();
+                        //Awake
+                        obj.AddComponent<T>();
                     }
                 }
                 return instance;
@@ -28,7 +29,7 @@ namespace Bigger
                 DontDestroyOnLoad(gameObject);
                 Init();
             }
-            else if (instance != this)
+            else
             {
                 DestroyImmediate(gameObject);
             }

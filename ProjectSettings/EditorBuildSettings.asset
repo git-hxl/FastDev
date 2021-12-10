@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Example/Utility/Utility.unity
     guid: c6436474585daed4886174b4b112395d
+  - enabled: 1
+    path: Assets/Example/0/Singleton/Scene1.unity
+    guid: 30738268d168cd744b64520affdaaabc
   m_configObjects: {}
