@@ -32,12 +32,11 @@ public class $类名 : UIPanel
     $UIAttribute
     #endregion UIAttribute
 }";
-        [MenuItem("Bigger/自动生成/当前对象的UIPanel.cs")]
-        [MenuItem("Assets/自动生成/当前对象的UIPanel.cs")]
+        [MenuItem("Assets/生成当前对象的UIPanel.cs")]
         public static void Create()
         {
             GameObject obj = Selection.activeGameObject;
-            if (obj == null || obj.GetComponent<Canvas>() == null)
+            if (obj == null || obj.GetComponentInChildren<Canvas>() == null)
             {
                 Debug.LogError("should select a ui!!!");
                 return;
@@ -48,9 +47,13 @@ public class $类名 : UIPanel
             string filePath = $"{objDir}/{className}.cs";
             if (File.Exists(filePath))
             {
-                if (EditorUtility.DisplayDialog("CreateUIPanel", "已存在同名类,是否覆盖自动生成部分？", "是", "全部覆盖"))
+                if (EditorUtility.DisplayDialog("CreateUIPanel", "已存在同名类,是否覆盖自动生成部分？", "是", "否"))
                 {
                     classStr = File.ReadAllText(filePath);
+                }
+                else
+                {
+                    return;
                 }
             }
             classStr = classStr.Replace("$类名", className);

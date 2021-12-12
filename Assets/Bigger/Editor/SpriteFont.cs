@@ -4,7 +4,7 @@ namespace Bigger
 {
     public class SpriteFont
     {
-        [MenuItem("Bigger/创建当前对象的SpriteFont")]
+        [MenuItem("Assets/创建当前对象的SpriteFont")]
         static void CreateFont()
         {
             Texture2D tex = Selection.activeObject as Texture2D;

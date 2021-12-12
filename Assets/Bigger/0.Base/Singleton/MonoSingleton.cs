@@ -4,6 +4,7 @@ namespace Bigger
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private static T instance = null;
+        private bool isInit = false;
         public static T Instance
         {
             get
@@ -23,8 +24,9 @@ namespace Bigger
         }
         private void Awake()
         {
-            if (instance == null)
+            if (!isInit)
             {
+                isInit = true;
                 instance = this as T;
                 DontDestroyOnLoad(gameObject);
                 Init();
@@ -37,7 +39,7 @@ namespace Bigger
 
         protected virtual void Init()
         {
-
+            Debug.Log(typeof(T).Name + " Init!");
         }
 
         public virtual void Dispose()

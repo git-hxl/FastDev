@@ -11,9 +11,9 @@ namespace Bigger
     {
         public ResLoadType resLoadType;
         /// <summary>
-        /// 获取最新版本的地址
+        /// 获取资源地址
         /// </summary>
-        public string versionUrl;
+        public string resUrl;
         public bool checkUpdate;
         public Action<string, float> downloadCallback;
         public Action updateErrorCallback;
@@ -25,7 +25,7 @@ namespace Bigger
         private AssetBundleManifest assetBundleManifest;
         private async UniTaskVoid Start()
         {
-            if (!PlatformUtil.IsEditor || checkUpdate && !string.IsNullOrEmpty(versionUrl))
+            if (!PlatformUtil.IsEditor || checkUpdate && !string.IsNullOrEmpty(resUrl))
             {
                 if (!await CheckResVersion())
                 {
@@ -40,12 +40,6 @@ namespace Bigger
 
         private async UniTask<bool> CheckResVersion()
         {
-            string resUrl = await WebRequestManager.Instance.Get(versionUrl);
-            if (string.IsNullOrEmpty(resUrl))
-            {
-                Debug.LogError("Update Error!");
-                return false;
-            }
             string resConfigUrl = resUrl + "/" + PlatformUtil.GetPlatformName() + "/ResConfig.json";
             string resConfigStr = await WebRequestManager.Instance.Get(resConfigUrl);
             resConfig = JsonMapper.ToObject<ResConfig>(resConfigStr);
@@ -56,27 +50,36 @@ namespace Bigger
             }
             string localResConfigPath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName() + "/ResConfig.json";
             ResConfig localResConfig = JsonMapper.ToObject<ResConfig>(FileUtil.ReadFromExternal(localResConfigPath));
-            List<string> needUpdateFileNames = new List<string>();
-            foreach (var item in resConfig.resDict)
+
+            Version newVersion = Version.Parse(resConfig.resVersion);
+            Version localVersion = new Version();
+            if (localResConfig != null)
+                localVersion = Version.Parse(localResConfig?.resVersion);
+
+            if (newVersion > localVersion)
             {
-                if (localResConfig == null || !localResConfig.resDict.ContainsKey(item.Key) || localResConfig.resDict[item.Key] != item.Value)
+                List<string> needUpdateFileNames = new List<string>();
+                foreach (var item in resConfig.resDict)
                 {
-                    needUpdateFileNames.Add(item.Key);
+                    if (localResConfig == null || !localResConfig.resDict.ContainsKey(item.Key) || localResConfig.resDict[item.Key] != item.Value)
+                    {
+                        needUpdateFileNames.Add(item.Key);
+                    }
                 }
-            }
-            //开始更新
-            string fileUrl = resUrl + "/" + PlatformUtil.GetPlatformName();
-            string savePath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName();
-            foreach (var item in needUpdateFileNames)
-            {
-                Debug.Log("start to download:" + item);
-                if (!await WebRequestManager.Instance.Download(fileUrl + "/" + item, savePath, (process) => downloadCallback?.Invoke(item, process)))
+                //开始更新
+                string fileUrl = resUrl + "/" + PlatformUtil.GetPlatformName();
+                string savePath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName();
+                foreach (var item in needUpdateFileNames)
                 {
-                    Debug.LogError("Update Error!");
-                    return false;
+                    Debug.Log("start to download:" + item);
+                    if (!await WebRequestManager.Instance.Download(fileUrl + "/" + item, savePath, (process) => downloadCallback?.Invoke(item, process)))
+                    {
+                        Debug.LogError("Update Error!");
+                        return false;
+                    }
                 }
+                File.WriteAllText(localResConfigPath, resConfigStr);
             }
-            File.WriteAllText(localResConfigPath, resConfigStr);
             Debug.Log("Update Completed!");
             return true;
         }

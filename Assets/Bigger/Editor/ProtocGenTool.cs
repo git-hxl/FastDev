@@ -4,13 +4,11 @@ using System.Diagnostics;
 using UnityEditor;
 using System.IO;
 using Cysharp.Threading.Tasks;
-using System;
-
 namespace Bigger
 {
     public class ProtocGenTool
     {
-        [MenuItem("Assets/Tools/转化Proto文件")]
+        [MenuItem("Assets/转化Proto文件")]
         public static async void Proto2Csharp()
         {
             if (Selection.activeObject == null) return;
