@@ -8,5 +8,6 @@
         public const int Pong = 3;
 
         public const int OnLanguageChange = 4;
+        public const int OnHotFixInitSuccess = 5;
     }
 }
