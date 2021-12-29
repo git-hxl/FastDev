@@ -1,0 +1,12 @@
+D:\Bigger\Assets\StreamingAssets\net5.0\HotFixProject.deps.json
+D:\Bigger\Assets\StreamingAssets\net5.0\HotFixProject.dll
+D:\Bigger\Assets\StreamingAssets\net5.0\ref\HotFixProject.dll
+D:\Bigger\Assets\StreamingAssets\net5.0\HotFixProject.pdb
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.AssemblyReference.cache
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.AssemblyInfoInputs.cache
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.AssemblyInfo.cs
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.CoreCompileInputs.cache
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.dll
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\ref\HotFixProject.dll
+D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.pdb

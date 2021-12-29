@@ -27,7 +27,7 @@ public class ILRuntimeManager : MonoBehaviour
         //这个DLL文件是直接编译HotFix_Project.sln生成的，已经在项目中设置好输出目录为StreamingAssets，在VS里直接编译即可生成到对应目录，无需手动拷贝
         //工程目录在Assets\Samples\ILRuntime\1.6\Demo\HotFix_Project~
         //以下加载写法只为演示，并没有处理在编辑器切换到Android平台的读取，需要自行修改
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/HotFixProject.dll");
+        UnityWebRequest unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/net5.0/HotFixProject.dll");
         yield return unityWebRequest.SendWebRequest();
         if (unityWebRequest.isHttpError || unityWebRequest.isNetworkError)
         {
@@ -38,7 +38,7 @@ public class ILRuntimeManager : MonoBehaviour
         unityWebRequest.Dispose();
 
         //PDB文件是调试数据库，如需要在日志中显示报错的行号，则必须提供PDB文件，不过由于会额外耗用内存，正式发布时请将PDB去掉，下面LoadAssembly的时候pdb传null即可
-        unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/HotFixProject.pdb");
+        unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/net5.0/HotFixProject.pdb");
         yield return unityWebRequest.SendWebRequest();
         if (unityWebRequest.isHttpError || unityWebRequest.isNetworkError)
         {
@@ -62,15 +62,8 @@ public class ILRuntimeManager : MonoBehaviour
 #endif
         //这里做一些ILRuntime的注册
         appdomain.DelegateManager.RegisterMethodDelegate<string>();
-
-        appdomain.DelegateManager.RegisterDelegateConvertor<TestDelegate1>((action) =>
-        {
-            //转换器的目的是把Action或者Func转换成正确的类型，这里则是把Action<int>转换成TestDelegateMethod
-            return new TestDelegate1((a) =>
-            {
-                //调用委托实例
-                ((System.Action<string>)action)(a);
-            });
-        });
+        //appdomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
     }
+
+
 }
