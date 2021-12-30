@@ -9,6 +9,11 @@ namespace HotFixProject
 {
     class Class3:MonoBehaviour
     {
+        public static void Add(GameObject go)
+        {
+            go.AddComponent<Class3>();
+        }
+
         void Awake()
         {
             Debug.Log("Hotfix: Awake");

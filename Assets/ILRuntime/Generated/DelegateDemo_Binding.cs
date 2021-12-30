@@ -27,6 +27,10 @@ namespace ILRuntime.Runtime.Generated
             app.RegisterCLRFieldGetter(field, get_actionTest_0);
             app.RegisterCLRFieldSetter(field, set_actionTest_0);
             app.RegisterCLRFieldBinding(field, CopyToStack_actionTest_0, AssignFromStack_actionTest_0);
+            field = type.GetField("actionTest2", flag);
+            app.RegisterCLRFieldGetter(field, get_actionTest2_1);
+            app.RegisterCLRFieldSetter(field, set_actionTest2_1);
+            app.RegisterCLRFieldBinding(field, CopyToStack_actionTest2_1, AssignFromStack_actionTest2_1);
 
 
         }
@@ -54,6 +58,30 @@ namespace ILRuntime.Runtime.Generated
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             System.Action<System.String> @actionTest = (System.Action<System.String>)typeof(System.Action<System.String>).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
             global::DelegateDemo.actionTest = @actionTest;
+            return ptr_of_this_method;
+        }
+
+        static object get_actionTest2_1(ref object o)
+        {
+            return global::DelegateDemo.actionTest2;
+        }
+
+        static StackObject* CopyToStack_actionTest2_1(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        {
+            var result_of_this_method = global::DelegateDemo.actionTest2;
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static void set_actionTest2_1(ref object o, object v)
+        {
+            global::DelegateDemo.actionTest2 = (UnityEngine.Events.UnityAction)v;
+        }
+
+        static StackObject* AssignFromStack_actionTest2_1(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            UnityEngine.Events.UnityAction @actionTest2 = (UnityEngine.Events.UnityAction)typeof(UnityEngine.Events.UnityAction).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)8);
+            global::DelegateDemo.actionTest2 = @actionTest2;
             return ptr_of_this_method;
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Bigger
 {
-    public class MsgID
+    public class EventMsgID
     {
         public const int ConnectFailed = 0;
         public const int ConnectSuccess = 1;

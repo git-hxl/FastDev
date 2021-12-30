@@ -7,7 +7,7 @@ public class HelloWorldDemo : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        EventManager.Instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
+        EventManager.Instance.Register(EventMsgID.OnHotFixInitSuccess, OnHotFixLoaded);
     }
 
     void OnHotFixLoaded(Hashtable hashtable)
@@ -18,6 +18,8 @@ public class HelloWorldDemo : MonoBehaviour
         object class1 = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class1");
 
         ILRuntimeManager.appdomain.Invoke("HotFixProject.Class1", "Test2", class1, null);
+
+        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class1", "Test3", class1, null);
 
     }
 }

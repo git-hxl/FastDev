@@ -14,22 +14,11 @@ public class ILRuntimeCLRBinding
             domain.LoadAssembly(fs);
 
             //Crossbind Adapter is needed to generate the correct binding code
-            InitILRuntime(domain);
+            ILRuntimeManager.SetupCrossBinding(domain);
             ILRuntime.Runtime.CLRBinding.BindingCodeGenerator.GenerateBindingCode(domain, "Assets/ILRuntime/Generated");
         }
 
         AssetDatabase.Refresh();
-    }
-
-    static void InitILRuntime(ILRuntime.Runtime.Enviorment.AppDomain domain)
-    {
-        //这里需要注册所有热更DLL中用到的跨域继承Adapter，否则无法正确抓取引用
-        domain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
-        domain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
-        //domain.RegisterCrossBindingAdaptor(new TestClassBaseAdapter());
-        domain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
-        domain.RegisterValueTypeBinder(typeof(Vector2), new Vector2Binder());
-        domain.RegisterValueTypeBinder(typeof(Quaternion), new QuaternionBinder());
     }
 }
 #endif

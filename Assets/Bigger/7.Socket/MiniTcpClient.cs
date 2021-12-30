@@ -26,7 +26,7 @@ namespace Bigger
                 tcp.EndConnect(ar);
                 NetworkStream stream = tcp.GetStream();
                 stream.BeginRead(readBuffer, 0, readBuffer.Length, ReadResult, tcp);
-                EventManager.Instance.Dispatch(MsgID.ConnectSuccess, null);
+                EventManager.Instance.Dispatch(EventMsgID.ConnectSuccess, null);
             }
         }
 
@@ -48,7 +48,7 @@ namespace Bigger
                 else
                 {
                     UnityEngine.Debug.LogError("连接中断！");
-                    EventManager.Instance.Dispatch(MsgID.ConnectFailed, null);
+                    EventManager.Instance.Dispatch(EventMsgID.ConnectFailed, null);
                 }
             }
         }

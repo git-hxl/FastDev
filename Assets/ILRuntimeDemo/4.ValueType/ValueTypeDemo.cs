@@ -1,0 +1,20 @@
+﻿using Bigger;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ValueTypeDemo : MonoBehaviour
+{
+    void Awake()
+    {
+        EventManager.Instance.Register(EventMsgID.OnHotFixInitSuccess, OnHotFixLoaded);
+    }
+
+    void OnHotFixLoaded(Hashtable hashtable)
+    {
+        object obj = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class4");
+
+        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class5", "Test", obj, null);
+
+    }
+}

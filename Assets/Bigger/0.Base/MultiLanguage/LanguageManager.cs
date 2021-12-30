@@ -31,7 +31,7 @@ namespace Bigger
                     return;
                 PlayerPrefs.SetInt("Language", (int)value);
                 _curLanguage = value;
-                EventManager.Instance.Dispatch(MsgID.OnLanguageChange, null);
+                EventManager.Instance.Dispatch(EventMsgID.OnLanguageChange, null);
             }
         }
         private static Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();

@@ -13,7 +13,7 @@ namespace Bigger
         private void Awake()
         {
             InitKey();
-            EventManager.Instance.Register(MsgID.OnLanguageChange, OnLanguageChange);
+            EventManager.Instance.Register(EventMsgID.OnLanguageChange, OnLanguageChange);
         }
 
         private void Start()

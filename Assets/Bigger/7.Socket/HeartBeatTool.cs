@@ -8,13 +8,13 @@ namespace Bigger
         private float time = 0;
         private void Start()
         {
-            EventManager.Instance.Register(MsgID.Ping, OnReceiveMsg);
-            EventManager.Instance.Register(MsgID.ConnectSuccess, OnReceiveMsg);
+            EventManager.Instance.Register(EventMsgID.Ping, OnReceiveMsg);
+            EventManager.Instance.Register(EventMsgID.ConnectSuccess, OnReceiveMsg);
         }
 
         private void OnReceiveMsg(Hashtable hashtable)
         {
-            time = checkInterval; MiniTcpClient.Instance.Send(MsgID.Pong, null);
+            time = checkInterval; MiniTcpClient.Instance.Send(EventMsgID.Pong, null);
         }
         private void Update()
         {
@@ -24,7 +24,7 @@ namespace Bigger
                 if (time <= 0)
                 {
                     Debug.LogError("心跳包接受失败！");
-                    EventManager.Instance.Dispatch(MsgID.ConnectFailed, null);
+                    EventManager.Instance.Dispatch(EventMsgID.ConnectFailed, null);
                 }
             }
         }
