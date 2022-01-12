@@ -69,9 +69,14 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
 #endif
         //这里做一些ILRuntime的注册
 
+        SetupRegisterMethodDelegate(appdomain);
         SetupCLRRedirection(appdomain);
         SetupCrossBinding(appdomain);
+        ILRuntime.Runtime.Generated.CLRBindings.Initialize(appdomain);
+    }
 
+    private void SetupRegisterMethodDelegate(AppDomain appdomain)
+    {
         appdomain.DelegateManager.RegisterMethodDelegate<string>();
         appdomain.DelegateManager.RegisterMethodDelegate<System.Collections.Hashtable>();
 
@@ -82,8 +87,6 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
                 ((System.Action)action)();
             });
         });
-
-        ILRuntime.Runtime.Generated.CLRBindings.Initialize(appdomain);
     }
 
     /// <summary>
@@ -148,7 +151,8 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
                 //热更DLL内的类型比较麻烦。首先我们得自己手动创建实例
                 var ilInstance = new ILTypeInstance(type as ILType, false);//手动创建实例是因为默认方式会new MonoBehaviour，这在Unity里不允许
                 //接下来创建Adapter实例
-                var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adaptor>();
+
+                var clrInstance = instance.AddComponent<UIPanelAdapter.Adapter>();
                 //unity创建的实例并没有热更DLL里面的实例，所以需要手动赋值
                 clrInstance.ILInstance = ilInstance;
                 clrInstance.AppDomain = __domain;
@@ -192,7 +196,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
             else
             {
                 //因为所有DLL里面的MonoBehaviour实际都是这个Component，所以我们只能全取出来遍历查找
-                var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adaptor>();
+                var clrInstances = instance.GetComponents<MonoBehaviourAdapter.Adapter>();
                 for (int i = 0; i < clrInstances.Length; i++)
                 {
                     var clrInstance = clrInstances[i];

@@ -7,7 +7,6 @@ namespace Bigger
         public virtual void OpenByAnima() { Open(); }
         public virtual void CloseByAnima() { Close(); }
 
-        protected virtual void Start() { }
         public virtual void Open()
         {
             if (!UIManager.Instance.openedPanels.Contains(this))

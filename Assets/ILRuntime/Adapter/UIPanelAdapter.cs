@@ -4,7 +4,7 @@ using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
 namespace Bigger
-{   
+{
     public class UIPanelAdapter : CrossBindingAdaptor
     {
         public override Type BaseCLRType
@@ -37,8 +37,8 @@ namespace Bigger
             CrossBindingMethodInfo mClose_4 = new CrossBindingMethodInfo("Close");
 
             bool isInvokingToString;
-            ILTypeInstance instance;
-            public ILRuntime.Runtime.Enviorment.AppDomain appdomain;
+            private ILTypeInstance instance;
+            private ILRuntime.Runtime.Enviorment.AppDomain appdomain;
 
             public Adapter()
             {
@@ -52,6 +52,14 @@ namespace Bigger
             }
 
             public ILTypeInstance ILInstance { get { return instance; } set { instance = value; } }
+
+            public ILRuntime.Runtime.Enviorment.AppDomain AppDomain { get { return appdomain; } set { appdomain = value; } }
+
+            public void Awake()
+            {
+                if (this.instance != null)
+                    mStart_2.Invoke(this.instance);
+            }
 
             public override void OpenByAnima()
             {
@@ -69,29 +77,21 @@ namespace Bigger
                     mCloseByAnima_1.Invoke(this.instance);
             }
 
-            protected override void Start()
+            public override void Open()
             {
-                if (mStart_2.CheckShouldInvokeBase(this.instance))
-                    base.Start();
+                if (mOpen_3.CheckShouldInvokeBase(this.instance))
+                    base.Open();
                 else
-                    mStart_2.Invoke(this.instance);
+                    mOpen_3.Invoke(this.instance);
             }
 
-            //public override void Open()
-            //{
-            //    if (mOpen_3.CheckShouldInvokeBase(this.instance))
-            //        base.Open();
-            //    else
-            //        mOpen_3.Invoke(this.instance);
-            //}
-
-            //public override void Close()
-            //{
-            //    if (mClose_4.CheckShouldInvokeBase(this.instance))
-            //        base.Close();
-            //    else
-            //        mClose_4.Invoke(this.instance);
-            //}
+            public override void Close()
+            {
+                if (mClose_4.CheckShouldInvokeBase(this.instance))
+                    base.Close();
+                else
+                    mClose_4.Invoke(this.instance);
+            }
 
             public override string ToString()
             {

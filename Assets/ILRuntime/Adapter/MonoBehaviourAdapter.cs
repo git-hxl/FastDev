@@ -22,26 +22,26 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
     {
         get
         {
-            return typeof(Adaptor);
+            return typeof(Adapter);
         }
     }
 
     public override object CreateCLRInstance(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
     {
-        return new Adaptor(appdomain, instance);
+        return new Adapter(appdomain, instance);
     }
     //为了完整实现MonoBehaviour的所有特性，这个Adapter还得扩展，这里只抛砖引玉，只实现了最常用的Awake, Start和Update
-    public class Adaptor : MonoBehaviour, CrossBindingAdaptorType
+    public class Adapter : MonoBehaviour, CrossBindingAdaptorType
     {
         ILTypeInstance instance;
         ILRuntime.Runtime.Enviorment.AppDomain appdomain;
 
-        public Adaptor()
+        public Adapter()
         {
 
         }
 
-        public Adaptor(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
+        public Adapter(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
         {
             this.appdomain = appdomain;
             this.instance = instance;

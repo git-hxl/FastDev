@@ -35,12 +35,12 @@ namespace ILRuntime.Runtime.Generated
                     lst.Add(m);
                 }
             }
-            args = new Type[]{typeof(global::MonoBehaviourAdapter.Adaptor)};
+            args = new Type[]{typeof(global::MonoBehaviourAdapter.Adapter)};
             if (genericMethods.TryGetValue("AddComponent", out lst))
             {
                 foreach(var m in lst)
                 {
-                    if(m.MatchGenericParameters(args, typeof(global::MonoBehaviourAdapter.Adaptor)))
+                    if(m.MatchGenericParameters(args, typeof(global::MonoBehaviourAdapter.Adapter)))
                     {
                         method = m.MakeGenericMethod(args);
                         app.RegisterCLRMethodRedirection(method, AddComponent_0);
@@ -78,7 +78,7 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine.GameObject instance_of_this_method = (UnityEngine.GameObject)typeof(UnityEngine.GameObject).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
-            var result_of_this_method = instance_of_this_method.AddComponent<global::MonoBehaviourAdapter.Adaptor>();
+            var result_of_this_method = instance_of_this_method.AddComponent<global::MonoBehaviourAdapter.Adapter>();
 
             object obj_result_of_this_method = result_of_this_method;
             if(obj_result_of_this_method is CrossBindingAdaptorType)

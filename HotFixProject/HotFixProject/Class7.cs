@@ -10,24 +10,20 @@ namespace HotFixProject
             go.AddComponent<Class7>();
         }
         public Text text;
-        private int times = 0;
-        protected override void Start()
+        private void Start()
         {
             text = GetComponentInChildren<Text>();
             Button[] bt = GetComponentsInChildren<Button>();
             bt[0].onClick.AddListener(()=>Open());
-            bt[1].onClick.AddListener(Close);
+            bt[1].onClick.AddListener(this.Close);
             Debug.Log("Hotfix:AddListener");
-            Open();
         }
 
 
         public override void Open()
         {
             base.Open();
-            text.text = "Hotfix:Open";
-            times++;
-            Debug.Log("Hotfix:Open:"+ times);
+            Debug.Log("Hotfix:Open");
 
         }
 
