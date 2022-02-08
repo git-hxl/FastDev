@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Bigger;
+using FastDev;
 using UnityEngine.SceneManagement;
 
 public class Example_MonoSingleton1 : MonoSingleton<Example_MonoSingleton1>

@@ -1,5 +1,5 @@
 ﻿#if UNITY_EDITOR
-using Bigger;
+using FastDev;
 using UnityEditor;
 [System.Reflection.Obfuscation(Exclude = true)]
 public class ILRuntimeCrossBinding

@@ -3,7 +3,7 @@ using ILRuntime.CLR.Method;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
-namespace Bigger
+namespace FastDev
 {
     public class UIPanelAdapter : CrossBindingAdaptor
     {
@@ -11,7 +11,7 @@ namespace Bigger
         {
             get
             {
-                return typeof(Bigger.UIPanel);
+                return typeof(FastDev.UIPanel);
             }
         }
 
@@ -28,7 +28,7 @@ namespace Bigger
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : Bigger.UIPanel, CrossBindingAdaptorType
+        public class Adapter : FastDev.UIPanel, CrossBindingAdaptorType
         {
             CrossBindingMethodInfo mOpenByAnima_0 = new CrossBindingMethodInfo("OpenByAnima");
             CrossBindingMethodInfo mCloseByAnima_1 = new CrossBindingMethodInfo("CloseByAnima");

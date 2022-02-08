@@ -21,7 +21,7 @@ namespace ILRuntime.Runtime.Generated
             BindingFlags flag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
             MethodBase method;
             Type[] args;
-            Type type = typeof(Bigger.UIPanel);
+            Type type = typeof(FastDev.UIPanel);
             args = new Type[]{};
             method = type.GetMethod("Open", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, Open_0);
@@ -40,7 +40,7 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            Bigger.UIPanel instance_of_this_method = (Bigger.UIPanel)typeof(Bigger.UIPanel).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            FastDev.UIPanel instance_of_this_method = (FastDev.UIPanel)typeof(FastDev.UIPanel).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.Open();
@@ -55,7 +55,7 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            Bigger.UIPanel instance_of_this_method = (Bigger.UIPanel)typeof(Bigger.UIPanel).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            FastDev.UIPanel instance_of_this_method = (FastDev.UIPanel)typeof(FastDev.UIPanel).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.Close();

@@ -49,12 +49,12 @@ namespace ILRuntime.Runtime.Generated
                     }
                 }
             }
-            args = new Type[]{typeof(Bigger.UIPanelAdapter.Adapter)};
+            args = new Type[]{typeof(FastDev.UIPanelAdapter.Adapter)};
             if (genericMethods.TryGetValue("AddComponent", out lst))
             {
                 foreach(var m in lst)
                 {
-                    if(m.MatchGenericParameters(args, typeof(Bigger.UIPanelAdapter.Adapter)))
+                    if(m.MatchGenericParameters(args, typeof(FastDev.UIPanelAdapter.Adapter)))
                     {
                         method = m.MakeGenericMethod(args);
                         app.RegisterCLRMethodRedirection(method, AddComponent_1);
@@ -98,7 +98,7 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine.GameObject instance_of_this_method = (UnityEngine.GameObject)typeof(UnityEngine.GameObject).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
-            var result_of_this_method = instance_of_this_method.AddComponent<Bigger.UIPanelAdapter.Adapter>();
+            var result_of_this_method = instance_of_this_method.AddComponent<FastDev.UIPanelAdapter.Adapter>();
 
             object obj_result_of_this_method = result_of_this_method;
             if(obj_result_of_this_method is CrossBindingAdaptorType)
