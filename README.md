@@ -1,5 +1,5 @@
 
-# Bigger
+# FastDev
 - 1.资源加载模块
 	>ResConfig：用于对比资源版本和文件哈希值  
 	>ResLoadType：选择从外部目录、StreamingAssets或者编辑器目录加载资源  
