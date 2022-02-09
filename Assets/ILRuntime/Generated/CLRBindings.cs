@@ -39,14 +39,13 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_Vector3_Binding.Register(app);
             System_Object_Binding.Register(app);
             UnityEngine_Quaternion_Binding.Register(app);
-            Bigger_MonoSingleton_1_EventManager_Binding.Register(app);
+            FastDev_MonoSingleton_1_EventManager_Binding.Register(app);
             EventManager_Binding.Register(app);
             System_Collections_Hashtable_Binding.Register(app);
             UnityEngine_Component_Binding.Register(app);
             UnityEngine_UI_Button_Binding.Register(app);
             UnityEngine_Events_UnityEvent_Binding.Register(app);
-            Bigger_UIPanel_Binding.Register(app);
-            UnityEngine_UI_Text_Binding.Register(app);
+            FastDev_UIPanel_Binding.Register(app);
 
             ILRuntime.CLR.TypeSystem.CLRType __clrType = null;
             __clrType = (ILRuntime.CLR.TypeSystem.CLRType)app.GetType (typeof(UnityEngine.Vector3));

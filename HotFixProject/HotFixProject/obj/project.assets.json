@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Bigger\\HotFixProject\\HotFixProject\\HotFixProject.csproj",
+      "projectUniqueName": "D:\\UnityProjects\\FastDev\\HotFixProject\\HotFixProject\\HotFixProject.csproj",
       "projectName": "HotFixProject",
-      "projectPath": "D:\\Bigger\\HotFixProject\\HotFixProject\\HotFixProject.csproj",
+      "projectPath": "D:\\UnityProjects\\FastDev\\HotFixProject\\HotFixProject\\HotFixProject.csproj",
       "packagesPath": "C:\\Users\\A\\.nuget\\packages\\",
-      "outputPath": "D:\\Bigger\\HotFixProject\\HotFixProject\\obj\\",
+      "outputPath": "D:\\UnityProjects\\FastDev\\HotFixProject\\HotFixProject\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

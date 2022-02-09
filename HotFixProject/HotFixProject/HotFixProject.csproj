@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>D:\Bigger\Assets\StreamingAssets\</OutputPath>
+    <OutputPath>D:\UnityProjects\FastDev\Assets\StreamingAssets\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +14,7 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="LitJSON">
-      <HintPath>..\..\Assets\Bigger\Plugins\LitJson 0.17.0\LitJSON.dll</HintPath>
+      <HintPath>..\..\Assets\FastDev\Plugins\LitJson 0.17.0\LitJSON.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">

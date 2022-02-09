@@ -12,7 +12,7 @@ public class ILRuntimeCrossBinding
 
         using (System.IO.StreamWriter sw = new System.IO.StreamWriter("Assets/ILRuntime/Adapter/UIPanelAdapter.cs"))
         {
-            sw.WriteLine(ILRuntime.Runtime.Enviorment.CrossBindingCodeGenerator.GenerateCrossBindingAdapterCode(typeof(UIPanel), "Bigger"));
+            sw.WriteLine(ILRuntime.Runtime.Enviorment.CrossBindingCodeGenerator.GenerateCrossBindingAdapterCode(typeof(UIPanel), "FastDev"));
         }
 
         AssetDatabase.Refresh();

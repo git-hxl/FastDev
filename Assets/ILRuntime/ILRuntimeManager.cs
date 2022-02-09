@@ -75,6 +75,10 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
         ILRuntime.Runtime.Generated.CLRBindings.Initialize(appdomain);
     }
 
+    /// <summary>
+    /// 注册委托
+    /// </summary>
+    /// <param name="appdomain"></param>
     private void SetupRegisterMethodDelegate(AppDomain appdomain)
     {
         appdomain.DelegateManager.RegisterMethodDelegate<string>();
@@ -152,7 +156,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
                 var ilInstance = new ILTypeInstance(type as ILType, false);//手动创建实例是因为默认方式会new MonoBehaviour，这在Unity里不允许
                 //接下来创建Adapter实例
 
-                var clrInstance = instance.AddComponent<UIPanelAdapter.Adapter>();
+                var clrInstance = instance.AddComponent<MonoBehaviourAdapter.Adapter>();
                 //unity创建的实例并没有热更DLL里面的实例，所以需要手动赋值
                 clrInstance.ILInstance = ilInstance;
                 clrInstance.AppDomain = __domain;

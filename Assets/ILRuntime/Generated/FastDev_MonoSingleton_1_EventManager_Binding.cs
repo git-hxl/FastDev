@@ -14,7 +14,7 @@ using ILRuntime.CLR.Utils;
 
 namespace ILRuntime.Runtime.Generated
 {
-    unsafe class Bigger_MonoSingleton_1_EventManager_Binding
+    unsafe class FastDev_MonoSingleton_1_EventManager_Binding
     {
         public static void Register(ILRuntime.Runtime.Enviorment.AppDomain app)
         {

@@ -4,7 +4,7 @@ using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
 namespace FastDev
-{
+{   
     public class UIPanelAdapter : CrossBindingAdaptor
     {
         public override Type BaseCLRType
@@ -32,13 +32,12 @@ namespace FastDev
         {
             CrossBindingMethodInfo mOpenByAnima_0 = new CrossBindingMethodInfo("OpenByAnima");
             CrossBindingMethodInfo mCloseByAnima_1 = new CrossBindingMethodInfo("CloseByAnima");
-            CrossBindingMethodInfo mStart_2 = new CrossBindingMethodInfo("Start");
-            CrossBindingMethodInfo mOpen_3 = new CrossBindingMethodInfo("Open");
-            CrossBindingMethodInfo mClose_4 = new CrossBindingMethodInfo("Close");
-
+            CrossBindingMethodInfo mOpen_2 = new CrossBindingMethodInfo("Open");
+            CrossBindingMethodInfo mClose_3 = new CrossBindingMethodInfo("Close");
+            CrossBindingMethodInfo mStart = new CrossBindingMethodInfo("Start");
             bool isInvokingToString;
-            private ILTypeInstance instance;
-            private ILRuntime.Runtime.Enviorment.AppDomain appdomain;
+            ILTypeInstance instance;
+            ILRuntime.Runtime.Enviorment.AppDomain appdomain;
 
             public Adapter()
             {
@@ -50,16 +49,18 @@ namespace FastDev
                 this.appdomain = appdomain;
                 this.instance = instance;
             }
-
-            public ILTypeInstance ILInstance { get { return instance; } set { instance = value; } }
-
-            public ILRuntime.Runtime.Enviorment.AppDomain AppDomain { get { return appdomain; } set { appdomain = value; } }
-
-            public void Awake()
+            public void Init(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
             {
-                if (this.instance != null)
-                    mStart_2.Invoke(this.instance);
+                this.appdomain = appdomain;
+                this.instance = instance;
             }
+
+            private void Start()
+            {
+                mStart.Invoke(this.instance);
+            }
+
+            public ILTypeInstance ILInstance { get { return instance; } }
 
             public override void OpenByAnima()
             {
@@ -79,18 +80,18 @@ namespace FastDev
 
             public override void Open()
             {
-                if (mOpen_3.CheckShouldInvokeBase(this.instance))
+                if (mOpen_2.CheckShouldInvokeBase(this.instance))
                     base.Open();
                 else
-                    mOpen_3.Invoke(this.instance);
+                    mOpen_2.Invoke(this.instance);
             }
 
             public override void Close()
             {
-                if (mClose_4.CheckShouldInvokeBase(this.instance))
+                if (mClose_3.CheckShouldInvokeBase(this.instance))
                     base.Close();
                 else
-                    mClose_4.Invoke(this.instance);
+                    mClose_3.Invoke(this.instance);
             }
 
             public override string ToString()

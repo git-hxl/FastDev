@@ -10,3 +10,15 @@ D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.dll
 D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\ref\HotFixProject.dll
 D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.pdb
 D:\Bigger\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.AssemblyReference.cache
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.GeneratedMSBuildEditorConfig.editorconfig
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.AssemblyInfoInputs.cache
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.AssemblyInfo.cs
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.CoreCompileInputs.cache
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.dll
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\ref\HotFixProject.dll
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.pdb
+D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\HotFixProject.deps.json
+D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\HotFixProject.dll
+D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\ref\HotFixProject.dll
+D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\HotFixProject.pdb
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.AssemblyReference.cache

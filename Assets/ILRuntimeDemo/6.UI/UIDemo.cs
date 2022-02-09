@@ -14,6 +14,9 @@ public class UIDemo : MonoBehaviour
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class7", "Add", null, gameObject);
+        var adapter = gameObject.AddComponent<UIPanelAdapter.Adapter>();
+        ILTypeInstance iLTypeInstance = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class7");
+        iLTypeInstance.CLRInstance = adapter;
+        adapter.Init(ILRuntimeManager.appdomain, iLTypeInstance);
     }
 }
