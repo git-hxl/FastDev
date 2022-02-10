@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 5856344588746477676}
   - component: {fileID: 5856344588746477677}
   - component: {fileID: 5856344588746477666}
-  - component: {fileID: 5856344588746477678}
+  - component: {fileID: 114351835213578190}
   m_Layer: 5
   m_Name: HotFixUI
   m_TagString: Untagged
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5856344588746477678
+--- !u!114 &114351835213578190
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,9 +226,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5856344588746477667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e911e5242729e748afd03759c5a65cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 1de04972e6eaa9846801931c0aa6a3a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fullClassName: HotFixProject.Class7
 --- !u!1 &5856344588957588985
 GameObject:
   m_ObjectHideFlags: 0

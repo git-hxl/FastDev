@@ -7,16 +7,11 @@ using UnityEngine;
 
 public class UIDemo : MonoBehaviour
 {
-    void Awake()
+    private void Update()
     {
-        EventManager.Instance.Register(EventMsgID.OnHotFixInitSuccess, OnHotFixLoaded);
-    }
-
-    void OnHotFixLoaded(Hashtable hashtable)
-    {
-        var adapter = gameObject.AddComponent<UIPanelAdapter.Adapter>();
-        ILTypeInstance iLTypeInstance = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class7");
-        iLTypeInstance.CLRInstance = adapter;
-        adapter.Init(ILRuntimeManager.appdomain, iLTypeInstance);
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            UIManager.Instance.GetPanel("Assets/ILRuntimeDemo/6.UI/HotFixUI.prefab").Open();
+        }
     }
 }

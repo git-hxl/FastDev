@@ -6,7 +6,6 @@ namespace FastDev
     {
         public virtual void OpenByAnima() { Open(); }
         public virtual void CloseByAnima() { Close(); }
-
         public virtual void Open()
         {
             if (!UIManager.Instance.openedPanels.Contains(this))

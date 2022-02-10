@@ -9,9 +9,10 @@ namespace HotFixProject
         private void Start()
         {
             text = GetComponentInChildren<Text>();
+            text.text = "x";
             Button[] bt = GetComponentsInChildren<Button>();
-            bt[0].onClick.AddListener(() => Open());
-            bt[1].onClick.AddListener(Close);
+            bt[0].onClick.AddListener(()=>Open());
+            bt[1].onClick.AddListener(()=>Close());
             Debug.Log("Hotfix:AddListener");
         }
 
