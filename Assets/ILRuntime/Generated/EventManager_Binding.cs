@@ -21,7 +21,7 @@ namespace ILRuntime.Runtime.Generated
             BindingFlags flag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
             MethodBase method;
             Type[] args;
-            Type type = typeof(global::EventManager);
+            Type type = typeof(global::MsgManager);
             args = new Type[]{typeof(System.Int32), typeof(System.Action<System.Collections.Hashtable>)};
             method = type.GetMethod("Register", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, Register_0);
@@ -44,7 +44,7 @@ namespace ILRuntime.Runtime.Generated
             System.Int32 @eventID = ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 3);
-            global::EventManager instance_of_this_method = (global::EventManager)typeof(global::EventManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
+            global::MsgManager instance_of_this_method = (global::MsgManager)typeof(global::MsgManager).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack), (CLR.Utils.Extensions.TypeFlags)0);
             __intp.Free(ptr_of_this_method);
 
             instance_of_this_method.Register(@eventID, @action);

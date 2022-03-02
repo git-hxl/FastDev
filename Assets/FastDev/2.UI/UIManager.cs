@@ -4,17 +4,17 @@ namespace FastDev
 {
     public class UIManager : MonoSingleton<UIManager>
     {
-        public List<UIPanel> openedPanels = new List<UIPanel>();
-        private Dictionary<string, UIPanel> cachedPanels = new Dictionary<string, UIPanel>();
+        public List<UIBase> openedPanels = new List<UIBase>();
+        private Dictionary<string, UIBase> cachedPanels = new Dictionary<string, UIBase>();
 
         /// <summary>
         /// 获取或加载指定路径的UI
         /// </summary>
         /// <param name="path">该路径会自动处理从AB加载的情况</param>
         /// <returns></returns>
-        public UIPanel GetPanel(string path)
+        public UIBase GetPanel(string path)
         {
-            UIPanel panel = null;
+            UIBase panel = null;
             if (cachedPanels.ContainsKey(path))
             {
                 panel = cachedPanels[path];
@@ -27,7 +27,7 @@ namespace FastDev
             {
                 GameObject assetObj = ResManager.Instance.LoadAsset<GameObject>(ABConstant.ui, path);
                 GameObject panelObj = Instantiate(assetObj, transform);
-                panel = panelObj.GetComponent<UIPanel>();
+                panel = panelObj.GetComponent<UIBase>();
                 if (panelObj != null)
                 {
                     cachedPanels.Add(path, panel);

@@ -15,13 +15,18 @@ namespace FastDev
                     if (instance == null)
                     {
                         GameObject obj = new GameObject(typeof(T).Name);
-                        //Awake
+                        //这里会执行Awake
                         obj.AddComponent<T>();
                     }
                 }
                 return instance;
             }
         }
+        public static bool IsNull()
+        {
+            return instance == null;
+        }
+
         private void Awake()
         {
             if (!isInit)

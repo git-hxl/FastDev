@@ -174,14 +174,14 @@ GameObject:
   - component: {fileID: 7079053061656389380}
   - component: {fileID: 7079053061656389383}
   - component: {fileID: 7079053061656389382}
-  - component: {fileID: 114023571643564962}
+  - component: {fileID: 114935716569181812}
   m_Layer: 5
   m_Name: UIPanel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7079053061656389381
 RectTransform:
   m_ObjectHideFlags: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114023571643564962
+--- !u!114 &114935716569181812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,8 +311,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000024319, y: 40.445}
-  m_SizeDelta: {x: 435.50848, y: 80.89011}
+  m_AnchoredPosition: {x: -0.000011444, y: 9}
+  m_SizeDelta: {x: 493.9859, y: 142.98302}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7079053061698347099
 CanvasRenderer:
@@ -353,7 +353,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD9\u662F\u4E00\u4E2A\u6807\u9898"
+  m_Text: "\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898\u8FD9\u662F\u4E00\u4E2A\u6807\u9898"
 --- !u!114 &8499410542976127602
 MonoBehaviour:
   m_ObjectHideFlags: 0

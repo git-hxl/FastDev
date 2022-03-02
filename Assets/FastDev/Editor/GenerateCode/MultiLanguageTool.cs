@@ -69,7 +69,7 @@ namespace FastDev
         private static void AutoCreateLanguageConstant(Dictionary<string, LanguageStruct> languageDict)
         {
             string classStr = @"
-namespace Bigger
+namespace FastDev
 {
     public static class LanguageConstant
     {
@@ -79,10 +79,14 @@ namespace Bigger
             string var = "";
             foreach (var item in languageDict)
             {
-                var += $"public const string {item.Value.Chinese.ToAlphaNumberAndChinese(false).Replace(" ", "_").Replace("\n", "n")} = \"{item.Key}\";\r\n\t\t";
+                string txtTag = item.Value.Chinese;
+                int maxLength =6;
+                if(txtTag.Length>maxLength)
+                    txtTag = $"{txtTag.Substring(0,maxLength)} 省略 {txtTag.Length-maxLength} 字";
+                var += $"public const string {txtTag.ToAlphaNumberAndChinese(false).Replace(" ", "_").Replace("\n", "n")} = \"{item.Key}\";\r\n\t\t";
             }
             classStr = classStr.Replace("$变量", var);
-            File.WriteAllText($"{Application.dataPath}/Bigger/0.Base/MultiLanguage/LanguageConstant.cs", classStr);
+            File.WriteAllText($"{Application.dataPath}/FastDev/0.Base/MultiLanguage/LanguageConstant.cs", classStr);
             AssetDatabase.Refresh();
         }
     }

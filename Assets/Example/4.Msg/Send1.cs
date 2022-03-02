@@ -13,7 +13,7 @@ public class Send1 : MonoBehaviour
     {
         Hashtable hashtable = new Hashtable();
         hashtable.Add(0, "Hello");
-        EventManager.Instance.Dispatch(111, hashtable);
+        MsgManager.Instance.Dispatch(111, hashtable);
     }
 
     float time = 0f;

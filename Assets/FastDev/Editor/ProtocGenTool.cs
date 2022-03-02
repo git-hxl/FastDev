@@ -33,7 +33,7 @@ namespace FastDev
 
                 List<string> commands = new List<string>();
                 string command1 = "cd /d " + Directory.GetParent(protocPath);
-                string command2 = "protoc.exe --proto_path=./ Proto/" + fileName + " --csharp_out=" + genCsharpPath;
+                string command2 = "protoc.exe -IPATH=" + "./ Proto/" + fileName + " --csharp_out=" + genCsharpPath;
                 commands.Add(command1);
                 commands.Add(command2);
 

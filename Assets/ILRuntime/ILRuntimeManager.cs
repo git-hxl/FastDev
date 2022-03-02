@@ -58,7 +58,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
         appdomain.LoadAssembly(fs, p, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
 
         InitializeILRuntime();
-        EventManager.Instance.Dispatch(EventMsgID.OnHotFixInitSuccess, null);
+        MsgManager.Instance.Dispatch(MsgID.OnHotFixInitSuccess, null);
     }
 
     void InitializeILRuntime()
@@ -91,6 +91,14 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
                 ((System.Action)action)();
             });
         });
+
+        appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.TweenCallback>((action) =>
+        {
+            return new DG.Tweening.TweenCallback(() =>
+        {
+            ((System.Action)action)();
+            });
+        });
     }
 
     /// <summary>
@@ -101,7 +109,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
     {
         appdomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
         appdomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
-        appdomain.RegisterCrossBindingAdaptor(new UIPanelAdapter());
+        appdomain.RegisterCrossBindingAdaptor(new UIBaseAdapter());
         appdomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
         appdomain.RegisterValueTypeBinder(typeof(Quaternion), new QuaternionBinder());
         appdomain.RegisterValueTypeBinder(typeof(Vector2), new Vector2Binder());

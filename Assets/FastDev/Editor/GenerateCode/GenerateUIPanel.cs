@@ -22,11 +22,11 @@ namespace FastDev
             Image,
         }
         public static string classStr =
-@"using Bigger;
+@"using FastDev;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class $类名 : UIPanel
+public class $类名 : UIBase
 {
     #region UIAttribute
     $UIAttribute

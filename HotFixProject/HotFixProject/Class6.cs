@@ -13,7 +13,7 @@ namespace HotFixProject
     {
         public void Test()
         {
-            EventManager.Instance.Register(-1, Test2);
+            MsgManager.Instance.Register(-1, Test2);
         }
 
         private void Test2(Hashtable hashtable)

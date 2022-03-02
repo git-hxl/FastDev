@@ -3,5 +3,5 @@ syntax = "proto3";
 message Person{
 	string name = 1;
 	int32 age = 2;
-	float time =4;
+	float time =3;
 }

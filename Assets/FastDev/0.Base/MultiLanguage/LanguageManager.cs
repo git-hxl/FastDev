@@ -31,7 +31,7 @@ namespace FastDev
                     return;
                 PlayerPrefs.SetInt("Language", (int)value);
                 _curLanguage = value;
-                EventManager.Instance.Dispatch(EventMsgID.OnLanguageChange, null);
+                MsgManager.Instance.Dispatch(MsgID.OnLanguageChange, null);
             }
         }
         private static Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();

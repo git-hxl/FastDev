@@ -8,13 +8,13 @@ namespace FastDev
         private float time = 0;
         private void Start()
         {
-            EventManager.Instance.Register(EventMsgID.Ping, OnReceiveMsg);
-            EventManager.Instance.Register(EventMsgID.ConnectSuccess, OnReceiveMsg);
+            MsgManager.Instance.Register(MsgID.Ping, OnReceiveMsg);
+            MsgManager.Instance.Register(MsgID.ConnectSuccess, OnReceiveMsg);
         }
 
         private void OnReceiveMsg(Hashtable hashtable)
         {
-            time = checkInterval; MiniTcpClient.Instance.Send(EventMsgID.Pong, null);
+            time = checkInterval; MiniTcpClient.Instance.Send(MsgID.Pong, null);
         }
         private void Update()
         {
@@ -24,7 +24,7 @@ namespace FastDev
                 if (time <= 0)
                 {
                     Debug.LogError("心跳包接受失败！");
-                    EventManager.Instance.Dispatch(EventMsgID.ConnectFailed, null);
+                    MsgManager.Instance.Dispatch(MsgID.ConnectFailed, null);
                 }
             }
         }

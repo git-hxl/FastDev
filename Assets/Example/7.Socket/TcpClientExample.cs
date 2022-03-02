@@ -14,7 +14,7 @@ public class TcpClientExample : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        EventManager.Instance.Register(EventMsgID.ConnectFailed, (data) => {
+        MsgManager.Instance.Register(MsgID.ConnectFailed, (data) => {
             MiniTcpClient.Instance.Close();
             ReConnect().Forget();
         });

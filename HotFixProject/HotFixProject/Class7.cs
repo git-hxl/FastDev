@@ -1,9 +1,10 @@
 ﻿using FastDev;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 namespace HotFixProject
 {
-    class Class7 : UIPanel
+    class Class7 : UIBase
     {
         public Text text;
         private void Start()
@@ -11,23 +12,20 @@ namespace HotFixProject
             text = GetComponentInChildren<Text>();
             text.text = "x";
             Button[] bt = GetComponentsInChildren<Button>();
-            bt[0].onClick.AddListener(()=>Open());
-            bt[1].onClick.AddListener(()=>Close());
+            bt[1].onClick.AddListener(Close);
+            bt[0].onClick.AddListener(Open);
+            
             Debug.Log("Hotfix:AddListener");
         }
 
-
-        public override void Open()
+        protected override Sequence OpenAnima()
         {
-            base.Open();
-            Debug.Log("Hotfix:Open");
-
+            return null;
         }
 
-        public override void Close()
+        protected override Sequence CloseAnima()
         {
-            base.Close();
-            Debug.Log("Hotfix:Close");
+            return null;
         }
     }
 }
