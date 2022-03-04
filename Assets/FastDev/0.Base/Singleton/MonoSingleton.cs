@@ -4,7 +4,7 @@ namespace FastDev
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private static T instance = null;
-        private bool isInit = false;
+        private bool inited = false;
         public static T Instance
         {
             get
@@ -29,9 +29,9 @@ namespace FastDev
 
         private void Awake()
         {
-            if (!isInit)
+            if (!inited)
             {
-                isInit = true;
+                inited = true;
                 instance = this as T;
                 DontDestroyOnLoad(gameObject);
                 Init();
@@ -50,6 +50,7 @@ namespace FastDev
         public virtual void Dispose()
         {
             instance = null;
+            Destroy(gameObject);
         }
     }
 }
