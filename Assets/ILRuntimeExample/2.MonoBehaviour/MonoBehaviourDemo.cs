@@ -18,7 +18,7 @@ public class MonoBehaviourDemo : MonoBehaviour
     {
         //object obj = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class3");
 
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class3", "Add", null, gameObject);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class3", "Add", null, gameObject);
     }
     
 

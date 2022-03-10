@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 7079053061656389380}
   - component: {fileID: 7079053061656389383}
   - component: {fileID: 7079053061656389382}
-  - component: {fileID: 114935716569181812}
+  - component: {fileID: 114713248121300692}
   m_Layer: 5
   m_Name: UIPanel1
   m_TagString: Untagged
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114935716569181812
+--- !u!114 &114713248121300692
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

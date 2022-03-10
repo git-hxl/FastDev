@@ -203,6 +203,7 @@ namespace FastDev
         [ContextMenu("Unload All")]
         public override void Dispose()
         {
+            base.Dispose();
             foreach (var item in bundles)
             {
                 item.Value.Unload(true);

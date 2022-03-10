@@ -19,7 +19,7 @@ namespace FastDev
             IntPtr bufferIntPtr = Marshal.AllocHGlobal(size);
             try
             {
-                Marshal.StructureToPtr(obj, bufferIntPtr, true);
+                Marshal.StructureToPtr(obj, bufferIntPtr, false);
                 Marshal.Copy(bufferIntPtr, data, 0, size);
             }
             finally

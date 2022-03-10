@@ -105,6 +105,7 @@ namespace FastDev
         /// </summary>
         public override void Dispose()
         {
+            base.Dispose();
             foreach (var item in poolObjects)
             {
                 foreach (var obj in item.Value)

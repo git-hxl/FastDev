@@ -12,9 +12,9 @@ public class EventMsgDemo : MonoBehaviour
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
-        object obj = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class6");
+        object obj = ILRuntimeManager.Instance.appdomain.Instantiate("HotFixProject.Class6");
 
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class6", "Test", obj, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class6", "Test", obj, null);
 
         Hashtable hashtable1 = new Hashtable();
         hashtable1.Add(0, "hello");

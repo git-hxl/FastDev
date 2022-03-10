@@ -91,6 +91,7 @@ namespace FastDev
 
         public override void Dispose()
         {
+            base.Dispose();
             audioClips.Clear();
             Resources.UnloadUnusedAssets();
         }

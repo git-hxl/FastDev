@@ -16,9 +16,9 @@ public class DelegateDemo : MonoBehaviour
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
-        object obj = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class2");
+        object obj = ILRuntimeManager.Instance.appdomain.Instantiate("HotFixProject.Class2");
 
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class2", "Test", obj, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class2", "Test", obj, null);
 
         actionTest.Invoke("hello");
         actionTest2.Invoke();

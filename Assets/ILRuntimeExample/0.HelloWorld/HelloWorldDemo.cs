@@ -13,13 +13,13 @@ public class HelloWorldDemo : MonoBehaviour
     void OnHotFixLoaded(Hashtable hashtable)
     {
         //HelloWorld，第一次方法调用
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class1", "Test1", null, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class1", "Test1", null, null);
 
-        object class1 = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class1");
+        object class1 = ILRuntimeManager.Instance.appdomain.Instantiate("HotFixProject.Class1");
 
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class1", "Test2", class1, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class1", "Test2", class1, null);
 
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class1", "Test3", class1, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class1", "Test3", class1, null);
 
     }
 }

@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outFile: 1
-  onlyError: 0
+  onlyError: 1
 --- !u!4 &801422207
 Transform:
   m_ObjectHideFlags: 0

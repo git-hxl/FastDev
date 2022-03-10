@@ -12,9 +12,9 @@ public class ValueTypeDemo : MonoBehaviour
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
-        object obj = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class4");
+        object obj = ILRuntimeManager.Instance.appdomain.Instantiate("HotFixProject.Class4");
 
-        ILRuntimeManager.appdomain.Invoke("HotFixProject.Class5", "Test", obj, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class5", "Test", obj, null);
 
     }
 }

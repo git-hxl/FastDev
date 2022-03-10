@@ -4,42 +4,36 @@ namespace FastDev
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private static T instance = null;
-        private bool inited = false;
+        private static bool onApplicationQuit = false;
         public static T Instance
         {
             get
             {
-                if (instance == null)
+                if (instance == null && onApplicationQuit == false)
                 {
                     instance = FindObjectOfType<T>();
                     if (instance == null)
                     {
                         GameObject obj = new GameObject(typeof(T).Name);
-                        //这里会执行Awake
-                        obj.AddComponent<T>();
+                        instance = obj.AddComponent<T>();
                     }
                 }
                 return instance;
             }
         }
-        public static bool IsNull()
-        {
-            return instance == null;
-        }
 
-        private void Awake()
+        public static bool isNull { get { return instance == null; } }
+
+        protected virtual void Awake()
         {
-            if (!inited)
+            if (instance == null)
             {
-                inited = true;
                 instance = this as T;
                 DontDestroyOnLoad(gameObject);
                 Init();
             }
             else
-            {
                 DestroyImmediate(gameObject);
-            }
         }
 
         protected virtual void Init()
@@ -51,6 +45,11 @@ namespace FastDev
         {
             instance = null;
             Destroy(gameObject);
+        }
+
+        protected virtual void OnApplicationQuit()
+        {
+            onApplicationQuit = true;
         }
     }
 }

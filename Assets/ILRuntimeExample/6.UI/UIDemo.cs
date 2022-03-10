@@ -11,7 +11,7 @@ public class UIDemo : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            UIManager.Instance.GetPanel("Assets/ILRuntimeDemo/6.UI/HotFixUI.prefab").Open();
+            UIManager.Instance.GetPanel("Assets/ILRuntimeExample/6.UI/HotFixUI.prefab").Open();
         }
     }
 }

@@ -13,12 +13,8 @@ using ILRuntime.Runtime;
 
 public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
 {
-    public static AppDomain appdomain;
-
-    System.IO.MemoryStream fs;
-    System.IO.MemoryStream p;
-
-    private void Start()
+    public AppDomain appdomain;
+    private void Awake()
     {
         StartCoroutine(LoadHotFixAssembly());
     }
@@ -42,19 +38,24 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
             yield break;
         }
         byte[] dll = unityWebRequest.downloadHandler.data;
+        MemoryStream fs = new MemoryStream(dll);
         unityWebRequest.Dispose();
 
-        //PDB文件是调试数据库，如需要在日志中显示报错的行号，则必须提供PDB文件，不过由于会额外耗用内存，正式发布时请将PDB去掉，下面LoadAssembly的时候pdb传null即可
-        unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/net5.0/HotFixProject.pdb");
-        yield return unityWebRequest.SendWebRequest();
-        if (unityWebRequest.isHttpError || unityWebRequest.isNetworkError)
+        MemoryStream p = null;
+        if (Debug.isDebugBuild)
         {
-            Debug.LogError(unityWebRequest.error);
-            yield break;
+            //PDB文件是调试数据库，如需要在日志中显示报错的行号，则必须提供PDB文件，不过由于会额外耗用内存，正式发布时请将PDB去掉，下面LoadAssembly的时候pdb传null即可
+            unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/net5.0/HotFixProject.pdb");
+            yield return unityWebRequest.SendWebRequest();
+            if (unityWebRequest.isHttpError || unityWebRequest.isNetworkError)
+            {
+                Debug.LogError(unityWebRequest.error);
+                yield break;
+            }
+            byte[] pdb = unityWebRequest.downloadHandler.data;
+            p = new MemoryStream(pdb);
         }
-        byte[] pdb = unityWebRequest.downloadHandler.data;
-        fs = new MemoryStream(dll);
-        p = new MemoryStream(pdb);
+
         appdomain.LoadAssembly(fs, p, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
 
         InitializeILRuntime();
@@ -97,7 +98,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
             return new DG.Tweening.TweenCallback(() =>
         {
             ((System.Action)action)();
-            });
+        });
         });
     }
 
