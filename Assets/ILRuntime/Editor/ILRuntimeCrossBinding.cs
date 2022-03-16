@@ -12,7 +12,7 @@ public class ILRuntimeCrossBinding
 
         using (System.IO.StreamWriter sw = new System.IO.StreamWriter("Assets/ILRuntime/Adapter/UIBaseAdapter.cs"))
         {
-            sw.WriteLine(ILRuntime.Runtime.Enviorment.CrossBindingCodeGenerator.GenerateCrossBindingAdapterCode(typeof(UIBase), "FastDev"));
+            //sw.WriteLine(ILRuntime.Runtime.Enviorment.CrossBindingCodeGenerator.GenerateCrossBindingAdapterCode(typeof(UIBase), "FastDev"));
         }
 
         AssetDatabase.Refresh();

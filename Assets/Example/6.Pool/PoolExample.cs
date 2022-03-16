@@ -11,7 +11,7 @@ public class PoolExample : MonoBehaviour
 
    private GameObject[] objects;
    private void OnEnable() {
-       objects = PoolManager.Instance.Allocate("Cube",num);
+       objects = PoolManager.instance.Allocate("Cube",num);
        foreach (var item in objects)
        {
            item.gameObject.SetActive(true);
@@ -19,6 +19,6 @@ public class PoolExample : MonoBehaviour
    }
 
    private void OnDisable() {
-        PoolManager.Instance.Recycle(objects);
+        PoolManager.instance.Recycle(objects);
    }
 }

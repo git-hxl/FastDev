@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2481512526
+CRC: 3512766335
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8129b6496d749116702ff111231aa32f
+    Hash: 3b61f41d81458d0151a8afd5c03df2fa
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
@@ -12,5 +12,5 @@ ClassTypes:
 - Class: 83
   Script: {instanceID: 0}
 Assets:
-- Assets/Example/1.Res/shot.mp3
+- Assets/Example/Res/shot.mp3
 Dependencies: []

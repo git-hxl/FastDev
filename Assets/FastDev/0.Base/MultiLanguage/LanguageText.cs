@@ -13,7 +13,7 @@ namespace FastDev
         private void Awake()
         {
             InitKey();
-            MsgManager.Instance.Register(MsgID.OnLanguageChange, OnLanguageChange);
+            MsgManager.instance.Register(MsgID.OnLanguageChange, OnLanguageChange);
         }
 
         private void Start()
@@ -42,9 +42,9 @@ namespace FastDev
         private void InitText()
         {
             if (text != null)
-                text.text = LanguageManager.Instance.GetText(multiKey);
+                text.text = LanguageManager.instance.GetText(multiKey);
             else
-                textMeshPro.text = LanguageManager.Instance.GetText(multiKey);
+                textMeshPro.text = LanguageManager.instance.GetText(multiKey);
         }
     }
 }

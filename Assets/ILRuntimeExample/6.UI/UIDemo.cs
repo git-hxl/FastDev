@@ -1,4 +1,5 @@
 ﻿using FastDev;
+using FastDev.UI;
 using ILRuntime.CLR.TypeSystem;
 using ILRuntime.Runtime.Intepreter;
 using System.Collections;
@@ -11,7 +12,7 @@ public class UIDemo : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            UIManager.Instance.GetPanel("Assets/ILRuntimeExample/6.UI/HotFixUI.prefab").Open();
+            UIManager.instance.OpenUI("Assets/ILRuntimeExample/6.UI/HotFixUI.prefab");
         }
     }
 }

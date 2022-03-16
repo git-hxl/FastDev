@@ -59,7 +59,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
         appdomain.LoadAssembly(fs, p, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
 
         InitializeILRuntime();
-        MsgManager.Instance.Dispatch(MsgID.OnHotFixInitSuccess, null);
+        MsgManager.instance.Dispatch(MsgID.OnHotFixInitSuccess, null);
     }
 
     void InitializeILRuntime()
@@ -110,7 +110,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
     {
         appdomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
         appdomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
-        appdomain.RegisterCrossBindingAdaptor(new UIBaseAdapter());
+        //appdomain.RegisterCrossBindingAdaptor(new UIBaseAdapter());
         appdomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
         appdomain.RegisterValueTypeBinder(typeof(Quaternion), new QuaternionBinder());
         appdomain.RegisterValueTypeBinder(typeof(Vector2), new Vector2Binder());

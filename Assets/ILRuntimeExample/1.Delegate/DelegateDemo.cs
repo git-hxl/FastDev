@@ -11,14 +11,14 @@ public class DelegateDemo : MonoBehaviour
     public static UnityAction actionTest2;
     void Awake()
     {
-        MsgManager.Instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
+        MsgManager.instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
     }
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
-        object obj = ILRuntimeManager.Instance.appdomain.Instantiate("HotFixProject.Class2");
+        object obj = ILRuntimeManager.instance.appdomain.Instantiate("HotFixProject.Class2");
 
-        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class2", "Test", obj, null);
+        ILRuntimeManager.instance.appdomain.Invoke("HotFixProject.Class2", "Test", obj, null);
 
         actionTest.Invoke("hello");
         actionTest2.Invoke();

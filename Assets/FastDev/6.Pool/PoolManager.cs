@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using FastDev.Res;
 namespace FastDev
 {
     public class PoolManager : MonoSingleton<PoolManager>
@@ -27,7 +28,7 @@ namespace FastDev
                 if (poolObj != null)
                     return poolObj;
             }
-            GameObject obj = Instantiate(ResManager.Instance.LoadAsset<GameObject>(ABConstant.prefab, assetPath));
+            GameObject obj = Instantiate(ResManager.instance.LoadAsset<GameObject>(ResConstant.prefab, assetPath));
             obj.name = objName;
             return obj;
         }

@@ -81,7 +81,7 @@ namespace FastDev
             // Debug.Log("接收消息ID：" + head.MsgID);
             Hashtable hashtable = new Hashtable();
             hashtable.Add(0, bodyData);
-            MsgManager.Instance.Enqueue(head.MsgID,hashtable);
+            MsgManager.instance.Enqueue(head.MsgID,hashtable);
         }
     }
 }

@@ -46,7 +46,6 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_UI_Text_Binding.Register(app);
             UnityEngine_UI_Button_Binding.Register(app);
             UnityEngine_Events_UnityEvent_Binding.Register(app);
-            FastDev_UIBase_Binding.Register(app);
             DG_Tweening_DOTween_Binding.Register(app);
             DG_Tweening_ShortcutExtensions_Binding.Register(app);
             DG_Tweening_TweenSettingsExtensions_Binding.Register(app);

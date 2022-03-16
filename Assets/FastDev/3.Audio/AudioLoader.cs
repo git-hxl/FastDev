@@ -9,11 +9,11 @@ namespace FastDev
         {
             if (audioType == AudioType.Sound)
             {
-                AudioManager.Instance.PlayClip(path);
+                AudioManager.instance.PlayClip(path);
             }
             else if (audioType == AudioType.Music)
             {
-                AudioManager.Instance.PlayMusic(path);
+                AudioManager.instance.PlayMusic(path);
             }
         }
     }

@@ -9,7 +9,7 @@ public class Recv1 : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        MsgManager.Instance.Register(111, Handler);
+        MsgManager.instance.Register(111, Handler);
     }
 
     void Handler(Hashtable data)

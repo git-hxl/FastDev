@@ -16,14 +16,14 @@ public class AudioExample : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            AudioManager.Instance.PlayClip(path);
+            AudioManager.instance.PlayClip(path);
 
         }
     }
     [ContextMenu("Clear")]
     public void ClearCache()
     {
-        AudioManager.Instance.Dispose();
+        AudioManager.instance.Dispose();
     }
 
 }

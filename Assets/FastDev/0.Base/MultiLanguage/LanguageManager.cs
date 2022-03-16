@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using FastDev.Res;
 namespace FastDev
 {
     public enum LanguageType
@@ -31,14 +32,14 @@ namespace FastDev
                     return;
                 PlayerPrefs.SetInt("Language", (int)value);
                 _curLanguage = value;
-                MsgManager.Instance.Dispatch(MsgID.OnLanguageChange, null);
+                MsgManager.instance.Dispatch(MsgID.OnLanguageChange, null);
             }
         }
         private static Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
 
         protected override void Init()
         {
-            TextAsset textAsset = ResManager.Instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
+            TextAsset textAsset = ResManager.instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
             languageDict = textAsset.text.ToObject<Dictionary<string, LanguageStruct>>();
 
             Debug.Log("curlanguage:" + curLanguage);

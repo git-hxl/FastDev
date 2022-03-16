@@ -9,16 +9,16 @@ public class MonoBehaviourDemo : MonoBehaviour
 {
     void Awake()
     {
-        MsgManager.Instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
+        MsgManager.instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
 
-        MsgManager.Instance.Register(666, OnAddOk);
+        MsgManager.instance.Register(666, OnAddOk);
     }
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
         //object obj = ILRuntimeManager.appdomain.Instantiate("HotFixProject.Class3");
 
-        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class3", "Add", null, gameObject);
+        ILRuntimeManager.instance.appdomain.Invoke("HotFixProject.Class3", "Add", null, gameObject);
     }
     
 

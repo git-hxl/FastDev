@@ -2,7 +2,7 @@
 using UnityEngine;
 using LitJson;
 using System.Collections.Generic;
-
+using FastDev.Res;
 namespace FastDev
 {
     [RequireComponent(typeof(AudioSource))]
@@ -78,7 +78,7 @@ namespace FastDev
             AudioClip audioClip = null;
             if (!audioClips.TryGetValue(assetPath, out audioClip))
             {
-                audioClip = ResManager.Instance.LoadAsset<AudioClip>(ABConstant.audio, assetPath);
+                audioClip = ResManager.instance.LoadAsset<AudioClip>(ResConstant.audio, assetPath);
                 audioClips.Add(assetPath, audioClip);
             }
             return audioClip;

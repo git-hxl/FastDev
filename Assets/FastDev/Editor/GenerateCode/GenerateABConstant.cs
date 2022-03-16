@@ -6,7 +6,7 @@ namespace FastDev
     public class GenerateABConstant
     {
         public static string classStr =
-@"namespace FastDev
+@"namespace FastDev.Res
 {
     public static class ABConstant
     {
@@ -22,7 +22,7 @@ namespace FastDev
                 s += $"public const string {item} = \"{item}\";\r\n\t\t";
             }
             classStr = classStr.Replace("$变量", s);
-            File.WriteAllText($"{Application.dataPath}/FastDev/1.Res/ABConstant.cs", classStr);
+            File.WriteAllText($"{Application.dataPath}/FastDev/Res/ABConstant.cs", classStr);
             AssetDatabase.Refresh();
         }
     }

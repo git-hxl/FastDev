@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using LitJson;
-namespace FastDev
+namespace FastDev.Res
 {
     public class AssetBundleEditor : EditorWindow
     {

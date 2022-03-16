@@ -7,14 +7,14 @@ public class ValueTypeDemo : MonoBehaviour
 {
     void Awake()
     {
-        MsgManager.Instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
+        MsgManager.instance.Register(MsgID.OnHotFixInitSuccess, OnHotFixLoaded);
     }
 
     void OnHotFixLoaded(Hashtable hashtable)
     {
-        object obj = ILRuntimeManager.Instance.appdomain.Instantiate("HotFixProject.Class4");
+        object obj = ILRuntimeManager.instance.appdomain.Instantiate("HotFixProject.Class4");
 
-        ILRuntimeManager.Instance.appdomain.Invoke("HotFixProject.Class5", "Test", obj, null);
+        ILRuntimeManager.instance.appdomain.Invoke("HotFixProject.Class5", "Test", obj, null);
 
     }
 }

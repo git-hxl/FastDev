@@ -13,7 +13,7 @@ public class Send1 : MonoBehaviour
     {
         Hashtable hashtable = new Hashtable();
         hashtable.Add(0, "Hello");
-        MsgManager.Instance.Dispatch(111, hashtable);
+        MsgManager.instance.Dispatch(111, hashtable);
     }
 
     float time = 0f;
@@ -24,7 +24,7 @@ public class Send1 : MonoBehaviour
         {
             Hashtable hashtable = new Hashtable();
             hashtable.Add(0, "World");
-            MsgManager.Instance.Enqueue(222,hashtable);
+            MsgManager.instance.Enqueue(222,hashtable);
             time = 0;
         }
     }
