@@ -1,10 +1,1 @@
-{
-	"resVersion": "1.0.0",
-	"appVersion": "1.0.0",
-	"resDict": {
-		"audio": "3b61f41d81458d0151a8afd5c03df2fa",
-		"texture2d": "0a8b857dcecb501d5e0344f9879c4095",
-		"StandaloneWindows": "ae0bd990fbd8de86f6097ed6c6612619",
-		"prefab": "d535242fb4d548ee79b802be236cd6d3"
-	}
-}
+{"resVersion":"1.0.0","appVersion":"1.0.0","resDict":{"audio":"729ed9c6fafdbabcb7ac9993e2c2cfc9","texture2d":"0a8b857dcecb501d5e0344f9879c4095","StandaloneWindows":"360cf2abbce481acf064f59c4a7266a2","prefab":"36e6a35890ce11befa3fb365e38473cc"}}

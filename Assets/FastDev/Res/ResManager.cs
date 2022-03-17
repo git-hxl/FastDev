@@ -28,6 +28,7 @@ namespace FastDev.Res
             }
         }
 
+        [ContextMenu("Load All Bundles")]
         public async UniTask LoadAllAssetBundle()
         {
             if (assetBundleManifest == null)
