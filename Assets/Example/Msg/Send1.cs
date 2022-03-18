@@ -20,12 +20,23 @@ public class Send1 : MonoBehaviour
     private void Update()
     {
         time += Time.deltaTime;
-        //if (time > 1)
+        if (time > 1)
         {
             Hashtable hashtable = new Hashtable();
             hashtable.Add(0, "World");
+            MsgManager.instance.Dispatch(111, hashtable);
             MsgManager.instance.Enqueue(222,hashtable);
+            MsgManager.instance.Dispatch(333, hashtable);
+
+            hashtable[0] = "Hello";
             time = 0;
         }
     }
+
+    [ContextMenu("GC")]
+    private void GC()
+    {
+        System.GC.Collect();
+    }
+
 }

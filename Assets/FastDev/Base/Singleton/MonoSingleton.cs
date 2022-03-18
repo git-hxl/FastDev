@@ -3,8 +3,8 @@ namespace FastDev
 {
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
-        private static T _instance = null;
         private static bool onApplicationQuit = false;
+        private static T _instance = null;
         public static T instance
         {
             get
@@ -26,7 +26,7 @@ namespace FastDev
 
         protected virtual void Awake()
         {
-            if (_instance == null)
+            if (_instance == null || _instance.gameObject == this.gameObject)
             {
                 _instance = this as T;
                 DontDestroyOnLoad(gameObject);

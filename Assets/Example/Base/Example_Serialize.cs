@@ -13,6 +13,10 @@ public class Example_Serialize : MonoBehaviour
         public int age;
         public float time;
     }
+    private void Awake()
+    {
+        string s = Example_MonoSingleton.instance.name;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -36,5 +40,10 @@ public class Example_Serialize : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+        string s = Example_MonoSingleton.instance.name;
     }
 }

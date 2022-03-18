@@ -5,8 +5,8 @@ namespace FastDev.UI
 {
     public class UIManager : MonoSingleton<UIManager>
     {
-        private Dictionary<string, IUIPanel> _uiLoadedPanels = new Dictionary<string, IUIPanel>();
-        private List<IUIPanel> _uiOpenedPanels = new List<IUIPanel>();
+        private Dictionary<string, IUIPanel> uiLoadedPanels = new Dictionary<string, IUIPanel>();
+        private List<IUIPanel> uiOpenedPanels = new List<IUIPanel>();
         /// <summary>
         /// 获取UI面板
         /// </summary>
@@ -33,24 +33,24 @@ namespace FastDev.UI
         /// <returns></returns>
         public IUIPanel OpenUI(IUIPanel uiPanel)
         {
-            if (_uiOpenedPanels.Contains(uiPanel))
+            if (uiOpenedPanels.Contains(uiPanel))
             {
                 Debug.LogError("UIPanel has Opened:" + uiPanel.panelName);
             }
             else
             {
                 uiPanel.OnOpen();
-                _uiOpenedPanels.Add(uiPanel);
+                uiOpenedPanels.Add(uiPanel);
             }
             return uiPanel;
         }
 
         public IUIPanel Close(IUIPanel uiPanel)
         {
-            if (_uiOpenedPanels.Contains(uiPanel))
+            if (uiOpenedPanels.Contains(uiPanel))
             {
                 uiPanel.OnClose();
-                _uiOpenedPanels.Remove(uiPanel);
+                uiOpenedPanels.Remove(uiPanel);
             }
             else
             {
@@ -65,7 +65,7 @@ namespace FastDev.UI
         /// <returns></returns>
         private IUIPanel LoadUIPanelFromAsset(string assetPath)
         {
-            if (!_uiLoadedPanels.ContainsKey(assetPath) || _uiLoadedPanels[assetPath].Equals(null))
+            if (!uiLoadedPanels.ContainsKey(assetPath) || uiLoadedPanels[assetPath].Equals(null))
             {
                 GameObject assetObj = ResManager.instance.LoadAsset<GameObject>(ResConstant.ui, assetPath);
                 GameObject panelObj = Instantiate(assetObj, transform);
@@ -73,20 +73,20 @@ namespace FastDev.UI
                 if (panel != null)
                 {
                     panel.OnLoad(assetPath);
-                    _uiLoadedPanels[assetPath] = panel;
+                    uiLoadedPanels[assetPath] = panel;
                     return panel;
                 }
                 Debug.LogError("UIPanel load Failed:" + assetPath);
                 return null;
             }
-            return _uiLoadedPanels[assetPath];
+            return uiLoadedPanels[assetPath];
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            _uiLoadedPanels.Clear();
-            _uiOpenedPanels.Clear();
+            uiLoadedPanels.Clear();
+            uiOpenedPanels.Clear();
             Resources.UnloadUnusedAssets();
         }
     }

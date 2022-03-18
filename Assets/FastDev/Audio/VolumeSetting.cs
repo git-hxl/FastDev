@@ -6,9 +6,12 @@ namespace FastDev
         private float defaultMusicVolume = 1f;
         private float defaultSoundVolume = 1f;
 
-        public float totalVolume;
-        public float musicVolume;
-        public float soundVolume;
+        private float _totalVolume;
+        public float totalVolume { get { return _totalVolume; } set { _totalVolume = value; MsgManager.instance.Dispatch(MsgID.OnVolumeChange, null); } }
+        private float _musicVolume;
+        public float musicVolume { get { return _musicVolume; } set { _musicVolume = value; MsgManager.instance.Dispatch(MsgID.OnVolumeChange, null); } }
+        private float _soundVolume;
+        public float soundVolume { get { return _soundVolume; } set { _soundVolume = value; MsgManager.instance.Dispatch(MsgID.OnVolumeChange, null); } }
 
         public VolumeSetting()
         {
@@ -19,6 +22,6 @@ namespace FastDev
 
         public float RealSoundVolume { get { return totalVolume * soundVolume; } }
 
-        public float RealmusicVolume { get { return totalVolume * musicVolume; } }
+        public float RealMusicVolume { get { return totalVolume * musicVolume; } }
     }
 }

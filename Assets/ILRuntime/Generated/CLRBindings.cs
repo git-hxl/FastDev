@@ -39,8 +39,6 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_Vector3_Binding.Register(app);
             System_Object_Binding.Register(app);
             UnityEngine_Quaternion_Binding.Register(app);
-            FastDev_MonoSingleton_1_EventManager_Binding.Register(app);
-            EventManager_Binding.Register(app);
             System_Collections_Hashtable_Binding.Register(app);
             UnityEngine_Component_Binding.Register(app);
             UnityEngine_UI_Text_Binding.Register(app);

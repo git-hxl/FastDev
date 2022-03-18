@@ -59,6 +59,12 @@ public class AudioExample : MonoBehaviour
             audioPlayer.OnPlayEnd += (clipPath) => audioPlayer.Dispose(clipPath);
         });
 
+
+        Slider[] slider = GetComponentsInChildren<Slider>();
+        slider[0].onValueChanged.AddListener((value) => AudioManager.instance.volumeSetting.totalVolume = value);
+        slider[1].onValueChanged.AddListener((value) => AudioManager.instance.volumeSetting.soundVolume = value);
+
+        slider[2].onValueChanged.AddListener((value) => AudioManager.instance.volumeSetting.musicVolume = value);
     }
 
 

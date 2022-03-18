@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Example/0.Base/0.Base.unity
+    path: Assets/Example/Msg/Msg.unity
+    guid: 5745986aac326104ea1893467d935ad5
+  - enabled: 1
+    path: Assets/Example/Base/Base.unity
     guid: dba1a465b9a250948856099eb4d7da51
   - enabled: 1
     path: Assets/Example/Res/Res.unity
