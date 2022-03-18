@@ -10,7 +10,7 @@ namespace FastDev
     {
         struct MsgData
         {
-            public WeakReference target;
+            public WeakReference target;//通过弱引用解决事件注册导致的内存泄漏
             public int msgID;
             public Hashtable hashtable;
             public MethodInfo methodInfo;
