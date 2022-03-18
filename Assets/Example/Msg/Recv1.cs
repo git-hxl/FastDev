@@ -16,4 +16,9 @@ public class Recv1 : MonoBehaviour
     {
         Debug.Log(gameObject.name + " recv:" + data[0]);
     }
+
+    private void OnDestroy()
+    {
+        MsgManager.instance.UnRegister(111, Handler);
+    }
 }

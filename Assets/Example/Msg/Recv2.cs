@@ -49,7 +49,6 @@ public class Recv3
 
     ~Recv3()
     {
-        MsgManager.instance.UnRegister(222, Handler);
         Debug.LogError("recv3 destroy!!!");
     }
 

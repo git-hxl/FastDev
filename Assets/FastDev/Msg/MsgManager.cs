@@ -2,20 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Reflection;
+
 namespace FastDev
 {
     public class MsgManager : MonoSingleton<MsgManager>
     {
         struct MsgData
         {
+            public WeakReference target;
             public int msgID;
             public Hashtable hashtable;
+            public MethodInfo methodInfo;
         }
 
         //采用线程安全的队列
         private ConcurrentQueue<MsgData> msgQueue = new ConcurrentQueue<MsgData>();
 
-        private Dictionary<int, List<Action<Hashtable>>> actionDicts = new Dictionary<int, List<Action<Hashtable>>>();
+        private Dictionary<int, List<MsgData>> actionDicts = new Dictionary<int, List<MsgData>>();
 
         private void Update()
         {
@@ -40,33 +44,47 @@ namespace FastDev
         public void Register(int msgID, Action<Hashtable> action)
         {
             if (!actionDicts.ContainsKey(msgID))
-                actionDicts.Add(msgID, new List<Action<Hashtable>>());
+            {
+                List<MsgData> msgDatas = new List<MsgData>();
+                actionDicts.Add(msgID, msgDatas);
+            }
 
-            if (!actionDicts[msgID].Contains(action))
-                actionDicts[msgID].Add(action);
+            MsgData msgData = new MsgData();
+            msgData.target = new WeakReference(action.Target);
+            msgData.msgID = msgID;
+            msgData.methodInfo = action.Method;
+            actionDicts[msgID].Add(msgData);
         }
 
         public void UnRegister(int msgID, Action<Hashtable> action)
         {
             if (actionDicts.ContainsKey(msgID))
             {
-                if(actionDicts[msgID].Contains(action))
+                foreach (var item in actionDicts[msgID])
                 {
-                    actionDicts[msgID].Remove(action);
+                    if (item.methodInfo == action.Method)
+                    {
+                        actionDicts[msgID].Remove(item);
+                        break;
+                    }
                 }
             }
         }
 
         public void Dispatch(int msgID, Hashtable hashtable)
         {
-            if (actionDicts.ContainsKey(msgID))
+            if (actionDicts.ContainsKey(msgID) && actionDicts[msgID] != null)
             {
                 for (int i = actionDicts[msgID].Count - 1; i >= 0; i--)
                 {
-                    if (actionDicts[msgID][i].Target.Equals(null))
-                        actionDicts[msgID].RemoveAt(i);
+                    if (actionDicts[msgID][i].target.IsAlive && !actionDicts[msgID][i].target.Target.Equals(null))
+                    {
+                        actionDicts[msgID][i].methodInfo.Invoke(actionDicts[msgID][i].target.Target, new object[] { hashtable });
+                    }
                     else
-                        actionDicts[msgID][i]?.Invoke(hashtable);
+                    {
+                        actionDicts[msgID].RemoveAt(i);
+                    }
                 }
             }
         }
