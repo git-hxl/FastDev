@@ -12,7 +12,11 @@ namespace FastDev
                 if (_instance == null && onApplicationQuit == false)
                 {
                     _instance = FindObjectOfType<T>();
-                    if (_instance == null)
+                    if (_instance != null)
+                    {
+                        _instance.Init();
+                    }
+                    else
                     {
                         GameObject obj = new GameObject(typeof(T).Name);
                         _instance = obj.AddComponent<T>();
@@ -24,21 +28,29 @@ namespace FastDev
 
         public static bool isNull { get { return _instance == null; } }
 
-        protected virtual void Awake()
+        private void Init()
         {
-            if (_instance == null || _instance.gameObject == this.gameObject)
-            {
-                _instance = this as T;
-                DontDestroyOnLoad(gameObject);
-                Init();
-            }
-            else
-                DestroyImmediate(gameObject);
+            _instance = this as T;
+            DontDestroyOnLoad(gameObject);
+            OnInit();
+            Debug.Log(typeof(T).Name + " Init!");
         }
 
-        protected virtual void Init()
+        protected virtual void OnInit()
         {
-            Debug.Log(typeof(T).Name + " Init!");
+
+        }
+
+        private void Awake()
+        {
+            if (_instance == null)
+            {
+                Init();
+            }
+            else if (_instance != this)
+            {
+                DestroyImmediate(this);
+            }
         }
 
         public virtual void Dispose()

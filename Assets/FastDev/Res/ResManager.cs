@@ -9,9 +9,8 @@ namespace FastDev.Res
         private string assetPath;
         private AssetBundleManifest assetBundleManifest;
         private Dictionary<string, AssetBundle> bundles = new Dictionary<string, AssetBundle>();
-        protected override void Init()
+        protected override void OnInit()
         {
-            base.Init();
             switch (resLoadType)
             {
                 case ResLoadType.FromPersistentPath:

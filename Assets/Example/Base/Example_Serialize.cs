@@ -39,11 +39,12 @@ public class Example_Serialize : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnDestroy()
     {
-        string s = Example_MonoSingleton.instance.name;
+        if (!Example_MonoSingleton.isNull)
+            Debug.Log(Example_MonoSingleton.instance.name);
     }
 }

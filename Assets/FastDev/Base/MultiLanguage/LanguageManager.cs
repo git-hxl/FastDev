@@ -37,7 +37,7 @@ namespace FastDev
         }
         private static Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
 
-        protected override void Init()
+        protected override void OnInit()
         {
             TextAsset textAsset = ResManager.instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
             languageDict = textAsset.text.ToObject<Dictionary<string, LanguageStruct>>();

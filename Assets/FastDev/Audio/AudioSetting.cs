@@ -1,40 +1,23 @@
-﻿namespace FastDev.Audio
+﻿using UnityEngine;
+
+namespace FastDev.Audio
 {
-    public enum AudioType
+    public static class AudioSetting
     {
-        Sound,
-        Music,
-    }
-    public class AudioSetting
-    {
-        public AudioType audioType;
-        public float spatialBlend;
-        public float minDistance;
-        public float maxDistance;
-        public bool loop;
-        public AudioSetting()
+        public static void Set2D(this IAudioPlayer audioPlayer)
         {
-            loop = false;
-            spatialBlend = 0;
-            audioType = AudioType.Sound;
+            audioPlayer.audioSource.spatialBlend = 0;
         }
-
-        public static AudioSetting Default => new AudioSetting()
+        public static void Set3D(this IAudioPlayer audioPlayer)
         {
-        };
-
-        public static AudioSetting Music => new AudioSetting()
+            audioPlayer.audioSource.spatialBlend = 1;
+        }
+        public static void SetMinMaxDistance(this IAudioPlayer audioPlayer,AudioRolloffMode audioRolloffMode,float minDistance,float maxDistance)
         {
-            loop = true,
-            spatialBlend = 0,
-            audioType = AudioType.Music,
-        };
-
-        public static AudioSetting Bullet => new AudioSetting()
-        {
-            loop = false,
-            spatialBlend = 1,
-        };
+            audioPlayer.audioSource.rolloffMode = audioRolloffMode;
+            audioPlayer.audioSource.minDistance = minDistance;
+            audioPlayer.audioSource.maxDistance = maxDistance;
+        }
 
     }
 }

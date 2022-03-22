@@ -4,22 +4,21 @@ namespace FastDev.Audio
 {
     public interface IAudioPlayer
     {
-        event Action<string> OnPlayEnd;
+        AudioType audioType { get; }
+        AudioSource audioSource { get; }
 
-        void PlayClip(string clipPath);
+        event Action OnPlayEnd;
 
-        void PlayClip(string cliPath, float duration);
+        void Play();
 
-        void PlayClip(string clipPath, Vector3 Position);
+        void Play(float duration);
 
-        void Stop(string clipPath);
-        void Stop(string clipPath, float duration);
+        void Play(Vector3 Position);
 
-        void Pause(string clipPath);
-        void Pause(string clipPath, float duration);
+        void Pause();
+        void Pause(float duration);
 
-        void Dispose(string clipPath);
-
-        void DisposeAll();
+        void Stop();
+        void Stop(float duration);
     }
 }

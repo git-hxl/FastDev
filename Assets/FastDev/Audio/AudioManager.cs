@@ -10,11 +10,10 @@ namespace FastDev.Audio
         {
             get { return _volumeSetting; }
         }
-
         private string settingPath;
-        protected override void Init()
+
+        protected override void OnInit()
         {
-            base.Init();
             settingPath = Application.persistentDataPath + "/audioSetting.txt";
             _volumeSetting = new VolumeSetting();
             if (File.Exists(settingPath))
@@ -27,16 +26,6 @@ namespace FastDev.Audio
         public void SaveSetting()
         {
             File.WriteAllText(settingPath, JsonMapper.ToJson(volumeSetting));
-        }
-
-        public IAudioPlayer GetDefaultAudioPlayer()
-        {
-            return new AudioPlayer(AudioSetting.Default);
-        }
-
-        public IAudioPlayer GetMusicAudioPlayer()
-        {
-            return new AudioPlayer(AudioSetting.Music);
         }
 
         public override void Dispose()

@@ -3,143 +3,114 @@ using FastDev.Res;
 using System;
 using UnityEngine;
 using DG.Tweening;
-using System.Collections.Generic;
 using System.Collections;
 
 namespace FastDev.Audio
 {
     public class AudioPlayer : IAudioPlayer
     {
-        private AudioSetting audioSetting;
+        private AudioType _audioType;
 
-        public event Action<string> OnPlayEnd;
+        public AudioType audioType { get { return _audioType; } }
 
-        private Dictionary<string, AudioSource> audioSources = new Dictionary<string, AudioSource>();
+        public event Action OnPlayEnd;
 
-        public AudioPlayer(AudioSetting audioSetting)
+        private AudioSource _audioSource;
+
+        public AudioSource audioSource { get { return _audioSource; } }
+
+        public AudioPlayer(AudioType audioType, string clipPath)
         {
-            this.audioSetting = audioSetting;
-
+            this._audioType = audioType;
+            Init_audioSource(clipPath);
             MsgManager.instance.Register(MsgID.OnVolumeChange, OnVolumeChange);
         }
 
-        public async void PlayClip(string clipPath)
+        private void Init_audioSource(string clipPath)
         {
-            var audioSource = GetAudioSource(clipPath);
-            audioSource.clip = GetAudioClip(clipPath);
-            audioSource.Play();
-            if (audioSource.loop == false)
+            if (_audioSource == null)
             {
-                await UniTask.WaitUntil(() => audioSource.time == audioSource.clip.length);
-                Stop(clipPath);
+                GameObject obj = new GameObject("Audio Player");
+                _audioSource = obj.AddComponent<AudioSource>();
+                _audioSource.volume = GetAudioVolume();
+                _audioSource.playOnAwake = false;
+                _audioSource.loop = audioType == AudioType.Music;
+                _audioSource.clip = GetAudioClip(clipPath);
             }
         }
 
-        public void PlayClip(string clipPath, float duration)
+        public async void Play()
         {
-            var audioSource = GetAudioSource(clipPath);
-            audioSource.volume = 0;
-            audioSource.DOFade(GetAudioVolume(), duration);
-            PlayClip(clipPath);
-        }
-
-        public void PlayClip(string clipPath, Vector3 Position)
-        {
-            var audioSource = GetAudioSource(clipPath);
-            audioSource.transform.position = Position;
-            PlayClip(clipPath);
-        }
-
-        public void Stop(string clipPath)
-        {
-            var audioSource = GetAudioSource(clipPath);
-            if (audioSource != null && audioSource.clip != null)
+            _audioSource.Play();
+            if (_audioSource.loop == false)
             {
-                audioSource.Stop();
-                audioSource.clip = null;
-                OnPlayEnd?.Invoke(clipPath);
-            }
-        }
-        public void Stop(string clipPath, float duration)
-        {
-            var audioSource = GetAudioSource(clipPath);
-            if (audioSource != null)
-                audioSource.DOFade(0, duration).OnComplete(() => Stop(clipPath));
-        }
-
-        public void Pause(string clipPath)
-        {
-            var audioSource = GetAudioSource(clipPath);
-            if (audioSource != null)
-                audioSource.Pause();
-        }
-        public void Pause(string clipPath, float duration)
-        {
-            var audioSource = GetAudioSource(clipPath);
-            if (audioSource != null)
-                audioSource.DOFade(0, duration).OnComplete(() => Pause(clipPath));
-        }
-
-        public void Dispose(string clipPath)
-        {
-            var audioSource = GetAudioSource(clipPath);
-            if (audioSource != null)
-            {
-                UnityEngine.Object.Destroy(audioSource.gameObject);
-                audioSources.Remove(clipPath);
+                await UniTask.WaitUntil(() => _audioSource == null || (_audioSource.time == _audioSource.clip.length));
+                Stop();
             }
         }
 
-        public void DisposeAll()
+        public void Play(float duration)
         {
-            foreach (var item in audioSources)
+            _audioSource.volume = 0;
+            _audioSource.DOFade(GetAudioVolume(), duration);
+            Play();
+        }
+
+        public void Play(Vector3 Position)
+        {
+            _audioSource.transform.position = Position;
+            Play();
+        }
+
+        public void Pause()
+        {
+            if (_audioSource != null)
+                _audioSource.Pause();
+        }
+        public void Pause(float duration)
+        {
+            if (_audioSource != null)
+                _audioSource.DOFade(0, duration).OnComplete(Pause);
+        }
+
+        public void Stop()
+        {
+            if (_audioSource != null)
             {
-                Dispose(item.Key);
+                _audioSource.Stop();
+                _audioSource.clip = null;
+                UnityEngine.Object.Destroy(_audioSource.gameObject);
+                _audioSource = null;
+                MsgManager.instance.UnRegister(MsgID.OnVolumeChange, OnVolumeChange);
+                OnPlayEnd?.Invoke();
             }
+        }
+        public void Stop(float duration)
+        {
+            if (_audioSource != null)
+                _audioSource.DOFade(0, duration).OnComplete(Stop);
         }
 
         private void OnVolumeChange(Hashtable hashtable)
         {
-            foreach (var item in audioSources)
-            {
-                if (item.Value != null)
-                {
-                    item.Value.volume = GetAudioVolume();
-                }
-            }
+            _audioSource.volume = GetAudioVolume();
         }
 
         private float GetAudioVolume()
         {
             float volume = 0;
-            switch (audioSetting.audioType)
+            switch (audioType)
             {
                 case AudioType.Sound:
-                    volume =  AudioManager.instance.volumeSetting.RealSoundVolume;
+                    volume = AudioManager.instance.volumeSetting.RealSoundVolume;
                     break;
                 case AudioType.Music:
-                    volume =  AudioManager.instance.volumeSetting.RealMusicVolume;
+                    volume = AudioManager.instance.volumeSetting.RealMusicVolume;
                     break;
             }
             return volume;
         }
 
-        private AudioSource GetAudioSource(string clipPath)
-        {
-            if (!audioSources.ContainsKey(clipPath) || audioSources[clipPath] == null)
-            {
-                GameObject obj = new GameObject("Audio Player");
-                var audioSource = obj.AddComponent<AudioSource>();
-                audioSource.volume = GetAudioVolume();
-                audioSource.spatialBlend = audioSetting.spatialBlend;
-                audioSource.minDistance = audioSetting.minDistance;
-                audioSource.maxDistance = audioSetting.maxDistance;
-                audioSource.loop = audioSetting.loop;
-                audioSource.playOnAwake = false;
-                audioSources[clipPath] = audioSource;
-            }
-            return audioSources[clipPath];
-        }
         private AudioClip GetAudioClip(string assetPath)
         {
             AudioClip audioClip = null;

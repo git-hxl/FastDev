@@ -19,7 +19,7 @@ namespace FastDev
         private int curFrame;
         private float curTime;
         private int fps;
-        protected override void Init()
+        protected override void OnInit()
         {
             logPath = Application.persistentDataPath + "/log.txt";
             if (File.Exists(logPath))

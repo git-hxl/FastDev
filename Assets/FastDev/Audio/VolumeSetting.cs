@@ -15,9 +15,9 @@ namespace FastDev
 
         public VolumeSetting()
         {
-            totalVolume = defaultTotalVolume;
-            musicVolume = defaultMusicVolume;
-            soundVolume = defaultSoundVolume;
+            _totalVolume = defaultTotalVolume;
+            _musicVolume = defaultMusicVolume;
+            _soundVolume = defaultSoundVolume;
         }
 
         public float RealSoundVolume { get { return totalVolume * soundVolume; } }

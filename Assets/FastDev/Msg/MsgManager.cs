@@ -48,7 +48,14 @@ namespace FastDev
                 List<MsgData> msgDatas = new List<MsgData>();
                 actionDicts.Add(msgID, msgDatas);
             }
-
+            else
+            {
+                foreach (var item in actionDicts[msgID])
+                {
+                    if (item.methodInfo == action.Method && item.target.Target == action.Target)
+                        return;
+                }
+            }
             MsgData msgData = new MsgData();
             msgData.target = new WeakReference(action.Target);
             msgData.msgID = msgID;
@@ -62,7 +69,7 @@ namespace FastDev
             {
                 foreach (var item in actionDicts[msgID])
                 {
-                    if (item.methodInfo == action.Method)
+                    if (item.methodInfo == action.Method && item.target.Target == action.Target)
                     {
                         actionDicts[msgID].Remove(item);
                         break;
