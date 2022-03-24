@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 514491552}
   - component: {fileID: 514491554}
   - component: {fileID: 514491553}
+  - component: {fileID: 514491555}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -180,7 +181,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\u963F\u677E\u5927\n\u5341\u5927"
 --- !u!222 &514491554
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -189,6 +190,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 514491551}
   m_CullTransparentMesh: 0
+--- !u!114 &514491555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514491551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bde2bb73df53ad44a775b2031372ab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &816881284
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,8 +320,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -80, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -80, y: -32.91}
+  m_SizeDelta: {x: 160, y: 65.82892}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &945716314
 MonoBehaviour:

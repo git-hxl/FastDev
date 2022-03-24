@@ -8,6 +8,7 @@ namespace FastDev
 {
     public class MultiLanguageTool
     {
+        private static string path = "Assets/Resources/MultiLanguage.json";
         [MenuItem("Assets/注册当前对象的多语言")]
         static void ExcuteLanguageUpdate()
         {
@@ -32,12 +33,11 @@ namespace FastDev
 
         private static Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
         {
-            string path = "Assets/Resources/MultiLanguage.json";
             string str = FileUtil.ReadFromExternal(path);
             Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
             if (!string.IsNullOrEmpty(str))
             {
-                languageDict = str.ToObject<Dictionary<string, LanguageStruct>>();
+                languageDict = str.JsonToObject<Dictionary<string, LanguageStruct>>();
             }
             return languageDict;
         }
@@ -62,7 +62,7 @@ namespace FastDev
                 languageDict[languageDict.ElementAt(i).Key] = languageStruct;
             }
 
-            File.WriteAllText("Assets/Resources/MultiLanguage.json", languageDict.ToJson(true));
+            File.WriteAllText(path, languageDict.ObjectToJson(true));
             AssetDatabase.Refresh();
         }
 
@@ -80,13 +80,13 @@ namespace FastDev
             foreach (var item in languageDict)
             {
                 string txtTag = item.Value.Chinese;
-                int maxLength =6;
-                if(txtTag.Length>maxLength)
-                    txtTag = $"{txtTag.Substring(0,maxLength)} 省略 {txtTag.Length-maxLength} 字";
+                int maxLength = 6;
+                if (txtTag.Length > maxLength)
+                    txtTag = $"{txtTag.Substring(0, maxLength)} 省略 {txtTag.Length - maxLength} 字";
                 var += $"public const string {txtTag.ToAlphaNumberAndChinese(false).Replace(" ", "_").Replace("\n", "n")} = \"{item.Key}\";\r\n\t\t";
             }
             classStr = classStr.Replace("$变量", var);
-            File.WriteAllText($"{Application.dataPath}/FastDev/0.Base/MultiLanguage/LanguageConstant.cs", classStr);
+            File.WriteAllText($"{Application.dataPath}/FastDev/MultiLanguage/LanguageConstant.cs", classStr);
             AssetDatabase.Refresh();
         }
     }

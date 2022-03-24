@@ -1,28 +1,27 @@
 ﻿using System;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
-
+using Cysharp.Threading.Tasks;
 namespace FastDev
 {
-    public class WebRequestManager : Singleton<WebRequestManager>
+    public class HttpManager : MonoSingleton<HttpManager>
     {
-        public async UniTask<string> Get(string url)
+
+        public async UniTask Get(string url, Action<string> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get(url);
             try
             {
                 var result = await request.SendWebRequest();
-                return result.downloadHandler.text;
+                callback?.Invoke(result.downloadHandler.text);
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex);
-                return "";
             }
         }
 
-        public async UniTask<Sprite> GetSprite(string url)
+        public async UniTask Get(string url, Action<Texture2D> callback)
         {
             UnityWebRequest request = UnityWebRequest.Get(url);
             try
@@ -30,43 +29,39 @@ namespace FastDev
                 var result = await request.SendWebRequest();
                 Texture2D texture = new Texture2D(0, 0);
                 texture.LoadImage(result.downloadHandler.data);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-                return sprite;
+                callback?.Invoke(texture);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError(ex);
-                return null;
             }
         }
 
-        public async UniTask<string> Post(string url, WWWForm form)
+        public async UniTask Post(string url, WWWForm form, Action<string> callback)
         {
             UnityWebRequest request = UnityWebRequest.Post(url, form);
             try
             {
                 var result = await request.SendWebRequest();
-                return result.downloadHandler.text;
+                callback?.Invoke(result.downloadHandler.text);
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex);
-                return "";
             }
         }
 
-        public async UniTask<string> Put(string url, byte[] bodyData)
+        public async UniTask Put(string url, byte[] bodyData, Action<string> callback)
         {
             UnityWebRequest request = UnityWebRequest.Put(url, bodyData);
             try
             {
                 var result = await request.SendWebRequest();
-                return result.downloadHandler.text;
+                callback?.Invoke(result.downloadHandler.text);
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex);
-                return "";
             }
         }
 
@@ -78,29 +73,17 @@ namespace FastDev
             request.downloadHandler = new DownloadHandlerFile(path);
             try
             {
-                UnityWebRequest result = await request.SendWebRequest().ToUniTask(Progress.Create<float>(progress));
-                return true;
+                await request.SendWebRequest().ToUniTask(Progress.Create<float>(progress));
             }
             catch (Exception ex)
             {
+                request.Abort();
                 Debug.LogError(ex.Message);
                 return false;
             }
+
+            return true;
         }
 
-        public async UniTask<AssetBundle> DownloadAssetBundle(string url)
-        {
-            UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(url);
-            try
-            {
-                var result = await request.SendWebRequest();
-                return DownloadHandlerAssetBundle.GetContent(request);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex);
-                return null;
-            }
-        }
     }
 }

@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 713166982762368537}
   - component: {fileID: 3808537891256754573}
   - component: {fileID: 7040236839399970418}
+  - component: {fileID: 7611555690684310405}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -188,7 +189,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Close
+  m_Text: "\u963F\u677E\u5927\n\u5341\u5927"
+--- !u!114 &7611555690684310405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966164337059003945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bde2bb73df53ad44a775b2031372ab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1539111836959954609
 GameObject:
   m_ObjectHideFlags: 0

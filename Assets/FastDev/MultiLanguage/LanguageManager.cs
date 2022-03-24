@@ -40,7 +40,7 @@ namespace FastDev
         protected override void OnInit()
         {
             TextAsset textAsset = ResManager.instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
-            languageDict = textAsset.text.ToObject<Dictionary<string, LanguageStruct>>();
+            languageDict = textAsset.text.JsonToObject<Dictionary<string, LanguageStruct>>();
 
             Debug.Log("curlanguage:" + curLanguage);
         }

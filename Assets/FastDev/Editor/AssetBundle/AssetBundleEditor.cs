@@ -118,7 +118,7 @@ namespace FastDev.Res
             string configPath = GetTargetPath() + "/ResConfig.json";
             if(File.Exists(configPath))
             {
-                ResConfig = File.ReadAllText(configPath).ToObject<ResConfig>();
+                ResConfig = File.ReadAllText(configPath).JsonToObject<ResConfig>();
             }
             foreach (var item in hash)
             {

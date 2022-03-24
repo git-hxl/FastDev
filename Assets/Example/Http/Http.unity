@@ -207,7 +207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7475645494752bb4ba3edcec2a2732fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://m701.music.126.net/20210524183237/3513cdfe7a105bf37269138f6c2116c4/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/8917023350/59d3/f804/b756/3c09cfc905c4b3b09b5c8a0bafc56f40.m4a
+  image: {fileID: 1413368227}
+  urlImage: https://s.cn.bing.net/th?id=OIP-C.rXZNTtXwJLjGezqLvjJkJgHaKX&w=211&h=295&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2
+  urlTxt: www.baidu.com
+  urlMP3: https://m701.music.126.net/20220324165056/876aab368250ff341c8f6760c29cfb1b/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/13561870613/4094/2024/0351/f6ef8d5bcfedb1b50be31243c2269b2d.m4a
 --- !u!1 &501767296
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,20 +20,23 @@ public class Example_Serialize : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Person person = new Person();
-        person.Age = 12;
-        person.Name = "xxx";
-        person.Time = Time.time;
-        byte[] personBytes = person.ToByteArray();
-
-        person = Person.Parser.ParseFrom(personBytes);
-
+        //json
         Student student = new Student();
-        student.age = 16;
-        student.name = "aaa";
-        student.time = Time.time;
-        string studentJson = student.ToJson();
-        byte[] studentBytes = student.ToByte();
+        student.name = "aaaaaaaaaaaa";
+        string studentStr = student.ObjectToJson();
+        student = studentStr.JsonToObject<Student>();
+
+        //proto
+        Person person = new Person();
+        person.Name = "bbbbbbbbbbb";
+        byte[] bytes = person.ProtoToByte();
+        person = bytes.ByteToProto<Person>();
+
+        //Marshal
+        Student student1 = new Student();
+        student1.name = "cccccccc";
+        byte[] bytes2 = student1.ObjectToByte();
+        student1 = bytes2.ByteToObject<Student>();
     }
 
     // Update is called once per frame

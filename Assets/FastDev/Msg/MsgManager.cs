@@ -12,7 +12,7 @@ namespace FastDev
         {
             public WeakReference target;//通过弱引用解决事件注册导致的内存泄漏
             public int msgID;
-            public Hashtable hashtable;
+            public Hashtable param;
             public MethodInfo methodInfo;
         }
 
@@ -28,16 +28,16 @@ namespace FastDev
                 MsgData msgData;
                 if (msgQueue.TryDequeue(out msgData))
                 {
-                    Dispatch(msgData.msgID, msgData.hashtable);
+                    Dispatch(msgData.msgID, msgData.param);
                 }
             }
         }
 
-        public void Enqueue(int msgID, Hashtable hashtable)
+        public void Enqueue(int msgID, Hashtable param)
         {
             MsgData msgData = new MsgData();
             msgData.msgID = msgID;
-            msgData.hashtable = hashtable;
+            msgData.param = param;
             msgQueue.Enqueue(msgData);
         }
 
@@ -78,7 +78,7 @@ namespace FastDev
             }
         }
 
-        public void Dispatch(int msgID, Hashtable hashtable)
+        public void Dispatch(int msgID, Hashtable param)
         {
             if (actionDicts.ContainsKey(msgID) && actionDicts[msgID] != null)
             {
@@ -86,7 +86,7 @@ namespace FastDev
                 {
                     if (actionDicts[msgID][i].target.IsAlive && !actionDicts[msgID][i].target.Target.Equals(null))
                     {
-                        actionDicts[msgID][i].methodInfo.Invoke(actionDicts[msgID][i].target.Target, new object[] { hashtable });
+                        actionDicts[msgID][i].methodInfo.Invoke(actionDicts[msgID][i].target.Target, new object[] { param });
                     }
                     else
                     {

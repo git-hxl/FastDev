@@ -22,7 +22,7 @@ namespace FastDev
                 bodyData = new byte[0];
             }
             head.BodyLength = bodyData.Length;// (Marshal.SizeOf(head) + bodyData.Length);
-            byte[] headData = head.ToByte();
+            byte[] headData = head.ObjectToByte();
             byte[] packData = new byte[headData.Length + bodyData.Length];
             
             Array.Copy(headData, packData, headData.Length);
@@ -49,7 +49,7 @@ namespace FastDev
             }
             byte[] headData = new byte[headLength];
             Array.Copy(totalData, headData, headLength);
-            head = headData.ToObject<PackHead>();
+            head = headData.ByteToObject<PackHead>();
             //包长
             int packLength = head.BodyLength + headLength;
 

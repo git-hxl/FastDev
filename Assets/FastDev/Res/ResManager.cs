@@ -96,6 +96,7 @@ namespace FastDev.Res
                 return asset;
             }
 #endif
+            Debug.LogError("Res Load Failed! " + assetPath);
             return null;
         }
 
@@ -110,6 +111,7 @@ namespace FastDev.Res
                     return assetBundle.LoadAsset<T>(assetName);
                 }
             }
+            Debug.LogError("Res Load Failed! "+assetPath);
             return null;
         }
 

@@ -22,12 +22,6 @@ namespace FastDev.Audio
         public AudioPlayer(AudioType audioType, string clipPath)
         {
             this._audioType = audioType;
-            Init_audioSource(clipPath);
-            MsgManager.instance.Register(MsgID.OnVolumeChange, OnVolumeChange);
-        }
-
-        private void Init_audioSource(string clipPath)
-        {
             if (_audioSource == null)
             {
                 GameObject obj = new GameObject("Audio Player");
@@ -37,6 +31,7 @@ namespace FastDev.Audio
                 _audioSource.loop = audioType == AudioType.Music;
                 _audioSource.clip = GetAudioClip(clipPath);
             }
+            MsgManager.instance.Register(MsgID.OnVolumeChange, OnVolumeChange);
         }
 
         public async void Play()
@@ -51,8 +46,7 @@ namespace FastDev.Audio
 
         public void Play(float duration)
         {
-            _audioSource.volume = 0;
-            _audioSource.DOFade(GetAudioVolume(), duration);
+            DOTween.To(() => 0, (value) => { if (_audioSource != null) _audioSource.volume = value; }, GetAudioVolume(), duration);
             Play();
         }
 
@@ -67,10 +61,14 @@ namespace FastDev.Audio
             if (_audioSource != null)
                 _audioSource.Pause();
         }
+
         public void Pause(float duration)
         {
             if (_audioSource != null)
-                _audioSource.DOFade(0, duration).OnComplete(Pause);
+            {
+                float volume = _audioSource.volume;
+                DOTween.To(() => volume, (value) => { if (_audioSource != null) _audioSource.volume = value; }, 0, duration).OnComplete(Pause);
+            }
         }
 
         public void Stop()
@@ -88,7 +86,10 @@ namespace FastDev.Audio
         public void Stop(float duration)
         {
             if (_audioSource != null)
-                _audioSource.DOFade(0, duration).OnComplete(Stop);
+            {
+                float volume = _audioSource.volume;
+                DOTween.To(() => volume, (value) => { if (_audioSource != null) _audioSource.volume = value; }, 0, duration).OnComplete(Stop);
+            }
         }
 
         private void OnVolumeChange(Hashtable hashtable)
