@@ -60,7 +60,7 @@ public class AudioExample : MonoBehaviour
             audioPlayer3.Set3D();
             audioPlayer3.SetMinMaxDistance(AudioRolloffMode.Linear, 0, 50);
             audioPlayer3.Play(new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10)));
-            audioPlayer3.OnPlayEnd += () => audioPlayer3 = null;
+            audioPlayer3.OnPlayEnd += audioPlayer3.Dispose;
         });
 
 

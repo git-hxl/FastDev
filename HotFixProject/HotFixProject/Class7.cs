@@ -2,30 +2,42 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using FastDev.UI;
+
 namespace HotFixProject
 {
-    class Class7 : UIBase
+    class Class7 : UIPanel
     {
         public Text text;
-        private void Start()
+
+        public override int index => throw new System.NotImplementedException();
+
+        public override string panelName => this.gameObject.name;
+
+        public override string assetPath => throw new System.NotImplementedException();
+
+        public override void OnClose()
+        {
+            gameObject.SetActive(false);
+            Debug.Log("OnClose");
+        }
+
+
+        public override void OnOpen()
+        {
+            gameObject.SetActive(true);
+            Debug.Log("OnOpen");
+        }
+
+        public override void OnLoad(string assetPath)
         {
             text = GetComponentInChildren<Text>();
             text.text = "x";
             Button[] bt = GetComponentsInChildren<Button>();
-            bt[1].onClick.AddListener(Close);
-            bt[0].onClick.AddListener(Open);
-            
+            bt[1].onClick.AddListener(() => UIManager.instance.Close(this));
+            bt[0].onClick.AddListener(OnOpen);
+
             Debug.Log("Hotfix:AddListener");
-        }
-
-        protected override Sequence OpenAnima()
-        {
-            return null;
-        }
-
-        protected override Sequence CloseAnima()
-        {
-            return null;
         }
     }
 }

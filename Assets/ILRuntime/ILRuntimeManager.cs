@@ -110,7 +110,7 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
     {
         appdomain.RegisterCrossBindingAdaptor(new MonoBehaviourAdapter());
         appdomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
-        //appdomain.RegisterCrossBindingAdaptor(new UIBaseAdapter());
+        appdomain.RegisterCrossBindingAdaptor(new UIPanelAdapter());
         appdomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
         appdomain.RegisterValueTypeBinder(typeof(Quaternion), new QuaternionBinder());
         appdomain.RegisterValueTypeBinder(typeof(Vector2), new Vector2Binder());

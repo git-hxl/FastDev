@@ -20,5 +20,7 @@ namespace FastDev.Audio
 
         void Stop();
         void Stop(float duration);
+
+        void Dispose();
     }
 }

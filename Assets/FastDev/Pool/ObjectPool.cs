@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using FastDev.Res;
 namespace FastDev
 {
-    public class PoolManager : MonoSingleton<PoolManager>
+    public class ObjectPool : MonoSingleton<ObjectPool>
     {
         private string objTag = "(Pool)";
         private Dictionary<string, Stack<GameObject>> poolObjects = new Dictionary<string, Stack<GameObject>>();

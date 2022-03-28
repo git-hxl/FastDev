@@ -76,10 +76,6 @@ namespace FastDev.Audio
             if (_audioSource != null)
             {
                 _audioSource.Stop();
-                _audioSource.clip = null;
-                UnityEngine.Object.Destroy(_audioSource.gameObject);
-                _audioSource = null;
-                MsgManager.instance.UnRegister(MsgID.OnVolumeChange, OnVolumeChange);
                 OnPlayEnd?.Invoke();
             }
         }
@@ -89,6 +85,17 @@ namespace FastDev.Audio
             {
                 float volume = _audioSource.volume;
                 DOTween.To(() => volume, (value) => { if (_audioSource != null) _audioSource.volume = value; }, 0, duration).OnComplete(Stop);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_audioSource != null)
+            {
+                _audioSource.clip = null;
+                UnityEngine.Object.Destroy(_audioSource.gameObject);
+                _audioSource = null;
+                MsgManager.instance.UnRegister(MsgID.OnVolumeChange, OnVolumeChange);
             }
         }
 
