@@ -10,11 +10,6 @@ namespace HotFixProject
     {
         public Text text;
 
-        public override int index => throw new System.NotImplementedException();
-
-        public override string panelName => this.gameObject.name;
-
-        public override string assetPath => throw new System.NotImplementedException();
 
         public override void OnClose()
         {

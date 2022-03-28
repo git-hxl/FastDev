@@ -51,7 +51,6 @@ namespace FastDev
                 this.appdomain = appdomain;
                 this.instance = instance;
             }
-
             public void Init(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
             {
                 this.appdomain = appdomain;
@@ -59,7 +58,6 @@ namespace FastDev
             }
 
             public ILTypeInstance ILInstance { get { return instance; } }
-
 
             public override void OnClose()
             {
@@ -74,33 +72,6 @@ namespace FastDev
             public override void OnOpen()
             {
                 mOnOpen_5.Invoke(this.instance);
-            }
-
-            public override System.Int32 index
-            {
-            get
-            {
-                return mget_index_0.Invoke(this.instance);
-
-            }
-            }
-
-            public override System.String panelName
-            {
-            get
-            {
-                return mget_panelName_1.Invoke(this.instance);
-
-            }
-            }
-
-            public override System.String assetPath
-            {
-            get
-            {
-                return mget_assetPath_2.Invoke(this.instance);
-
-            }
             }
 
             public override string ToString()

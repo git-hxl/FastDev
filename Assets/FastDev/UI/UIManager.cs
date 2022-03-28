@@ -5,14 +5,14 @@ namespace FastDev.UI
 {
     public class UIManager : MonoSingleton<UIManager>
     {
-        private Dictionary<string, IUIPanel> uiLoadedPanels = new Dictionary<string, IUIPanel>();
-        private List<IUIPanel> uiOpenedPanels = new List<IUIPanel>();
+        private Dictionary<string, UIPanel> uiLoadedPanels = new Dictionary<string, UIPanel>();
+        private List<UIPanel> uiOpenedPanels = new List<UIPanel>();
         /// <summary>
         /// 获取UI面板
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public IUIPanel GetUI(string assetPath)
+        public UIPanel GetUI(string assetPath)
         {
             return LoadUIPanelFromAsset(assetPath);
         }
@@ -21,7 +21,7 @@ namespace FastDev.UI
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public IUIPanel OpenUI(string assetPath)
+        public UIPanel OpenUI(string assetPath)
         {
             var uiPanel = LoadUIPanelFromAsset(assetPath);
             return OpenUI(uiPanel);
@@ -31,22 +31,33 @@ namespace FastDev.UI
         /// </summary>
         /// <param name="uiPanel"></param>
         /// <returns></returns>
-        public IUIPanel OpenUI(IUIPanel uiPanel)
+        public UIPanel OpenUI(UIPanel uiPanel)
         {
-            if (uiOpenedPanels.Contains(uiPanel))
+            if (uiPanel == null)
             {
-                Debug.LogError("UIPanel has Opened:" + uiPanel.panelName);
+                return null;
             }
-            else
+            if (!uiOpenedPanels.Contains(uiPanel))
             {
                 uiPanel.OnOpen();
                 uiOpenedPanels.Add(uiPanel);
             }
+            else
+            {
+                Debug.LogError("UI Open Failed: " + uiPanel.gameObject.name);
+            }
             return uiPanel;
         }
 
-        public IUIPanel Close(IUIPanel uiPanel)
+        public UIPanel Close(UIPanel uiPanel)
         {
+            if (uiPanel == null)
+            {
+                if (uiOpenedPanels.Contains(uiPanel))
+                    uiOpenedPanels.Remove(uiPanel);
+                return null;
+            }
+
             if (uiOpenedPanels.Contains(uiPanel))
             {
                 uiPanel.OnClose();
@@ -54,7 +65,7 @@ namespace FastDev.UI
             }
             else
             {
-                Debug.LogError("UIPanel is not opened:" + uiPanel.panelName);
+                Debug.LogError("UI Close Failed: " + uiPanel.gameObject.name);
             }
             return uiPanel;
         }
@@ -63,13 +74,13 @@ namespace FastDev.UI
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        private IUIPanel LoadUIPanelFromAsset(string assetPath)
+        private UIPanel LoadUIPanelFromAsset(string assetPath)
         {
             if (!uiLoadedPanels.ContainsKey(assetPath) || uiLoadedPanels[assetPath].Equals(null))
             {
                 GameObject assetObj = ResManager.instance.LoadAsset<GameObject>(ResConstant.ui, assetPath);
                 GameObject panelObj = Instantiate(assetObj, transform);
-                var panel = panelObj.GetComponent<IUIPanel>();
+                var panel = panelObj.GetComponent<UIPanel>();
                 if (panel != null)
                 {
                     panel.OnLoad(assetPath);

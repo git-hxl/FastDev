@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-public class UITestPanel : MonoBehaviour,IUIPanel
+public class UITestPanel : UIPanel
 {
     #region UIAttribute
 	private Button _buttonButton;
@@ -17,7 +17,7 @@ public class UITestPanel : MonoBehaviour,IUIPanel
     private string _assetPath;
     public string assetPath => _assetPath;
 
-    public void OnClose()
+    public override void OnClose()
     {
         transform.GetChild(0).DOScale(0, 0.3f).SetEase(Ease.InCubic).OnComplete(() =>
         {
@@ -25,7 +25,7 @@ public class UITestPanel : MonoBehaviour,IUIPanel
         });
     }
 
-    public void OnLoad(string assetPath)
+    public override void OnLoad(string assetPath)
     {
         _assetPath = assetPath;
         gameObject.SetActive(false);
@@ -35,7 +35,7 @@ public class UITestPanel : MonoBehaviour,IUIPanel
         });
     }
 
-    public void OnOpen()
+    public override void OnOpen()
     {
         gameObject.SetActive(true);
         transform.GetChild(0).localScale = Vector3.zero;
