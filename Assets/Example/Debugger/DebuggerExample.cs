@@ -50,7 +50,7 @@ public class DebuggerExample : MonoBehaviour
         {
             long timeStamp = FastDev.TimeUtil.GetCurTimestamp();
             string time = FastDev.TimeUtil.TimestampToDateTime(timeStamp).ToString();
-            Debug.Log(timeStamp);
+            Debug.LogError(timeStamp);
             countTime = 0.2f;
         }
     }
