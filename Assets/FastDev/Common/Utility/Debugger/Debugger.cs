@@ -9,9 +9,15 @@ namespace FastDev
     {
         private int frame;
         private int selectedToolBar;
+
         private Dictionary<WindowType, IWindow> windows = new Dictionary<WindowType, IWindow>();
+
+        [HideInInspector]
+        public float scale;
+        private int heightScale = 1;
         private void Start()
         {
+            scale = 1f;
             CalculateFrame();
             RegisterWindow();
         }
@@ -20,13 +26,14 @@ namespace FastDev
         {
             windows.Add(WindowType.Info, new SystemInfoWindow());
             windows.Add(WindowType.Log, new LogWindow());
+            windows.Add(WindowType.Memory, new MemoryWindow());
             windows.Add(WindowType.Setting, new SettingWindow());
         }
 
         private void OnGUI()
         {
-            Resolution resolution = Screen.currentResolution;
-            GUILayout.Window(0, new Rect(0, 0, resolution.width, resolution.height), DrawWindow, "Debugger");
+            GUI.matrix = Matrix4x4.Scale(Vector3.one * scale);
+            GUILayout.Window(0, new Rect(0, 0, Screen.width / 2, Screen.height / 2 * heightScale), DrawWindow, "Debugger");
         }
 
         private void DrawWindow(int id)
@@ -34,7 +41,14 @@ namespace FastDev
             selectedToolBar = GUILayout.Toolbar(selectedToolBar, Enum.GetNames(typeof(WindowType)));
             var type = (WindowType)selectedToolBar;
             if (windows.ContainsKey(type))
+            {
                 windows[type].Draw();
+                heightScale = 1;
+            }
+            else
+            {
+                heightScale = 0;
+            }
         }
 
         private async void CalculateFrame()
@@ -45,6 +59,5 @@ namespace FastDev
                 frame = (int)(1 / Time.deltaTime);
             }
         }
-
     }
 }

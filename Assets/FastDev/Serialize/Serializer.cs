@@ -49,7 +49,7 @@ namespace FastDev
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public static byte[] ProtoToByte(this IMessage o)
+        public static byte[] ProtoToByte(this Google.Protobuf.IMessage o)
         {
             return o.ToByteArray();
         }

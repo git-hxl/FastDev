@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Example/Debugger/Debugger.unity
+    guid: 8ba6d0fda3861194281e045d70b28f7f
+  - enabled: 1
     path: Assets/Example/Msg/Msg.unity
     guid: 5745986aac326104ea1893467d935ad5
   - enabled: 1

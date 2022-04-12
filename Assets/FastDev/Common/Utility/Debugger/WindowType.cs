@@ -4,6 +4,8 @@
     {
         Info,
         Log,
+        Memory,
         Setting,
+        Close
     }
 }

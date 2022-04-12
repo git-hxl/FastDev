@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v5.0": {
       "HotFixProject/1.0.0": {
         "dependencies": {
-          "DOTween": "1.0.0.0"
+          "DOTween": "1.0.0.0",
+          "Google.Protobuf": "3.10.1.0"
         },
         "runtime": {
           "HotFixProject.dll": {}
@@ -21,6 +22,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "Google.Protobuf/3.10.1.0": {
+        "runtime": {
+          "Google.Protobuf.dll": {
+            "assemblyVersion": "3.10.1.0",
+            "fileVersion": "3.10.1.0"
+          }
+        }
       }
     }
   },
@@ -31,6 +40,11 @@
       "sha512": ""
     },
     "DOTween/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Google.Protobuf/3.10.1.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

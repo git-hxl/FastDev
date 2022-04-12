@@ -4,14 +4,14 @@ using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Runtime.Intepreter;
 
 namespace FastDev
-{   
-    public class UIPanelAdapter : CrossBindingAdaptor
+{
+    public class IMessageAdapter : CrossBindingAdaptor
     {
         public override Type BaseCLRType
         {
             get
             {
-                return typeof(FastDev.UI.UIPanel);
+                return typeof(Google.Protobuf.IMessage);
             }
         }
 
@@ -28,11 +28,12 @@ namespace FastDev
             return new Adapter(appdomain, instance);
         }
 
-        public class Adapter : FastDev.UI.UIPanel, CrossBindingAdaptorType
+        public class Adapter : Google.Protobuf.IMessage, CrossBindingAdaptorType
         {
-            CrossBindingMethodInfo mOnClose_0 = new CrossBindingMethodInfo("OnClose");
-            CrossBindingMethodInfo<System.String> mOnLoad_1 = new CrossBindingMethodInfo<System.String>("OnLoad");
-            CrossBindingMethodInfo mOnOpen_2 = new CrossBindingMethodInfo("OnOpen");
+            CrossBindingMethodInfo<Google.Protobuf.CodedInputStream> mMergeFrom_0 = new CrossBindingMethodInfo<Google.Protobuf.CodedInputStream>("MergeFrom");
+            CrossBindingMethodInfo<Google.Protobuf.CodedOutputStream> mWriteTo_1 = new CrossBindingMethodInfo<Google.Protobuf.CodedOutputStream>("WriteTo");
+            CrossBindingFunctionInfo<System.Int32> mCalculateSize_2 = new CrossBindingFunctionInfo<System.Int32>("CalculateSize");
+            CrossBindingFunctionInfo<Google.Protobuf.Reflection.MessageDescriptor> mget_Descriptor_3 = new CrossBindingFunctionInfo<Google.Protobuf.Reflection.MessageDescriptor>("get_Descriptor");
 
             bool isInvokingToString;
             ILTypeInstance instance;
@@ -49,27 +50,30 @@ namespace FastDev
                 this.instance = instance;
             }
 
-            public void Init(ILRuntime.Runtime.Enviorment.AppDomain appdomain, ILTypeInstance instance)
-            {
-                this.appdomain = appdomain;
-                this.instance = instance;
-            }
-
             public ILTypeInstance ILInstance { get { return instance; } }
 
-            public override void OnClose()
+            public void MergeFrom(Google.Protobuf.CodedInputStream input)
             {
-                mOnClose_0.Invoke(this.instance);
+                mMergeFrom_0.Invoke(this.instance, input);
             }
 
-            public override void OnLoad(System.String assetPath)
+            public void WriteTo(Google.Protobuf.CodedOutputStream output)
             {
-                mOnLoad_1.Invoke(this.instance, assetPath);
+                mWriteTo_1.Invoke(this.instance, output);
             }
 
-            public override void OnOpen()
+            public System.Int32 CalculateSize()
             {
-                mOnOpen_2.Invoke(this.instance);
+                return mCalculateSize_2.Invoke(this.instance);
+            }
+
+            public Google.Protobuf.Reflection.MessageDescriptor Descriptor
+            {
+                get
+                {
+                    return mget_Descriptor_3.Invoke(this.instance);
+
+                }
             }
 
             public override string ToString()
