@@ -20,26 +20,12 @@ public static partial class StudentReflection {
   }
   private static pbr::FileDescriptor descriptor;
 
-  static StudentReflection() {
-    byte[] descriptorData = global::System.Convert.FromBase64String(
-        string.Concat(
-          "ChhQQVRIL1Byb3RvL1N0dWRlbnQucHJvdG8iMgoHU3R1ZGVudBIMCgRuYW1l",
-          "GAEgASgJEgsKA2FnZRgCIAEoBRIMCgR0aW1lGAMgASgCYgZwcm90bzM="));
-    descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::Student), global::Student.Parser, new[]{ "Name", "Age", "Time" }, null, null, null)
-        }));
-  }
   #endregion
 
 }
 #region Messages
-public sealed partial class Student : pb::IMessage<Student> {
-  private static readonly pb::MessageParser<Student> _parser = new pb::MessageParser<Student>(() => new Student());
+public sealed partial class Student : IMessage {
   private pb::UnknownFieldSet _unknownFields;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  public static pb::MessageParser<Student> Parser { get { return _parser; } }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public static pbr::MessageDescriptor Descriptor {

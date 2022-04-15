@@ -17,7 +17,9 @@ public class HelloWorldDemo : MonoBehaviour
 
         object class1 = ILRuntimeManager.instance.appdomain.Instantiate("HotFixProject.Class1");
 
-        ILRuntimeManager.instance.appdomain.Invoke("HotFixProject.Class1", "Test2", class1, null);
+        object s=  ILRuntimeManager.instance.appdomain.Invoke("HotFixProject.Class1", "Test2", class1, null);
+
+        Debug.Log(s);
 
         ILRuntimeManager.instance.appdomain.Invoke("HotFixProject.Class1", "Test3", class1, null);
 

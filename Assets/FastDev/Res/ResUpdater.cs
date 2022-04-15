@@ -37,7 +37,7 @@ namespace FastDev.Res
                 return;
             }
         
-            ResConfig localResConfig = JsonMapper.ToObject<ResConfig>(FileUtil.ReadFromExternal(localResConfigPath));
+            ResConfig localResConfig = JsonMapper.ToObject<ResConfig>(File.ReadAllText(localResConfigPath));
 
             Version newVersion = Version.Parse(resConfig.resVersion);
             Version localVersion = new Version();

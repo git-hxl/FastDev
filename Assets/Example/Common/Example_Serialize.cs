@@ -29,8 +29,8 @@ public class Example_Serialize : MonoBehaviour
         //proto
         Person person = new Person();
         person.Name = "bbbbbbbbbbb";
-        byte[] bytes = person.ProtoToByte();
-        person = bytes.ByteToProto<Person>();
+        byte[] bytes = person.ToByteArray();
+        person.MergeFrom(bytes);
 
         //Marshal
         Student student1 = new Student();

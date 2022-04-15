@@ -11,31 +11,26 @@ namespace FastDev
 {
     public static class FileUtil
     {
-        public static async UniTask<string> ReadFile(string path)
+        public static async UniTask<byte[]> ReadFile(string path)
         {
             if (path.Contains("://"))
             {
-                string result = await ReadFromStreamingAssets(path);
+                var result = await ReadFromStreamingAssets(path);
                 return result;
             }
             else
             {
-                return ReadFromExternal(path);
+                return File.ReadAllBytes(path);
             }
         }
-        public static async UniTask<string> ReadFromStreamingAssets(string path)
+
+        public static async UniTask<byte[]> ReadFromStreamingAssets(string path)
         {
             UnityWebRequest web = UnityWebRequest.Get(path);
             var result = await web.SendWebRequest();
-            return result.downloadHandler.text;
+            return result.downloadHandler.data;
         }
 
-        public static string ReadFromExternal(string path)
-        {
-            if (File.Exists(path))
-                return File.ReadAllText(path);
-            return "";
-        }
 
         public static long GetFileLength(string path)
         {

@@ -22,3 +22,4 @@ D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\HotFixProject.dll
 D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\ref\HotFixProject.dll
 D:\UnityProjects\FastDev\Assets\StreamingAssets\net5.0\HotFixProject.pdb
 D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.CopyComplete
+D:\UnityProjects\FastDev\HotFixProject\HotFixProject\obj\Debug\net5.0\HotFixProject.csproj.AssemblyReference.cache

@@ -33,7 +33,7 @@ namespace FastDev
 
         private static Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
         {
-            string str = FileUtil.ReadFromExternal(path);
+            string str = File.ReadAllText(path);
             Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
             if (!string.IsNullOrEmpty(str))
             {

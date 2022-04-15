@@ -18,9 +18,10 @@ namespace HotFixProject
             Debug.Log("HotFix：Test1");
         }
 
-        public void Test2()
+        public string Test2()
         {
-            Debug.Log("HotFix：Test2");
+            string s = "HotFix：Test2";
+            return s;
         }
 
         public void Test3()

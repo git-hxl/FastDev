@@ -44,27 +44,6 @@ namespace FastDev
             return JsonMapper.ToObject<T>(json);
         }
 
-        /// <summary>
-        /// Proto转字节
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        public static byte[] ProtoToByte(this Google.Protobuf.IMessage o)
-        {
-            return o.ToByteArray();
-        }
-        /// <summary>
-        /// 字节转Proto
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
-        public static T ByteToProto<T>(this byte[] bytes) where T : IMessage<T>,new()
-        {
-            var parser = new MessageParser<T>(() => new T());
-            return parser.ParseFrom(bytes);
-        }
-
 
         /// <summary>
         /// 将对象转为字节数组

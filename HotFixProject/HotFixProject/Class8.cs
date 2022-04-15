@@ -17,5 +17,12 @@ namespace HotFixProject
 
             Debug.Log(student2.Name + ".." + bytes.Length);
         }
+
+        public void Test2(byte[] bytes)
+        {
+            Student student = new Student();
+            student.MergeFrom(bytes);
+            Debug.Log(student.Name + ".." + bytes.Length);
+        }
     }
 }
