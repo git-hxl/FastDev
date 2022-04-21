@@ -10,49 +10,29 @@ using System.Collections.Generic;
 using ILRuntime.CLR.Method;
 using ILRuntime.CLR.TypeSystem;
 using ILRuntime.Runtime;
-
+using FastDev.Res;
 public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
 {
     public AppDomain appdomain;
     private void Awake()
     {
-        StartCoroutine(LoadHotFixAssembly());
+        LoadHotFixAssembly();
     }
 
-    private IEnumerator LoadHotFixAssembly()
+    private void LoadHotFixAssembly()
     {
         //首先实例化ILRuntime的AppDomain，AppDomain是一个应用程序域，每个AppDomain都是一个独立的沙盒
         appdomain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntimeJITFlags.JITOnDemand);
-        //正常项目中应该是自行从其他地方下载dll，或者打包在AssetBundle中读取，平时开发以及为了演示方便直接从StreammingAssets中读取，
-        //正式发布的时候需要大家自行从其他地方读取dll
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //这个DLL文件是直接编译HotFix_Project.sln生成的，已经在项目中设置好输出目录为StreamingAssets，在VS里直接编译即可生成到对应目录，无需手动拷贝
-        //工程目录在Assets\Samples\ILRuntime\1.6\Demo\HotFix_Project~
-        //以下加载写法只为演示，并没有处理在编辑器切换到Android平台的读取，需要自行修改
-        UnityWebRequest unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/net5.0/HotFixProject.dll");
-        yield return unityWebRequest.SendWebRequest();
-        if (unityWebRequest.isHttpError || unityWebRequest.isNetworkError)
-        {
-            Debug.LogError(unityWebRequest.error);
-            yield break;
-        }
-        byte[] dll = unityWebRequest.downloadHandler.data;
+        byte[] dll = ResManager.instance.LoadAsset<TextAsset>(ABConstant.hotfix,"Assets/Hotfix/Hotfix.dll.bytes").bytes;
         MemoryStream fs = new MemoryStream(dll);
-        unityWebRequest.Dispose();
 
         MemoryStream p = null;
         if (Debug.isDebugBuild)
         {
             //PDB文件是调试数据库，如需要在日志中显示报错的行号，则必须提供PDB文件，不过由于会额外耗用内存，正式发布时请将PDB去掉，下面LoadAssembly的时候pdb传null即可
-            unityWebRequest = UnityWebRequest.Get(Application.streamingAssetsPath + "/net5.0/HotFixProject.pdb");
-            yield return unityWebRequest.SendWebRequest();
-            if (unityWebRequest.isHttpError || unityWebRequest.isNetworkError)
-            {
-                Debug.LogError(unityWebRequest.error);
-                yield break;
-            }
-            byte[] pdb = unityWebRequest.downloadHandler.data;
+
+            byte[] pdb = ResManager.instance.LoadAsset<TextAsset>(ABConstant.hotfix, "Assets/Hotfix/Hotfix.pdb.bytes").bytes;
             p = new MemoryStream(pdb);
         }
 

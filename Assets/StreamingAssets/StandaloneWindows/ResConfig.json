@@ -1,1 +1,15 @@
-{"resVersion":"1.0.0","appVersion":"1.0.0","resDict":{"audio":"729ed9c6fafdbabcb7ac9993e2c2cfc9","texture2d":"0a8b857dcecb501d5e0344f9879c4095","StandaloneWindows":"360cf2abbce481acf064f59c4a7266a2","prefab":"36e6a35890ce11befa3fb365e38473cc"}}
+
+{
+    "resVersion" : "1.0.0",
+    "appVersion" : "1.0.0",
+    "resDict"    : {
+        "audio" : "729ed9c6fafdbabcb7ac9993e2c2cfc9",
+        "config" : "2bcd2aa6402ef6aff9f4e1549196c341",
+        "gif"    : "2e7d22ec3f92e661ff372a5485709351",
+        "hotfix" : "53507a82bdc9a973a16817d2a68cd59e",
+        "prefab" : "36e6a35890ce11befa3fb365e38473cc",
+        "texture2d" : "0a8b857dcecb501d5e0344f9879c4095",
+        "ui"        : "fc0131104b9c78d46c9666089112f5da",
+        "StandaloneWindows" : "bc00468dfb003807516dbb239b860209"
+    }
+}

@@ -9,7 +9,7 @@ namespace FastDev.Res
     {
         private AssetBundleEditorAttribute baseAttr;
         private string[] buildBundles;
-        [MenuItem("Bigger/AssetBundle工具")]
+        [MenuItem("FastDev/AssetBundle工具", false, 0)]
         public static void OpenWindow()
         {
             AssetBundleEditor window = (AssetBundleEditor)EditorWindow.GetWindow(typeof(AssetBundleEditor), false, "AssetBundle");
@@ -54,22 +54,42 @@ namespace FastDev.Res
             foreach (var item in buildBundles)
             {
                 bool value = baseAttr.bundles.Contains(item);
-                if(GUILayout.Toggle(value, item))
+                if (GUILayout.Toggle(value, item))
                 {
-                    if(!baseAttr.bundles.Contains(item))
+                    if (!baseAttr.bundles.Contains(item))
                     {
                         baseAttr.bundles.Add(item);
                     }
                 }
-                else if(baseAttr.bundles.Contains(item))
+                else if (baseAttr.bundles.Contains(item))
                 {
                     baseAttr.bundles.Remove(item);
                 }
             }
             if (GUILayout.Button("打包"))
             {
+                UpdateHotfixDll();
                 Build();
             }
+        }
+        [MenuItem("FastDev/更新热补丁", false, 0)]
+        private static void UpdateHotfixDll()
+        {
+            //更新热补丁dll
+            string dllPath = "./Library/ScriptAssemblies/Hotfix.dll";
+            string pdbPath = "./Library/ScriptAssemblies/Hotfix.pdb";
+            string destDllPath = Application.dataPath + "/Hotfix/Hotfix.dll.bytes";
+            string destPdbPath = Application.dataPath + "/Hotfix/Hotfix.pdb.bytes";
+            if (File.Exists(dllPath))
+            {
+                File.Copy(dllPath, destDllPath, true);
+            }
+            if (File.Exists(pdbPath))
+            {
+                File.Copy(pdbPath, destPdbPath, true);
+            }
+            AssetDatabase.Refresh();
+            Debug.Log("Update Hotfix.dll");
         }
 
         private void Build()
@@ -116,9 +136,9 @@ namespace FastDev.Res
         {
             ResConfig ResConfig = new ResConfig();
             string configPath = GetTargetPath() + "/ResConfig.json";
-            if(File.Exists(configPath))
+            if (File.Exists(configPath))
             {
-                ResConfig = File.ReadAllText(configPath).JsonToObject<ResConfig>();
+                ResConfig = File.ReadAllText(configPath).ToObjectByJson<ResConfig>();
             }
             foreach (var item in hash)
             {
@@ -131,7 +151,7 @@ namespace FastDev.Res
             }
             ResConfig.appVersion = baseAttr.appVersion;
             ResConfig.resVersion = baseAttr.resVersion;
-            File.WriteAllText(configPath, JsonMapper.ToJson(ResConfig));
+            File.WriteAllText(configPath, ResConfig.ToJson(true));
             Debug.Log("写入成功");
         }
     }

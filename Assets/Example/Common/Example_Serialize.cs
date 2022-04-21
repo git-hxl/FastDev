@@ -23,8 +23,8 @@ public class Example_Serialize : MonoBehaviour
         //json
         Student student = new Student();
         student.name = "aaaaaaaaaaaa";
-        string studentStr = student.ObjectToJson();
-        student = studentStr.JsonToObject<Student>();
+        string studentStr = student.ToJson();
+        student = studentStr.ToObjectByJson<Student>();
 
         //proto
         Person person = new Person();
@@ -35,8 +35,8 @@ public class Example_Serialize : MonoBehaviour
         //Marshal
         Student student1 = new Student();
         student1.name = "cccccccc";
-        byte[] bytes2 = student1.ObjectToByte();
-        student1 = bytes2.ByteToObject<Student>();
+        byte[] bytes2 = student1.ToBytes();
+        student1 = bytes2.ToObjectByBytes<Student>();
     }
 
     // Update is called once per frame

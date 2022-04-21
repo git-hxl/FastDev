@@ -11,12 +11,12 @@ public class ResExample : MonoBehaviour
     async UniTaskVoid Start()
     {
         await ResManager.instance.LoadAllAssetBundle();
-        texture2D = ResManager.instance.LoadAsset<Texture2D>(ResConstant.texture2d, "Assets/Example/Res/纹理.jpg");
-        audioClip = ResManager.instance.LoadAsset<AudioClip>(ResConstant.audio, "Assets/Example/Res/shot.mp3");
+        texture2D = ResManager.instance.LoadAsset<Texture2D>(ABConstant.texture2d, "Assets/Example/Res/纹理.jpg");
+        audioClip = ResManager.instance.LoadAsset<AudioClip>(ABConstant.audio, "Assets/Example/Res/shot.mp3");
 
-        Instantiate(ResManager.instance.LoadAsset<GameObject>(ResConstant.prefab, "Assets/Example/Res/Cube.prefab"));
+        Instantiate(ResManager.instance.LoadAsset<GameObject>(ABConstant.prefab, "Assets/Example/Res/Cube.prefab"));
 
-        string[] deps = ResManager.instance.GetAllDependencies(ResConstant.prefab);
+        string[] deps = ResManager.instance.GetAllDependencies(ABConstant.prefab);
         foreach (var item in deps)
         {
             Debug.Log("prefab dependencies:" + item);

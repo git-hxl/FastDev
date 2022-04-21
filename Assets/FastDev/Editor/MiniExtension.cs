@@ -4,22 +4,22 @@ namespace FastDev
 {
     public class MiniExtension
     {
-        [MenuItem("Bigger/Tools/Clear PlayerPrefs")]
+        [MenuItem("FastDev/Clear PlayerPrefs")]
         static void ClearPlayerPrefs()
         {
             PlayerPrefs.DeleteAll();
         }
-        [MenuItem("Bigger/Tools/打开StreamingAssets")]
+        [MenuItem("FastDev/打开StreamingAssets")]
         static void OpenStreamingAssetsFinder()
         {
             EditorUtility.RevealInFinder(Application.streamingAssetsPath);
         }
-        [MenuItem("Bigger/Tools/打开PersisentData")]
+        [MenuItem("FastDev/打开PersisentData")]
         static void OpenPersistentDataFinder()
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
-        [MenuItem("Assets/Tools/获取AssetPath")]
+        [MenuItem("Assets/获取AssetPath")]
         static void GetResAssetPath()
         {
             if (Selection.activeObject == null) return;
@@ -29,7 +29,7 @@ namespace FastDev
             textEditor.Copy();
             Debug.Log("已复制：" + textEditor.text);
         }
-        [MenuItem("Assets/Tools/打印文件Hash")]
+        [MenuItem("Assets/打印文件Hash")]
         static void DebugFileHash()
         {
             if (Selection.activeObject == null) return;

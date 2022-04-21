@@ -17,7 +17,7 @@ namespace FastDev
             if (filePath.Contains(".proto"))
             {
                 string projectPath = Directory.GetParent(Application.dataPath).ToString();
-                string protocPath = projectPath + "/protoc-3.10.1-win64/bin/protoc.exe";
+                string protocPath = projectPath + "/protoc-3.10.1-win64/bin/";
                 string destPath = projectPath + "/protoc-3.10.1-win64/bin/Proto";
                 string genCsharpPath = Application.dataPath + "/ProtoClass";
                 if (!Directory.Exists(destPath))
@@ -32,7 +32,7 @@ namespace FastDev
                 File.Copy(filePath, destPath + "/" + fileName, true);
 
                 List<string> commands = new List<string>();
-                string command1 = "cd /d " + Directory.GetParent(protocPath);
+                string command1 = "cd /d " + protocPath;
                 string command2 = "protoc.exe -IPATH=" + "./ Proto/" + fileName + " --csharp_out=" + genCsharpPath;
                 commands.Add(command1);
                 commands.Add(command2);
