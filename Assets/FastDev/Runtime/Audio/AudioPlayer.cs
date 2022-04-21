@@ -36,12 +36,12 @@ namespace FastDev.Audio
 
         public async void Play()
         {
-            _audioSource.Play();
-            if (_audioSource.loop == false)
-            {
-                await UniTask.WaitUntil(() => _audioSource == null || (_audioSource.time == _audioSource.clip.length));
-                Stop();
-            }
+            if (audioType == AudioType.Sound)
+                _audioSource.PlayOneShot(_audioSource.clip);
+            else
+                _audioSource.Play();
+            await UniTask.WaitUntil(() => _audioSource == null || !_audioSource.isPlaying);
+            Stop();
         }
 
         public void Play(float duration)

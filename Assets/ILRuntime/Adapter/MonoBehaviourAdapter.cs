@@ -30,9 +30,14 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
     {
         return new Adapter(appdomain, instance);
     }
-    //为了完整实现MonoBehaviour的所有特性，这个Adapter还得扩展，这里只抛砖引玉，只实现了最常用的Awake, Start和Update
+
     public class Adapter : MonoBehaviour, CrossBindingAdaptorType
     {
+        CrossBindingMethodInfo mAwake = new CrossBindingMethodInfo("Awake");
+        CrossBindingMethodInfo mStart = new CrossBindingMethodInfo("Start");
+        CrossBindingMethodInfo mUpdate = new CrossBindingMethodInfo("Update");
+        CrossBindingMethodInfo mOnDestroy = new CrossBindingMethodInfo("OnDestroy");
+
         ILTypeInstance instance;
         ILRuntime.Runtime.Enviorment.AppDomain appdomain;
 
@@ -51,56 +56,28 @@ public class MonoBehaviourAdapter : CrossBindingAdaptor
 
         public ILRuntime.Runtime.Enviorment.AppDomain AppDomain { get { return appdomain; } set { appdomain = value; } }
 
-        IMethod mAwakeMethod;
-        bool mAwakeMethodGot;
         public void Awake()
         {
             //Unity会在ILRuntime准备好这个实例前调用Awake，所以这里暂时先不掉用
             if (instance != null)
             {
-                if (!mAwakeMethodGot)
-                {
-                    mAwakeMethod = instance.Type.GetMethod("Awake", 0);
-                    mAwakeMethodGot = true;
-                }
-
-                if (mAwakeMethod != null)
-                {
-                    appdomain.Invoke(mAwakeMethod, instance, null);
-                }
+                mAwake.Invoke(this.instance);
             }
         }
 
-        IMethod mStartMethod;
-        bool mStartMethodGot;
         void Start()
         {
-            if (!mStartMethodGot)
-            {
-                mStartMethod = instance.Type.GetMethod("Start", 0);
-                mStartMethodGot = true;
-            }
-
-            if (mStartMethod != null)
-            {
-                appdomain.Invoke(mStartMethod, instance, null);
-            }
+            mStart.Invoke(this.instance);
         }
 
-        IMethod mUpdateMethod;
-        bool mUpdateMethodGot;
         void Update()
         {
-            if (!mUpdateMethodGot)
-            {
-                mUpdateMethod = instance.Type.GetMethod("Update", 0);
-                mUpdateMethodGot = true;
-            }
+            mUpdate.Invoke(this.instance);
+        }
 
-            if (mUpdateMethod != null)
-            {
-                appdomain.Invoke(mUpdateMethod, instance, null);
-            }
+        private void OnDestroy()
+        {
+            mOnDestroy.Invoke(this.instance);
         }
 
         public override string ToString()

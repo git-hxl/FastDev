@@ -58,7 +58,6 @@ namespace ILRuntime.Runtime.Intepreter.RegisterVM
                         //Only deal with stack->local
                         if (xSrc < stackRegisterBegin || xDst >= stackRegisterBegin || isInline)
                             continue;
-                        bool ended = false;
                         bool propagationInline = false;
                         for (int j = i - 1; j >= 0; j--)
                         {
@@ -91,14 +90,12 @@ namespace ILRuntime.Runtime.Intepreter.RegisterVM
                             {
                                 if (xDst == yDst && !propagationInline)
                                 {
-                                    ended = true;
                                     break;
                                 }
                                 if (xSrc == yDst)
                                 {
                                     if (propagationInline)
                                     {
-                                        ended = true;
                                         break;
                                     }
                                     ReplaceOpcodeDest(ref Y, xDst);
@@ -136,7 +133,6 @@ namespace ILRuntime.Runtime.Intepreter.RegisterVM
                                         }
                                     }
                                     canRemove.Add(i);
-                                    ended = true;
                                     lst[j] = Y;
                                     break;
                                 }

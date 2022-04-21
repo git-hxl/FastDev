@@ -2,7 +2,7 @@
     "name": "HotFix",
     "references": [
         "FastDev",
-        "UniTask"
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

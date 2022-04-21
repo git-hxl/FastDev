@@ -30,6 +30,8 @@ namespace ILRuntime.Runtime.Generated
             FastDev_MsgManager_Binding.Register(app);
             System_Collections_Hashtable_Binding.Register(app);
             System_String_Binding.Register(app);
+            UnityEngine_Component_Binding.Register(app);
+            UnityEngine_GameObject_Binding.Register(app);
 
             ILRuntime.CLR.TypeSystem.CLRType __clrType = null;
             __clrType = (ILRuntime.CLR.TypeSystem.CLRType)app.GetType (typeof(UnityEngine.Vector3));

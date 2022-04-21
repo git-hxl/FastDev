@@ -44,7 +44,7 @@ namespace FastDev.UI
             }
             else
             {
-                Debug.LogError("UI Open Failed: " + uiPanel.gameObject.name);
+                Debug.LogError("UI Open Failed: " + uiPanel.gameObject.name+". already Opened!");
             }
             return uiPanel;
         }
@@ -65,7 +65,7 @@ namespace FastDev.UI
             }
             else
             {
-                Debug.LogError("UI Close Failed: " + uiPanel.gameObject.name);
+                Debug.LogError("UI Close Failed: " + uiPanel.gameObject.name+ ". already Closed!");
             }
             return uiPanel;
         }

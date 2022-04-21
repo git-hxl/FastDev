@@ -172,7 +172,7 @@ namespace ILRuntime.Runtime.Intepreter
             ValueTypeBasePointer = bp;
             var ehs = method.ExceptionHandlerRegister;
 
-            StackObject* reg1, reg2, reg3, objRef, objRef2, val, dst, ret;
+            StackObject* reg1, reg2, reg3, objRef, objRef2, val, dst;// ret;
             bool transfer;
             int intVal = 0;
             long longVal = 0;
@@ -1242,7 +1242,7 @@ namespace ILRuntime.Runtime.Intepreter
                                     reg1 = (r + ip->Register2);
                                     reg2 = (r + ip->Register1);
                                     bool isDouble = false;
-                                    double val2 = 0;
+                                    //double val2 = 0;
                                     switch (reg1->ObjectType)
                                     {
                                         case ObjectTypes.Long:

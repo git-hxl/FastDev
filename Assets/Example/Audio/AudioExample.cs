@@ -10,15 +10,15 @@ public class AudioExample : MonoBehaviour
     public string clipPath;
     public string clipPath2;
 
-    AudioPlayer audioPlayer1;
-    AudioPlayer audioPlayer2;
-    AudioPlayer audioPlayer3;
+    IAudioPlayer audioPlayer1;
+    IAudioPlayer audioPlayer2;
+    IAudioPlayer audioPlayer3;
     void Start()
     {
         Button[] buttons = GetComponentsInChildren<Button>();
 
-        audioPlayer1 = new AudioPlayer(FastDev.Audio.AudioType.Music, clipPath);
-        audioPlayer2 = new AudioPlayer(FastDev.Audio.AudioType.Music, clipPath2);
+        audioPlayer1 =  AudioManager.instance.GetAudioPlayer(clipPath,FastDev.Audio.AudioType.Music);
+        audioPlayer2 = AudioManager.instance.GetAudioPlayer(clipPath2, FastDev.Audio.AudioType.Music);
 
         buttons[0].onClick.AddListener(() =>
         {
@@ -56,7 +56,7 @@ public class AudioExample : MonoBehaviour
 
         buttons[6].onClick.AddListener(() =>
         {
-            var audioPlayer3 = new AudioPlayer(FastDev.Audio.AudioType.Sound, "Assets/Example/Res/shot.mp3");
+            var audioPlayer3 =AudioManager.instance.GetAudioPlayer("Assets/Example/Res/shot.mp3",FastDev.Audio.AudioType.Sound);
             audioPlayer3.Set3D();
             audioPlayer3.SetMinMaxDistance(AudioRolloffMode.Linear, 0, 50);
             audioPlayer3.Play(new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10)));
