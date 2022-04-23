@@ -48,6 +48,7 @@ namespace FastDev.Audio
         public override void Dispose()
         {
             base.Dispose();
+            audioPlayers.Clear();
             Resources.UnloadUnusedAssets();
         }
 

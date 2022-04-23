@@ -23,7 +23,7 @@ public static partial class PersonReflection {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
           "ChdQQVRIL1Byb3RvL1BlcnNvbi5wcm90byIxCgZQZXJzb24SDAoEbmFtZRgB",
-          "IAEoCRILCgNhZ2UYAiABKAUSDAoEdGltZRgEIAEoAmIGcHJvdG8z"));
+          "IAEoCRILCgNhZ2UYAiABKAUSDAoEdGltZRgDIAEoAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -93,7 +93,7 @@ public sealed partial class Person : pb::IMessage<Person> {
   }
 
   /// <summary>Field number for the "time" field.</summary>
-  public const int TimeFieldNumber = 4;
+  public const int TimeFieldNumber = 3;
   private float time_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   public float Time {
@@ -150,7 +150,7 @@ public sealed partial class Person : pb::IMessage<Person> {
       output.WriteInt32(Age);
     }
     if (Time != 0F) {
-      output.WriteRawTag(37);
+      output.WriteRawTag(29);
       output.WriteFloat(Time);
     }
     if (_unknownFields != null) {
@@ -209,7 +209,7 @@ public sealed partial class Person : pb::IMessage<Person> {
           Age = input.ReadInt32();
           break;
         }
-        case 37: {
+        case 29: {
           Time = input.ReadFloat();
           break;
         }
