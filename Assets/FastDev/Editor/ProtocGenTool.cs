@@ -102,12 +102,6 @@ namespace FastDev
         private static void CopyToHotFix()
         {
             string destPath = "./Assets/Hotfix/ProtoClass";
-
-            string tmpStr = @"
-namespace Hotfix
-{
-    $Message
-}";
             if (Directory.Exists(genDestPath))
             {
                 //批量Copy
@@ -123,12 +117,6 @@ namespace Hotfix
 
                     regex = new Regex(@"new.*?MessageParser.*?$", RegexOptions.Multiline);
                     classStr = regex.Replace(classStr, "null;");
-
-                    string startTag = "#region Designer generated code";
-                    string endTag = "#endregion Designer generated code";
-                    int startIndex = classStr.IndexOf(startTag);
-                    int endIndex = classStr.IndexOf(endTag);
-                    string message = @classStr.Substring(startIndex, endIndex + endTag.Length - startIndex);
 
                     if (!Directory.Exists(destPath))
                         Directory.CreateDirectory(destPath);

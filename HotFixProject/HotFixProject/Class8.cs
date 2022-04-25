@@ -1,7 +1,4 @@
-﻿using FastDev;
-using Google.Protobuf;
-using UnityEngine;
-
+﻿using UnityEngine;
 namespace HotFixProject
 {
     class Class8

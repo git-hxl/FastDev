@@ -16,6 +16,10 @@
     <Reference Include="DOTween">
       <HintPath>..\..\Assets\FastDev\Plugins\DOTween\DOTween.dll</HintPath>
     </Reference>
+    <Reference Include="FastDev">
+      <HintPath>..\..\Library\ScriptAssemblies\FastDev.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>..\..\Assets\FastDev\Plugins\Protobuf 3.10.1\Google.Protobuf.dll</HintPath>
     </Reference>

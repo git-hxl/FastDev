@@ -7,10 +7,10 @@ namespace Hotfix
     {
         public void Test(byte[] bytes)
         {
-            //Student student = new Student();
-            //student.MergeFrom(bytes);
+            Student student = new Student();
+            student.MergeFrom(bytes);
 
-            //Debug.Log("Hotfix:" + student.Name);
+            Debug.Log("Hotfix:" + student.Name);
         }
     }
 }
