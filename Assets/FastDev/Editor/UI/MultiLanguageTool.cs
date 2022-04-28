@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEditor;
-using UnityEngine;
-
-namespace FastDev
+namespace FastDev.Editor
 {
     public class MultiLanguageTool
     {
-        private static string path = "Assets/Resources/MultiLanguage.json";
-        [MenuItem("Assets/注册当前对象的多语言")]
+        [MenuItem("Assets/注册当前对象的多语言(可以多选)", true)]
+        private static bool ValidateFunc()
+        {
+            return Selection.activeGameObject != null && Selection.activeGameObject.GetComponentsInChildren<LanguageText>(true).Length > 0;
+        }
+
+        [MenuItem("Assets/注册当前对象的多语言(可以多选)")]
         static void ExcuteLanguageUpdate()
         {
             if (Selection.activeGameObject == null) return;
@@ -27,24 +31,24 @@ namespace FastDev
                     AddNewLanguageText(item.InitKey(), item.GetDefaultStr(), languageDict);
                 }
                 SaveEditorLanguageJson(languageDict);
-                AutoCreateLanguageConstant(languageDict);
             }
         }
 
-        [MenuItem("FastDev/生成LanguageConstant.cs",false, 0)]
-        static void GenerateMultiLanguageConstant()
-        {
-            var languageDict = ReadEditorLanguageJson();
-            AutoCreateLanguageConstant(languageDict);
-        }
 
-        private static Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
+        public static Dictionary<string, LanguageStruct> ReadEditorLanguageJson()
         {
-            string str = File.ReadAllText(path);
-            Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
-            if (!string.IsNullOrEmpty(str))
+            string languageJson = "";
+            using (FileStream stream = new FileStream(GenScriptHelper.multiLanguagePath,FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
-                languageDict = str.ToObjectByJson<Dictionary<string, LanguageStruct>>();
+                byte[] data = new byte[stream.Length];
+                stream.Read(data, 0, data.Length);
+                languageJson = Encoding.UTF8.GetString(data);
+            }
+               
+            Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
+            if (!string.IsNullOrEmpty(languageJson))
+            {
+                languageDict = languageJson.ToObjectByJson<Dictionary<string, LanguageStruct>>();
             }
             return languageDict;
         }
@@ -69,32 +73,10 @@ namespace FastDev
                 languageDict[languageDict.ElementAt(i).Key] = languageStruct;
             }
 
-            File.WriteAllText(path, languageDict.ToJson(true));
+            File.WriteAllText(GenScriptHelper.multiLanguagePath, languageDict.ToJson(true));
             AssetDatabase.Refresh();
         }
 
-        private static void AutoCreateLanguageConstant(Dictionary<string, LanguageStruct> languageDict)
-        {
-            string classStr = @"
-namespace FastDev
-{
-    public static class LanguageConstant
-    {
-        $变量
-    }
-}";
-            string var = "";
-            foreach (var item in languageDict)
-            {
-                string txtTag = item.Value.Chinese;
-                int maxLength = 6;
-                if (txtTag.Length > maxLength)
-                    txtTag = $"{txtTag.Substring(0, maxLength)} 省略 {txtTag.Length - maxLength} 字";
-                var += $"public const string {txtTag.ToAlphaNumberAndChinese(false).Replace(" ", "_").Replace("\n", "n")} = \"{item.Key}\";\r\n\t\t";
-            }
-            classStr = classStr.Replace("$变量", var);
-            File.WriteAllText($"{Application.dataPath}/FastDev/Runtime/MultiLanguage/LanguageConstant.cs", classStr);
-            AssetDatabase.Refresh();
-        }
+
     }
 }

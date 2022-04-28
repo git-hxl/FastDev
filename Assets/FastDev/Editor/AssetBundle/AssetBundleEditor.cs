@@ -72,7 +72,7 @@ namespace FastDev.Res
                 Build();
             }
         }
-        [MenuItem("FastDev/更新热补丁", false, 0)]
+        [MenuItem("FastDev/更新热补丁文件", false, 0)]
         private static void UpdateHotfixDll()
         {
             //更新热补丁dll
