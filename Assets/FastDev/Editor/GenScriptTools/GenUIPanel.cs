@@ -3,6 +3,8 @@ using UnityEditor;
 using System.IO;
 using System.Reflection;
 using System;
+using System.Text;
+
 namespace FastDev.Editor
 {
     public class GenUIPanel
@@ -65,7 +67,11 @@ public class $类名 : MonoBehaviour
             int endIndex = classStr.IndexOf(endTag);
             string replaceStr = classStr.Substring(startIndex + startTag.Length, endIndex - startIndex - startTag.Length);
             classStr = classStr.Replace(replaceStr, CreatVariables(obj));
-            File.WriteAllText(filePath, classStr);
+            using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                byte[] data = Encoding.UTF8.GetBytes(classStr);
+                stream.Write(data, 0, data.Length);
+            }
             AssetDatabase.Refresh();
             EditorPrefs.SetString("CreateUIPanel", className);
         }

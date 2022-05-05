@@ -1,7 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Hotfix</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,7 +15,7 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>..\..\Assets\FastDev\Runtime\Plugins\DOTween\DOTween.dll</HintPath>
+      <HintPath>..\..\Assets\FastDev\Plugins\DOTween\DOTween.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="FastDev">
@@ -18,7 +23,11 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>..\..\Assets\FastDev\Runtime\Plugins\Protobuf 3.10.1\Google.Protobuf.dll</HintPath>
+      <HintPath>..\..\Assets\FastDev\Plugins\Protobuf 3.10.1\Google.Protobuf.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="LitJSON">
+      <HintPath>..\..\Assets\FastDev\Plugins\LitJson 0.17.0\LitJSON.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Unity.TextMeshPro">

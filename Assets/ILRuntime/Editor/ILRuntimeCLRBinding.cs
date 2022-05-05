@@ -8,7 +8,7 @@ public class ILRuntimeCLRBinding
     static void GenerateCLRBindingByAnalysis()
     {
         //用新的分析热更dll调用引用来生成绑定代码
-        string dllPath = "./Library/ScriptAssemblies/Hotfix.dll";
+        string dllPath = FastDev.Editor.HotfixTool.dllPath;
         ILRuntime.Runtime.Enviorment.AppDomain domain = new ILRuntime.Runtime.Enviorment.AppDomain();
         using (System.IO.FileStream fs = new System.IO.FileStream(dllPath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
         {

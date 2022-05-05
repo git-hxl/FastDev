@@ -8,23 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\A\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\hxl\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UnityProjects\\FastDev\\HotfixProject\\HotfixProject\\HotfixProject.csproj",
+      "projectUniqueName": "C:\\Devs\\FastDev\\HotFixProject\\HotfixProject\\HotfixProject.csproj",
       "projectName": "HotfixProject",
-      "projectPath": "D:\\UnityProjects\\FastDev\\HotfixProject\\HotfixProject\\HotfixProject.csproj",
-      "packagesPath": "C:\\Users\\A\\.nuget\\packages\\",
-      "outputPath": "D:\\UnityProjects\\FastDev\\HotfixProject\\HotfixProject\\obj\\",
+      "projectPath": "C:\\Devs\\FastDev\\HotFixProject\\HotfixProject\\HotfixProject.csproj",
+      "packagesPath": "C:\\Users\\hxl\\.nuget\\packages\\",
+      "outputPath": "C:\\Devs\\FastDev\\HotFixProject\\HotfixProject\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\A\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\hxl\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -64,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

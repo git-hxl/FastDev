@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using System.IO;
+using System.Text;
 
 namespace FastDev.Editor
 {
@@ -22,7 +23,11 @@ namespace FastDev.Editor
                 s += $"public const string {item} = \"{item}\";\r\n\t\t";
             }
             classStr = classStr.Replace("$变量", s);
-            File.WriteAllText(GenScriptHelper.genCommonScriptPath + "/ABConstant.cs", classStr);
+            using (FileStream stream = new FileStream(GenScriptHelper.genCommonScriptPath + "/ABConstant.cs", FileMode.Create, FileAccess.ReadWrite))
+            {
+                byte[] data = Encoding.UTF8.GetBytes(classStr);
+                stream.Write(data, 0, data.Length);
+            }
             AssetDatabase.Refresh();
         }
     }

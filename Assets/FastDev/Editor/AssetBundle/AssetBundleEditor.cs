@@ -68,28 +68,8 @@ namespace FastDev.Res
             }
             if (GUILayout.Button("打包"))
             {
-                UpdateHotfixDll();
                 Build();
             }
-        }
-        [MenuItem("FastDev/更新热补丁文件", false, 0)]
-        private static void UpdateHotfixDll()
-        {
-            //更新热补丁dll
-            string dllPath = "./Library/ScriptAssemblies/Hotfix.dll";
-            string pdbPath = "./Library/ScriptAssemblies/Hotfix.pdb";
-            string destDllPath = Application.dataPath + "/Hotfix/Hotfix.dll.bytes";
-            string destPdbPath = Application.dataPath + "/Hotfix/Hotfix.pdb.bytes";
-            if (File.Exists(dllPath))
-            {
-                File.Copy(dllPath, destDllPath, true);
-            }
-            if (File.Exists(pdbPath))
-            {
-                File.Copy(pdbPath, destPdbPath, true);
-            }
-            AssetDatabase.Refresh();
-            Debug.Log("Update Hotfix.dll");
         }
 
         private void Build()

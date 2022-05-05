@@ -15,7 +15,7 @@ namespace FastDev.Editor
         //用于热更的Csharp协议位置
         public const string genCsharpHotfixDestPath = "./Assets/ProtoClass Hotfix";
 
-        public const string genCommonScriptPath = "./Assets/Generated";
+        public const string genCommonScriptPath = "./Assets/FastDev/Runtime/Generated";
 
         //多语言Json生成位置
         public static string multiLanguagePath = "./Assets/Resources/MultiLanguage.json";

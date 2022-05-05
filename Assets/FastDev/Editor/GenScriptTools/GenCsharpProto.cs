@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
@@ -133,7 +134,11 @@ namespace FastDev.Editor
 
                     regex = new Regex(@"new.*?MessageParser.*?$", RegexOptions.Multiline);
                     classStr = regex.Replace(classStr, "null;");
-                    File.WriteAllText(GenScriptHelper.genCsharpHotfixDestPath + "/" + Path.GetFileName(item), classStr);
+                    using (FileStream stream = new FileStream(GenScriptHelper.genCsharpHotfixDestPath + "/" + Path.GetFileName(item), FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        byte[] data = Encoding.UTF8.GetBytes(classStr);
+                        stream.Write(data, 0, data.Length);
+                    }
                 }
                 Directory.Delete(GenScriptHelper.genCsharpDestPath, true);
             }

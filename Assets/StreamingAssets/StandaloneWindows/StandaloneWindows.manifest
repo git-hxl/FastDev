@@ -1,26 +1,7 @@
 ManifestFileVersion: 0
-CRC: 308716705
+CRC: 970119091
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: texture2d
-      Dependencies: {}
-    Info_1:
-      Name: audio
-      Dependencies: {}
-    Info_2:
-      Name: prefab
-      Dependencies:
-        Dependency_0: texture2d
-    Info_3:
-      Name: gif
-      Dependencies: {}
-    Info_4:
-      Name: ui
-      Dependencies: {}
-    Info_5:
-      Name: config
-      Dependencies: {}
-    Info_6:
       Name: hotfix
       Dependencies: {}

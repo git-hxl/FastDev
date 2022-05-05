@@ -24,14 +24,13 @@ public class ILRuntimeManager : MonoSingleton<ILRuntimeManager>
         //首先实例化ILRuntime的AppDomain，AppDomain是一个应用程序域，每个AppDomain都是一个独立的沙盒
         appdomain = new ILRuntime.Runtime.Enviorment.AppDomain(ILRuntimeJITFlags.JITOnDemand);
 
-        byte[] dll = ResManager.instance.LoadAsset<TextAsset>(ABConstant.hotfix,"Assets/Hotfix/Hotfix.dll.bytes").bytes;
+        byte[] dll = ResManager.instance.LoadAsset<TextAsset>(ABConstant.hotfix, "Assets/Hotfix/Hotfix.dll.bytes").bytes;
         MemoryStream fs = new MemoryStream(dll);
 
         MemoryStream p = null;
         if (Debug.isDebugBuild)
         {
             //PDB文件是调试数据库，如需要在日志中显示报错的行号，则必须提供PDB文件，不过由于会额外耗用内存，正式发布时请将PDB去掉，下面LoadAssembly的时候pdb传null即可
-
             byte[] pdb = ResManager.instance.LoadAsset<TextAsset>(ABConstant.hotfix, "Assets/Hotfix/Hotfix.pdb.bytes").bytes;
             p = new MemoryStream(pdb);
         }
