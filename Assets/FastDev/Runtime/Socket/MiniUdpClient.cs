@@ -10,14 +10,14 @@ namespace FastDev
         private IPAddress ip;
         private IPEndPoint iPEndPoint;
         private byte[] recvBuffer;
-        private System.Net.Sockets.UdpClient socket;
+        public System.Net.Sockets.UdpClient socket;
         private DataPacker dataPacker;
         public MiniUdpClient(string address, int port)
         {
             this.address = address;
             this.port = port;
             ip = address.ParseIP();
-            iPEndPoint = new IPEndPoint(ip, port);
+            iPEndPoint = new IPEndPoint(IPAddress.Parse("192.168.0.104"), 8888);
         }
         public void Launch()
         {
@@ -27,7 +27,7 @@ namespace FastDev
                 IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
                 socket = new System.Net.Sockets.UdpClient(endPoint);
                 socket.EnableBroadcast = true;
-                socket.BeginReceive(ReceiveResult, socket);
+                // socket.BeginReceive(ReceiveResult, socket);
                 Debug.Log("主机初始化成功");
             }
             catch (Exception e)
@@ -45,16 +45,16 @@ namespace FastDev
         }
         public void Broadcast(int msgID, byte[] data)
         {
-            if(socket!=null)
+            if (socket != null)
             {
                 byte[] sendData = dataPacker.Packer(msgID, data);
                 IPEndPoint remoteEP = new IPEndPoint(IPAddress.Broadcast, port);
                 socket.BeginSend(sendData, sendData.Length, remoteEP, SendResult, socket);
-            }        
+            }
         }
         public void Send(int msgID, byte[] data)
         {
-            if (socket!=null)
+            if (socket != null)
             {
                 byte[] sendData = dataPacker.Packer(msgID, data);
                 socket.BeginSend(sendData, sendData.Length, iPEndPoint, SendResult, socket);
@@ -68,7 +68,7 @@ namespace FastDev
 
         public void Close()
         {
-            if (socket!=null)
+            if (socket != null)
             {
                 socket.Close();
                 socket = null;
