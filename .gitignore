@@ -6,3 +6,6 @@
 !protoc*
 !README.md
 !.gitignore
+
+*/obj
+*/bin
