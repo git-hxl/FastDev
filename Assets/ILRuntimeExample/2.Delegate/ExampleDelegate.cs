@@ -14,12 +14,12 @@ public class ExampleDelegate : MonoBehaviour
 
     void OnHotFixLoaded()
     {
-        object obj = ILRuntimeManager.instance.appdomain.Instantiate("Hotfix.Delegate");
+        object obj = ILRuntimeManager.Instance.appdomain.Instantiate("Hotfix.Delegate");
 
-        ILRuntimeManager.instance.appdomain.Invoke("Hotfix.Delegate", "Test", obj, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("Hotfix.Delegate", "Test", obj, null);
 
         Hashtable hashtable = new Hashtable();
         hashtable[0] = "Unity 111";
-        MsgManager.instance.Dispatch(111, hashtable);
+        MsgManager.Instance.Dispatch(111, hashtable);
     }
 }

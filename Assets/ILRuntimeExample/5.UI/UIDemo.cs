@@ -12,7 +12,7 @@ public class UIDemo : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            UIManager.instance.OpenUI("Assets/ILRuntimeExample/5.UI/HotFixUI.prefab");
+            UIManager.Instance.OpenUI("Assets/ILRuntimeExample/5.UI/HotFixUI.prefab");
         }
     }
 }

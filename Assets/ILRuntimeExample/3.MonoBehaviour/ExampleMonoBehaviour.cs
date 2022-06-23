@@ -10,7 +10,7 @@ public class ExampleMonoBehaviour : MonoBehaviour
     void Start()
     {
 
-        ILRuntimeManager.instance.appdomain.Invoke("Hotfix.HotfixMono", "Add", null, gameObject);
+        ILRuntimeManager.Instance.appdomain.Invoke("Hotfix.HotfixMono", "Add", null, gameObject);
     }
     
 

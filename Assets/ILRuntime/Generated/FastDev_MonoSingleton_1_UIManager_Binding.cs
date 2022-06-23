@@ -36,7 +36,7 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 0);
 
 
-            var result_of_this_method = FastDev.MonoSingleton<FastDev.UI.UIManager>.instance;
+            var result_of_this_method = FastDev.MonoSingleton<FastDev.UI.UIManager>.Instance;
 
             object obj_result_of_this_method = result_of_this_method;
             if(obj_result_of_this_method is CrossBindingAdaptorType)

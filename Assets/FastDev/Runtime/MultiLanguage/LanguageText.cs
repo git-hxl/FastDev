@@ -13,7 +13,7 @@ namespace FastDev
         private void Awake()
         {
             InitKey();
-            MsgManager.instance.Register(MsgID.OnLanguageChange, OnLanguageChange);
+            MsgManager.Instance.Register(MsgID.OnLanguageChange, OnLanguageChange);
         }
 
         private void Start()
@@ -25,7 +25,7 @@ namespace FastDev
         {
             text = GetComponent<Text>();
             textMeshPro = GetComponent<TextMeshProUGUI>();
-            multiKey = text ? FileUtil.GetStrMD5(text.text) : FileUtil.GetStrMD5(textMeshPro.text);
+            multiKey = text ? FileUtil.GetMD5(text.text) : FileUtil.GetMD5(textMeshPro.text);
             return multiKey;
         }
         public string GetDefaultStr()
@@ -42,9 +42,9 @@ namespace FastDev
         private void InitText()
         {
             if (text != null)
-                text.text = LanguageManager.instance.GetText(multiKey);
+                text.text = LanguageManager.Instance.GetText(multiKey);
             else
-                textMeshPro.text = LanguageManager.instance.GetText(multiKey);
+                textMeshPro.text = LanguageManager.Instance.GetText(multiKey);
         }
     }
 }

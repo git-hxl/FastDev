@@ -17,8 +17,8 @@ public class AudioExample : MonoBehaviour
     {
         Button[] buttons = GetComponentsInChildren<Button>();
 
-        audioPlayer1 =  AudioManager.instance.GetAudioPlayer(clipPath,FastDev.Audio.AudioType.Music);
-        audioPlayer2 = AudioManager.instance.GetAudioPlayer(clipPath2, FastDev.Audio.AudioType.Music);
+        audioPlayer1 =  AudioManager.Instance.GetAudioPlayer(clipPath,FastDev.Audio.AudioType.Music);
+        audioPlayer2 = AudioManager.Instance.GetAudioPlayer(clipPath2, FastDev.Audio.AudioType.Music);
 
         buttons[0].onClick.AddListener(() =>
         {
@@ -56,7 +56,7 @@ public class AudioExample : MonoBehaviour
 
         buttons[6].onClick.AddListener(() =>
         {
-            var audioPlayer3 =AudioManager.instance.GetAudioPlayer("Assets/Example/Res/shot.mp3",FastDev.Audio.AudioType.Sound);
+            var audioPlayer3 =AudioManager.Instance.GetAudioPlayer("Assets/Example/Res/shot.mp3",FastDev.Audio.AudioType.Sound);
             audioPlayer3.Set3D();
             audioPlayer3.SetMinMaxDistance(AudioRolloffMode.Linear, 0, 50);
             audioPlayer3.Play(new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10)));
@@ -65,10 +65,10 @@ public class AudioExample : MonoBehaviour
 
 
         Slider[] slider = GetComponentsInChildren<Slider>();
-        slider[0].onValueChanged.AddListener((value) => AudioManager.instance.volumeSetting.totalVolume = value);
-        slider[1].onValueChanged.AddListener((value) => AudioManager.instance.volumeSetting.soundVolume = value);
+        slider[0].onValueChanged.AddListener((value) => AudioManager.Instance.volumeSetting.totalVolume = value);
+        slider[1].onValueChanged.AddListener((value) => AudioManager.Instance.volumeSetting.soundVolume = value);
 
-        slider[2].onValueChanged.AddListener((value) => AudioManager.instance.volumeSetting.musicVolume = value);
+        slider[2].onValueChanged.AddListener((value) => AudioManager.Instance.volumeSetting.musicVolume = value);
     }
 
     private void OnDestroy()

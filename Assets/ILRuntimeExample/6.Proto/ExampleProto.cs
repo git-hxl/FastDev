@@ -8,9 +8,9 @@ public class ExampleProto : MonoBehaviour
 {
     void Start()
     {
-        object instance = ILRuntimeManager.instance.appdomain.Instantiate("Hotfix.Proto");
+        object instance = ILRuntimeManager.Instance.appdomain.Instantiate("Hotfix.Proto");
         Student student = new Student();
         student.Name = "Unity:asdad";
-        ILRuntimeManager.instance.appdomain.Invoke("Hotfix.Proto", "Test", instance, student.ToByteArray());
+        ILRuntimeManager.Instance.appdomain.Invoke("Hotfix.Proto", "Test", instance, student.ToByteArray());
     }
 }

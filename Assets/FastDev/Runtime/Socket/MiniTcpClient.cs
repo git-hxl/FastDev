@@ -26,7 +26,7 @@ namespace FastDev
                 tcp.EndConnect(ar);
                 NetworkStream stream = tcp.GetStream();
                 stream.BeginRead(readBuffer, 0, readBuffer.Length, ReadResult, tcp);
-                MsgManager.instance.Dispatch(MsgID.ConnectSuccess, null);
+                MsgManager.Instance.Dispatch(MsgID.ConnectSuccess, null);
             }
         }
 
@@ -48,7 +48,7 @@ namespace FastDev
                 else
                 {
                     UnityEngine.Debug.LogError("连接中断！");
-                    MsgManager.instance.Dispatch(MsgID.ConnectFailed, null);
+                    MsgManager.Instance.Dispatch(MsgID.ConnectFailed, null);
                 }
             }
         }

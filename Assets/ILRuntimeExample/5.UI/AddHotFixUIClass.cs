@@ -9,9 +9,9 @@ public class AddHotFixUIClass : MonoBehaviour
     private void Awake()
     {
         var adapter = gameObject.AddComponent<UIPanelAdapter.Adapter>();
-        IType itype = ILRuntimeManager.instance.appdomain.GetType(fullClassName);
+        IType itype = ILRuntimeManager.Instance.appdomain.GetType(fullClassName);
         ILTypeInstance iLTypeInstance = new ILTypeInstance(itype as ILType, false);
         iLTypeInstance.CLRInstance = adapter;
-        adapter.Init(ILRuntimeManager.instance.appdomain, iLTypeInstance);
+        adapter.Init(ILRuntimeManager.Instance.appdomain, iLTypeInstance);
     }
 }

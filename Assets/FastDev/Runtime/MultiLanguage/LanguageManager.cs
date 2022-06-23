@@ -32,14 +32,14 @@ namespace FastDev
                     return;
                 PlayerPrefs.SetInt("Language", (int)value);
                 _curLanguage = value;
-                MsgManager.instance.Dispatch(MsgID.OnLanguageChange, null);
+                MsgManager.Instance.Dispatch(MsgID.OnLanguageChange, null);
             }
         }
         private static Dictionary<string, LanguageStruct> languageDict = new Dictionary<string, LanguageStruct>();
 
         protected override void OnInit()
         {
-            TextAsset textAsset = ResManager.instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
+            TextAsset textAsset = ResManager.Instance.LoadAsset<TextAsset>("config", "Assets/Resources/MultiLanguage.json");
             languageDict = textAsset.text.ToObjectByJson<Dictionary<string, LanguageStruct>>();
 
             Debug.Log("curlanguage:" + curLanguage);

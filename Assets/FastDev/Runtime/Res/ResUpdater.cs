@@ -24,12 +24,12 @@ namespace FastDev.Res
         private void GetConfig()
         {
             string resConfigUrl = resURL + "/" + PlatformUtil.GetPlatformName() + "/ResConfig.json";
-            HttpManager.instance.Get(resConfigUrl, CheckResVersion).Forget();
+            HttpManager.Instance.Get(resConfigUrl, CheckResVersion).Forget();
         }
 
         private void CheckResVersion(string strConfig)
         {
-            ResConfig resConfig = JsonMapper.ToObject<ResConfig>(strConfig);
+            ResLoaderConfig resConfig = JsonMapper.ToObject<ResLoaderConfig>(strConfig);
             if (resConfig == null)
             {
                 Debug.LogError("Update Error! resConfig is NULL");
@@ -37,7 +37,7 @@ namespace FastDev.Res
                 return;
             }
         
-            ResConfig localResConfig = JsonMapper.ToObject<ResConfig>(File.ReadAllText(localResConfigPath));
+            ResLoaderConfig localResConfig = JsonMapper.ToObject<ResLoaderConfig>(File.ReadAllText(localResConfigPath));
 
             Version newVersion = Version.Parse(resConfig.resVersion);
             Version localVersion = new Version();
@@ -47,7 +47,7 @@ namespace FastDev.Res
             Update(newVersion, localVersion,resConfig,localResConfig).Forget();
         }
 
-        private async UniTask<bool> Update(Version newVersion, Version localVersion, ResConfig resConfig, ResConfig localResConfig)
+        private async UniTask<bool> Update(Version newVersion, Version localVersion, ResLoaderConfig resConfig, ResLoaderConfig localResConfig)
         {
             if (newVersion > localVersion)
             {
@@ -65,7 +65,7 @@ namespace FastDev.Res
                 foreach (var item in needUpdateFileNames)
                 {
                     Debug.Log("start to download:" + item);
-                    if (!await HttpManager.instance.Download(fileUrl + "/" + item, savePath, (process) => onUpdateProcess?.Invoke(item, process)))
+                    if (!await HttpManager.Instance.Download(fileUrl + "/" + item, savePath, (process) => onUpdateProcess?.Invoke(item, process)))
                     {
                         Debug.LogError("Update Error!");
                         onUpdateFailed?.Invoke();

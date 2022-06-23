@@ -21,7 +21,7 @@ public class UIGif : MonoBehaviour
     void Start()
     {
         rawImage = GetComponent<RawImage>();
-        TextAsset data = FastDev.Res.ResManager.instance.LoadAsset<TextAsset>(FastDev.Res.ABConstant.gif, resPath);
+        TextAsset data = FastDev.Res.ResManager.Instance.LoadAsset<TextAsset>(FastDev.Res.ABConstant.gif, resPath);
         using (MemoryStream memoryStream = new MemoryStream(data.bytes))
         {
             System.Drawing.Image image = System.Drawing.Image.FromStream(memoryStream, false, true);

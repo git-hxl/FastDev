@@ -114,11 +114,11 @@ namespace FastDev.Res
         /// <param name="hash"></param>
         private void UpdateConfig(Dictionary<string, string> hash)
         {
-            ResConfig ResConfig = new ResConfig();
+            ResLoaderConfig ResConfig = new ResLoaderConfig();
             string configPath = GetTargetPath() + "/ResConfig.json";
             if (File.Exists(configPath))
             {
-                ResConfig = File.ReadAllText(configPath).ToObjectByJson<ResConfig>();
+                ResConfig = File.ReadAllText(configPath).ToObjectByJson<ResLoaderConfig>();
             }
             foreach (var item in hash)
             {

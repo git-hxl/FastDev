@@ -28,7 +28,7 @@ namespace FastDev
                 if (poolObj != null)
                     return poolObj;
             }
-            GameObject obj = Instantiate(ResManager.instance.LoadAsset<GameObject>(ABConstant.prefab, assetPath));
+            GameObject obj = Instantiate(ResManager.Instance.LoadAsset<GameObject>(ABConstant.prefab, assetPath));
             obj.name = objName;
             return obj;
         }

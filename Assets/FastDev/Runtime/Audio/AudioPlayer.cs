@@ -31,7 +31,7 @@ namespace FastDev.Audio
                 _audioSource.loop = audioType == AudioType.Music;
                 _audioSource.clip = GetAudioClip(clipPath);
             }
-            MsgManager.instance.Register(MsgID.OnVolumeChange, OnVolumeChange);
+            MsgManager.Instance.Register(MsgID.OnVolumeChange, OnVolumeChange);
         }
 
         public async void Play()
@@ -95,7 +95,7 @@ namespace FastDev.Audio
                 _audioSource.clip = null;
                 UnityEngine.Object.Destroy(_audioSource.gameObject);
                 _audioSource = null;
-                MsgManager.instance.UnRegister(MsgID.OnVolumeChange, OnVolumeChange);
+                MsgManager.Instance.UnRegister(MsgID.OnVolumeChange, OnVolumeChange);
             }
         }
 
@@ -110,10 +110,10 @@ namespace FastDev.Audio
             switch (audioType)
             {
                 case AudioType.Sound:
-                    volume = AudioManager.instance.volumeSetting.RealSoundVolume;
+                    volume = AudioManager.Instance.volumeSetting.RealSoundVolume;
                     break;
                 case AudioType.Music:
-                    volume = AudioManager.instance.volumeSetting.RealMusicVolume;
+                    volume = AudioManager.Instance.volumeSetting.RealMusicVolume;
                     break;
             }
             return volume;
@@ -122,7 +122,7 @@ namespace FastDev.Audio
         private AudioClip GetAudioClip(string assetPath)
         {
             AudioClip audioClip = null;
-            audioClip = ResManager.instance.LoadAsset<AudioClip>(ABConstant.audio, assetPath);
+            audioClip = ResManager.Instance.LoadAsset<AudioClip>(ABConstant.audio, assetPath);
             return audioClip;
         }
     }

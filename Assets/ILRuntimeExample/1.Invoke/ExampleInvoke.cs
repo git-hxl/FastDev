@@ -13,17 +13,17 @@ public class ExampleInvoke : MonoBehaviour
     void OnHotFixLoaded()
     {
         //调用静态方法
-        ILRuntimeManager.instance.appdomain.Invoke("Hotfix.Invoke", "Test1", null, null);
+        ILRuntimeManager.Instance.appdomain.Invoke("Hotfix.Invoke", "Test1", null, null);
 
         //调用实列方法
-        object class1 = ILRuntimeManager.instance.appdomain.Instantiate("Hotfix.Invoke");
+        object class1 = ILRuntimeManager.Instance.appdomain.Instantiate("Hotfix.Invoke");
 
-        object s=  ILRuntimeManager.instance.appdomain.Invoke("Hotfix.Invoke", "Test2", class1, null);
+        object s=  ILRuntimeManager.Instance.appdomain.Invoke("Hotfix.Invoke", "Test2", class1, null);
         //输出返回值
         Debug.Log(s);
 
         //传参
-        ILRuntimeManager.instance.appdomain.Invoke("Hotfix.Invoke", "Test3", class1, "Unity");
+        ILRuntimeManager.Instance.appdomain.Invoke("Hotfix.Invoke", "Test3", class1, "Unity");
 
     }
 }

@@ -11,11 +11,11 @@ public class HttpExample : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        HttpManager.instance.Get(urlTxt, OnTxtDone).Forget();
+        HttpManager.Instance.Get(urlTxt, OnTxtDone).Forget();
 
-        HttpManager.instance.Get(urlImage, OnImageDone).Forget();
+        HttpManager.Instance.Get(urlImage, OnImageDone).Forget();
 
-        HttpManager.instance.Download(urlMP3, Application.persistentDataPath, OnMp3DownProcess).Forget();
+        HttpManager.Instance.Download(urlMP3, Application.persistentDataPath, OnMp3DownProcess).Forget();
     }
 
 

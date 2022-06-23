@@ -8,8 +8,8 @@ namespace FastDev
         private float time = 0;
         private void Start()
         {
-            MsgManager.instance.Register(MsgID.Ping, OnReceiveMsg);
-            MsgManager.instance.Register(MsgID.ConnectSuccess, OnReceiveMsg);
+            MsgManager.Instance.Register(MsgID.Ping, OnReceiveMsg);
+            MsgManager.Instance.Register(MsgID.ConnectSuccess, OnReceiveMsg);
         }
 
         private void OnReceiveMsg(Hashtable hashtable)
@@ -24,7 +24,7 @@ namespace FastDev
                 if (time <= 0)
                 {
                     Debug.LogError("心跳包接受失败！");
-                    MsgManager.instance.Dispatch(MsgID.ConnectFailed, null);
+                    MsgManager.Instance.Dispatch(MsgID.ConnectFailed, null);
                 }
             }
         }

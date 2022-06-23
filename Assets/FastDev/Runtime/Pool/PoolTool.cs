@@ -10,9 +10,9 @@ namespace FastDev
         private async UniTaskVoid Start()
         {
             await UniTask.Delay(delay);
-            poolNum = Mathf.Clamp(poolNum, 0, ObjectPool.instance.maxPoolNum);
-            GameObject[] objs = ObjectPool.instance.Allocate(assetPath, poolNum);
-            ObjectPool.instance.Recycle(objs);
+            poolNum = Mathf.Clamp(poolNum, 0, ObjectPool.Instance.maxPoolNum);
+            GameObject[] objs = ObjectPool.Instance.Allocate(assetPath, poolNum);
+            ObjectPool.Instance.Recycle(objs);
         }
     }
 }

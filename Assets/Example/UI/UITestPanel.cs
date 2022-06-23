@@ -31,7 +31,7 @@ public class UITestPanel : UIPanel
         gameObject.SetActive(false);
 
         buttonButton.onClick.AddListener(() => {
-            UIManager.instance.Close(this);
+            UIManager.Instance.Close(this);
         });
     }
 

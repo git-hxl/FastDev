@@ -78,7 +78,7 @@ namespace FastDev.UI
         {
             if (!uiLoadedPanels.ContainsKey(assetPath) || uiLoadedPanels[assetPath].Equals(null))
             {
-                GameObject assetObj = ResManager.instance.LoadAsset<GameObject>(ABConstant.ui, assetPath);
+                GameObject assetObj = ResManager.Instance.LoadAsset<GameObject>(ABConstant.ui, assetPath);
                 GameObject panelObj = Instantiate(assetObj, transform);
                 var panel = panelObj.GetComponent<UIPanel>();
                 if (panel != null)

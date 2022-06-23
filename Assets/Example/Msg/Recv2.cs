@@ -10,7 +10,7 @@ public class Recv2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MsgManager.instance.Register(222, Handler);
+        MsgManager.Instance.Register(222, Handler);
         recv3 = new Recv3();
     }
 
@@ -44,7 +44,7 @@ public class Recv3
 {
     public Recv3()
     {
-        MsgManager.instance.Register(222, Handler);
+        MsgManager.Instance.Register(222, Handler);
     }
 
     ~Recv3()

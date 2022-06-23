@@ -15,7 +15,7 @@ public class Example_Serialize : MonoBehaviour
     }
     private void Awake()
     {
-        string s = Example_MonoSingleton.instance.name;
+        string s = Example_MonoSingleton.Instance.name;
     }
     // Start is called before the first frame update
     void Start()
@@ -48,6 +48,6 @@ public class Example_Serialize : MonoBehaviour
     private void OnDestroy()
     {
         if (!Example_MonoSingleton.isNull)
-            Debug.Log(Example_MonoSingleton.instance.name);
+            Debug.Log(Example_MonoSingleton.Instance.name);
     }
 }

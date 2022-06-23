@@ -8,10 +8,10 @@ public class ExampleCoroutine : MonoBehaviour
     void Start()
     {
         var adapter = gameObject.AddComponent<MonoBehaviourAdapter.Adapter>();
-        IType itype = ILRuntimeManager.instance.appdomain.GetType("Hotfix.Coroutine");
+        IType itype = ILRuntimeManager.Instance.appdomain.GetType("Hotfix.Coroutine");
         ILTypeInstance iLTypeInstance = new ILTypeInstance(itype as ILType, false);
         iLTypeInstance.CLRInstance = adapter;
         adapter.ILInstance = (iLTypeInstance);
-        adapter.AppDomain = (ILRuntimeManager.instance.appdomain);
+        adapter.AppDomain = (ILRuntimeManager.Instance.appdomain);
     }
 }

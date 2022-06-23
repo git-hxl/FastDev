@@ -12,7 +12,7 @@ public class UIExample : MonoBehaviour
         Button bt = GetComponentInChildren<Button>();
 
         bt.onClick.AddListener(()=>{
-            UIManager.instance.OpenUI("Assets/Example/UI/UITestPanel.prefab");
+            UIManager.Instance.OpenUI("Assets/Example/UI/UITestPanel.prefab");
         }) ;
     }
 
