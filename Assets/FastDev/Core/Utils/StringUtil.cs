@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace FastDev
@@ -41,6 +42,16 @@ namespace FastDev
                 pattern = @"[^a-zA-Z0-9\u4e00-\u9fa5]";
             s = Regex.Replace(s, pattern, "");
             return s;
+        }
+
+        /// <summary>
+        /// Unicode转中文
+        /// </summary>
+        /// <returns></returns>
+        public static string UnicodeToChinese(this string str)
+        {
+            return new Regex(@"\\u([0-9A-F]{4})", RegexOptions.IgnoreCase | RegexOptions.Compiled).Replace(
+                  str, x => string.Empty + Convert.ToChar(Convert.ToInt32(x.Result("$1"), 16)));
         }
     }
 

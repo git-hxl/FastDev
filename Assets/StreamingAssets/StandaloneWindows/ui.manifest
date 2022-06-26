@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 439089399
+CRC: 859405960
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fc0131104b9c78d46c9666089112f5da
+    Hash: 48d18a5dc28dd780e3376e937bc41f84
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 947b6e932853a8ca2b92e586d973c52b
+    Hash: 95f0f18c22d4a6c570177f52f35b03ac
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -44,5 +44,5 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/Example/UI/UITestPanel.prefab
+- Assets/Example/3.UI/UITestPanel.prefab
 Dependencies: []

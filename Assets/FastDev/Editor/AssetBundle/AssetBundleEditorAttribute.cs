@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEngine;
 namespace FastDev
 {
-    public class AssetBundleEditorAttribute
+    public class ABBuildSetting
     {
-        public static string serializePath = "./abEditorAttr.txt";
+        public static string serializePath = "./abbuildsetting.json";
         //Ab包保存目录
         public string saveDir;
         //打包平台
@@ -16,7 +16,7 @@ namespace FastDev
         public List<string> bundles = new List<string>();
         public string resVersion;
         public string appVersion;
-        public AssetBundleEditorAttribute()
+        public ABBuildSetting()
         {
             saveDir = Application.streamingAssetsPath;
             platform = BuildTarget.StandaloneWindows;

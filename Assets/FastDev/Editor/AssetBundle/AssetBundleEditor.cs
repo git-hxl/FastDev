@@ -3,13 +3,12 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using LitJson;
-namespace FastDev.Res
+namespace FastDev
 {
     public class AssetBundleEditor : EditorWindow
     {
-        private AssetBundleEditorAttribute baseAttr;
-        private string[] buildBundles;
-        [MenuItem("FastDev/AssetBundle工具", false, 0)]
+        private ABBuildSetting abBuildSetting;
+        [MenuItem("FastDev/AssetBundle工具")]
         public static void OpenWindow()
         {
             AssetBundleEditor window = (AssetBundleEditor)EditorWindow.GetWindow(typeof(AssetBundleEditor), false, "AssetBundle");
@@ -17,82 +16,86 @@ namespace FastDev.Res
         }
         private void Awake()
         {
-            if (File.Exists(AssetBundleEditorAttribute.serializePath))
+            if (File.Exists(ABBuildSetting.serializePath))
             {
-                string jsonTxt = File.ReadAllText(AssetBundleEditorAttribute.serializePath);
-                baseAttr = JsonMapper.ToObject<AssetBundleEditorAttribute>(jsonTxt);
+                string jsonTxt = File.ReadAllText(ABBuildSetting.serializePath);
+                abBuildSetting = JsonMapper.ToObject<ABBuildSetting>(jsonTxt);
             }
             else
             {
-                baseAttr = new AssetBundleEditorAttribute();
+                abBuildSetting = new ABBuildSetting();
             }
             AssetDatabase.RemoveUnusedAssetBundleNames();
-            buildBundles = AssetDatabase.GetAllAssetBundleNames();
         }
         private void OnGUI()
         {
             GUILayout.Label("保存路径");
-            baseAttr.saveDir = GUILayout.TextField(baseAttr.saveDir);
+            abBuildSetting.saveDir = GUILayout.TextField(abBuildSetting.saveDir);
             if (GUILayout.Button("选择文件夹"))
             {
                 string selectPath = EditorUtility.OpenFolderPanel("资源保持路径", Application.dataPath, "");
                 if (!string.IsNullOrEmpty(selectPath))
                 {
-                    baseAttr.saveDir = selectPath;
+                    abBuildSetting.saveDir = selectPath;
                 }
             }
             GUILayout.Label("打包平台");
-            baseAttr.platform = (BuildTarget)EditorGUILayout.EnumPopup(baseAttr.platform);
+            abBuildSetting.platform = (BuildTarget)EditorGUILayout.EnumPopup(abBuildSetting.platform);
 
             GUILayout.Label("压缩方式");
-            baseAttr.option = (BuildAssetBundleOptions)EditorGUILayout.EnumPopup(baseAttr.option);
+            abBuildSetting.option = (BuildAssetBundleOptions)EditorGUILayout.EnumPopup(abBuildSetting.option);
 
             GUILayout.Label("资源版本");
-            baseAttr.resVersion = GUILayout.TextField(baseAttr.resVersion);
+            abBuildSetting.resVersion = GUILayout.TextField(abBuildSetting.resVersion);
             GUILayout.Label("App版本");
-            baseAttr.appVersion = GUILayout.TextField(baseAttr.appVersion);
-            foreach (var item in buildBundles)
+            abBuildSetting.appVersion = GUILayout.TextField(abBuildSetting.appVersion);
+            foreach (var item in AssetDatabase.GetAllAssetBundleNames())
             {
-                bool value = baseAttr.bundles.Contains(item);
+                bool value = abBuildSetting.bundles.Contains(item);
                 if (GUILayout.Toggle(value, item))
                 {
-                    if (!baseAttr.bundles.Contains(item))
+                    if (!abBuildSetting.bundles.Contains(item))
                     {
-                        baseAttr.bundles.Add(item);
+                        abBuildSetting.bundles.Add(item);
                     }
                 }
-                else if (baseAttr.bundles.Contains(item))
+                else if (abBuildSetting.bundles.Contains(item))
                 {
-                    baseAttr.bundles.Remove(item);
+                    abBuildSetting.bundles.Remove(item);
                 }
             }
             if (GUILayout.Button("打包"))
             {
                 Build();
             }
+
+            if (GUILayout.Button("刷新ABConstant.cs"))
+            {
+                CreateABConstant();
+            }
         }
 
         private void Build()
         {
-            AssetBundleBuild[] builds = new AssetBundleBuild[baseAttr.bundles.Count];
+            AssetBundleBuild[] builds = new AssetBundleBuild[abBuildSetting.bundles.Count];
 
             for (int i = 0; i < builds.Length; i++)
             {
                 AssetBundleBuild build = new AssetBundleBuild();
-                build.assetBundleName = baseAttr.bundles[i];
+                build.assetBundleName = abBuildSetting.bundles[i];
                 build.assetNames = AssetDatabase.GetAssetPathsFromAssetBundle(build.assetBundleName);
                 builds[i] = build;
             }
-            AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(GetTargetPath(), builds, baseAttr.option, baseAttr.platform);
+            AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(GetTargetPath(), builds, abBuildSetting.option, abBuildSetting.platform);
             Dictionary<string, string> hash = FileUtil.LoadABHash(manifest);
-            hash.Add(baseAttr.platform.ToString(), FileUtil.GetFileMD5(GetTargetPath() + "/" + baseAttr.platform));
+            hash.Add(abBuildSetting.platform.ToString(), FileUtil.GetFileMD5(GetTargetPath() + "/" + abBuildSetting.platform));
             UpdateConfig(hash);
             AssetDatabase.Refresh();
         }
         private void OnDestroy()
         {
-            string jsonText = JsonMapper.ToJson(baseAttr);
-            File.WriteAllText(AssetBundleEditorAttribute.serializePath, jsonText);
+            string jsonText = JsonMapper.ToJson(abBuildSetting);
+            File.WriteAllText(ABBuildSetting.serializePath, jsonText);
         }
         /// <summary>
         /// 根据打包平台获取存放路径
@@ -100,7 +103,7 @@ namespace FastDev.Res
         /// <returns></returns>
         private string GetTargetPath()
         {
-            string outputPath = baseAttr.saveDir + "/" + baseAttr.platform;
+            string outputPath = abBuildSetting.saveDir + "/" + abBuildSetting.platform;
             if (!Directory.Exists(outputPath))
             {
                 Directory.CreateDirectory(outputPath);
@@ -115,10 +118,10 @@ namespace FastDev.Res
         private void UpdateConfig(Dictionary<string, string> hash)
         {
             ResLoaderConfig ResConfig = new ResLoaderConfig();
-            string configPath = GetTargetPath() + "/ResConfig.json";
+            string configPath = GetTargetPath() + "/" + ResLoaderConfig.fileName;
             if (File.Exists(configPath))
             {
-                ResConfig = File.ReadAllText(configPath).ToObjectByJson<ResLoaderConfig>();
+                ResConfig = JsonMapper.ToObject<ResLoaderConfig>(File.ReadAllText(configPath));
             }
             foreach (var item in hash)
             {
@@ -129,10 +132,32 @@ namespace FastDev.Res
                 else
                     ResConfig.resDict.Add(item.Key, item.Value);
             }
-            ResConfig.appVersion = baseAttr.appVersion;
-            ResConfig.resVersion = baseAttr.resVersion;
-            File.WriteAllText(configPath, ResConfig.ToJson(true));
+            ResConfig.appVersion = abBuildSetting.appVersion;
+            ResConfig.resVersion = abBuildSetting.resVersion;
+            File.WriteAllText(configPath, JsonMapper.ToJson(ResConfig));
             Debug.Log("写入成功");
+        }
+
+
+        private string path = "./Assets/FastDev/Core/1.Res/ABConstant.cs";
+        public static string classStr = @"
+namespace FastDev
+{
+    public static class ABConstant
+    {
+        $变量
+    }
+}";
+        private void CreateABConstant()
+        {
+            string s = "";
+            foreach (var item in AssetDatabase.GetAllAssetBundleNames())
+            {
+                s += $"public const string {item} = \"{item}\";\r\n\t\t";
+            }
+            classStr = classStr.Replace("$变量", s);
+            File.WriteAllText(path, classStr);
+            AssetDatabase.Refresh();
         }
     }
 }

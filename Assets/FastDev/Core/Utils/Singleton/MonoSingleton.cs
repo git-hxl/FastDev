@@ -8,6 +8,11 @@ namespace FastDev
         {
             get
             {
+                if (instance == null)
+                {
+                    instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                }
+
                 return instance;
             }
         }

@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 970119091
+CRC: 1440279390
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: hotfix
+      Name: ui
       Dependencies: {}

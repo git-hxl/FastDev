@@ -8,6 +8,7 @@ namespace FastDev
         public void Draw()
         {
             scrollPos = GUILayout.BeginScrollView(scrollPos, "box");
+            GUILayout.Label("帧数：" + Debugger.Instance.Frame);
             GUILayout.Label("内存：" + UnitConvertUtil.ByteConvert((long)SystemInfo.systemMemorySize * 1024 * 1024));
             GUILayout.Label("显存：" + UnitConvertUtil.ByteConvert((long)SystemInfo.graphicsMemorySize * 1024 * 1024));
             GUILayout.Label("分辨率：" + Screen.currentResolution.ToString());

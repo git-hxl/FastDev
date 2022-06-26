@@ -8,6 +8,7 @@ namespace FastDev
     public class Debugger : MonoSingleton<Debugger>
     {
         private int frame;
+        public int Frame { get { return frame; } }
         private int selectedToolBar;
 
         private Dictionary<WindowType, IWindow> windows = new Dictionary<WindowType, IWindow>();
@@ -15,11 +16,22 @@ namespace FastDev
         [HideInInspector]
         public float scale;
         private int heightScale = 1;
+
+        private bool activeWindow;
         private void Start()
         {
             scale = 1f;
             CalculateFrame();
             RegisterWindow();
+        }
+
+        private void ActiveWindowListener()
+        {
+            if(Input.GetKeyDown(KeyCode.F1))
+            {
+                activeWindow = true;
+                selectedToolBar = 0;
+            }
         }
 
         private void RegisterWindow()
@@ -32,6 +44,9 @@ namespace FastDev
 
         private void OnGUI()
         {
+            ActiveWindowListener();
+            if (!activeWindow)
+                return;
             GUI.matrix = Matrix4x4.Scale(Vector3.one * scale);
             GUILayout.Window(0, new Rect(0, 0, Screen.width / 2, Screen.height / 2 * heightScale), DrawWindow, "Debugger");
         }
@@ -47,7 +62,7 @@ namespace FastDev
             }
             else
             {
-                heightScale = 0;
+                activeWindow = false;
             }
         }
 

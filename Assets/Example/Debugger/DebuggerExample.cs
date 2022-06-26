@@ -48,8 +48,8 @@ public class DebuggerExample : MonoBehaviour
         countTime -= Time.deltaTime;
         if (countTime <= 0)
         {
-            long timeStamp = FastDev.DateTimeUtil.GetCurTimestamp();
-            string time = FastDev.DateTimeUtil.TimestampToDateTime(timeStamp).ToString();
+            long timeStamp = FastDev.DateTimeUtil.TimeStamp;
+            string time = FastDev.DateTimeUtil.ConvertToDateTime(timeStamp).ToString();
             Debug.LogError(timeStamp);
             countTime = 0.2f;
         }

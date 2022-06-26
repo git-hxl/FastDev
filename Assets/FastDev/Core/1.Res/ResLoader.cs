@@ -5,19 +5,8 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class ResLoader : MonoSingleton<ResLoader>
+    public class ResLoader : Singleton<ResLoader>
     {
-        private static ResLoader instance;
-        public static ResLoader Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new ResLoader();
-                return instance;
-            }
-        }
-
         public ResLoaderType ResLoaderType;
 
         private string assetPath;
@@ -25,7 +14,7 @@ namespace FastDev
         private AssetBundleManifest assetBundleManifest;
         private Dictionary<string, AssetBundle> bundles = new Dictionary<string, AssetBundle>();
 
-        private ResLoader()
+        public ResLoader()
         {
             switch (ResLoaderType)
             {
@@ -39,7 +28,7 @@ namespace FastDev
 
             if (!string.IsNullOrEmpty(assetPath))
             {
-                string config = File.ReadAllText(assetPath + "/resconfig.txt");
+                string config = File.ReadAllText(assetPath + "/" + ResLoaderConfig.fileName);
                 resLoaderConfig = LitJson.JsonMapper.ToObject<ResLoaderConfig>(config);
             }
         }
@@ -133,8 +122,9 @@ namespace FastDev
         }
 
         [ContextMenu("Unload All")]
-        public void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
             foreach (var item in bundles)
             {
                 item.Value.Unload(true);

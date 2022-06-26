@@ -1,15 +1,9 @@
-
 {
-    "resVersion" : "1.0.0",
-    "appVersion" : "1.0.0",
-    "resDict"    : {
-        "audio" : "729ed9c6fafdbabcb7ac9993e2c2cfc9",
-        "config" : "2bcd2aa6402ef6aff9f4e1549196c341",
-        "gif"    : "2e7d22ec3f92e661ff372a5485709351",
-        "hotfix" : "848e6c432358d0bd48e2d396b8b7928a",
-        "prefab" : "36e6a35890ce11befa3fb365e38473cc",
-        "texture2d" : "0a8b857dcecb501d5e0344f9879c4095",
-        "ui"        : "fc0131104b9c78d46c9666089112f5da",
-        "StandaloneWindows" : "b90905f3e369fb391af4456a207d8d54"
-    }
+  "fileName": "resconfig.json",
+  "resVersion": "1.0.0",
+  "appVersion": "1.0.0",
+  "resDict": {
+    "ui": "48d18a5dc28dd780e3376e937bc41f84",
+    "StandaloneWindows": "be6e6bb927b034a66ba9e2c795996576"
+  }
 }
