@@ -7,8 +7,8 @@ namespace FastDev
 {
     public class LanguageEditor : EditorWindow
     {
-        private string inputStr;
-        private string outputStr;
+        private string inputStr = "";
+        private string outputStr = "";
         private Dictionary<string, LanguageStruct> dict;
         [MenuItem("FastDev/多语言工具")]
         public static void OpenWindow()
@@ -53,7 +53,7 @@ namespace FastDev
             }
             if (!string.IsNullOrEmpty(outputStr))
             {
-                GUILayout.Label(outputStr);
+                GUILayout.TextArea(outputStr);
             }
         }
 
