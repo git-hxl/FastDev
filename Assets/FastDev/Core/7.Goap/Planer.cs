@@ -1,50 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
+
 namespace FastDev
 {
     public static class Planer
     {
-        public static List<AIAction> Plan(this Agent agent)
+        public class Node
         {
-            List<AIAction> openList = new List<AIAction>();
-            List<AIAction> closeList = new List<AIAction>();
+            public List<IAction> Actions = new List<IAction>();
+            public IAction Parent;
+        }
 
-            foreach (var item in agent.actions)
-            {
-                if (item.EndState.Name == agent.Goal.Name)
-                {
-                    openList.Add(item);
-                    break;
-                }
-            }
+        public static async void Plan(List<IAction> actions, IAction goal)
+        {
+            List<IAction> allReadyToRun = new List<IAction>();
 
-            //倒叙A*搜索
-            while (openList.Count > 0)
+            allReadyToRun.Add(goal);
+            Debug.Log("add action:" + goal.Name);
+
+            while (allReadyToRun[allReadyToRun.Count - 1].PreConditions.Count > 0)
             {
-                //从open列表中找到最小花费的行为
-                AIAction min = GetMinCost(openList);
-                openList.Remove(min);
-                closeList.Add(min);
-                //判断是否能够直接执行
-                if (min.PreState == null || (agent.CurState != null && min.PreState.Name == agent.CurState.Name))
-                    return closeList;
-                //将能够满足该行为Conditiond的action添加到openlist
-                foreach (var item in agent.actions)
+                await Task.Delay(1000);
+                foreach (var item in allReadyToRun[allReadyToRun.Count - 1].PreConditions)
                 {
-                    if (item.EndState.Name == min.PreState.Name)
+                    List<IAction> availableActions = actions.Where((a) => a.Effects.ContainsKey(item.Key) && a.Effects[item.Key].Equals(item.Value)).ToList();
+                    IAction action = GetMinCost(availableActions, item);
+
+                    if (action == null)
                     {
-                        openList.Add(item);
+                        Debug.LogError("当前目标不可达");
+                        return;
                     }
+                    allReadyToRun.Add(action);
+                    await Task.Delay(1000);
+                    Debug.Log("add action:" + action.Name);
                 }
             }
-            return closeList;
         }
 
 
-        private static AIAction GetMinCost(List<AIAction> list)
+        private static IAction GetMinCost(List<IAction> actions, KeyValuePair<string, object> goal)
         {
-            AIAction min = null;
-            foreach (var e in list)
+            IAction min = null;
+            foreach (var e in actions)
             {
                 if (min == null || e.Cost < min.Cost)
                 {
