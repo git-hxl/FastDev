@@ -16,19 +16,14 @@ namespace FastDev
 
         public ResLoader()
         {
-            switch (ResLoaderType)
-            {
-                case ResLoaderType.FromPersistentPath:
-                    assetPath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName();
-                    break;
-                case ResLoaderType.FromStreamingAssets:
-                    assetPath = Application.streamingAssetsPath + "/" + PlatformUtil.GetPlatformName();
-                    break;
-            }
+            assetPath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName();
+            if (!Directory.Exists(assetPath))
+                assetPath = Application.streamingAssetsPath + "/" + PlatformUtil.GetPlatformName();
 
-            if (!string.IsNullOrEmpty(assetPath))
+            string configPath = assetPath + "/" + ResLoaderConfig.fileName;
+            if (File.Exists(configPath))
             {
-                string config = File.ReadAllText(assetPath + "/" + ResLoaderConfig.fileName);
+                string config = File.ReadAllText(configPath);
                 resLoaderConfig = LitJson.JsonMapper.ToObject<ResLoaderConfig>(config);
             }
         }
@@ -72,10 +67,13 @@ namespace FastDev
         /// <returns></returns>
         public T LoadAsset<T>(string bundleName, string assetPath) where T : UnityEngine.Object
         {
+#if UNITY_EDITOR
             if (ResLoaderType == ResLoaderType.FromEditor)
             {
-                return LoadAssetFromEditor<T>(assetPath);
+                T asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                return asset;
             }
+#endif
             return LoadAssetFromAB<T>(bundleName, assetPath);
         }
 
@@ -91,19 +89,6 @@ namespace FastDev
                 bundles[bundleName].Unload(unloadLoadedObjects);
                 bundles.Remove(bundleName);
             }
-        }
-
-        private T LoadAssetFromEditor<T>(string assetPath) where T : UnityEngine.Object
-        {
-#if UNITY_EDITOR
-            T asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            if (asset != null)
-            {
-                return asset;
-            }
-#endif
-            Debug.LogError("Res Load Failed! " + assetPath);
-            return null;
         }
 
         private T LoadAssetFromAB<T>(string bundleName, string assetPath) where T : UnityEngine.Object

@@ -2,12 +2,12 @@
 
 namespace FastDev
 {
-    public interface IAction
+    public interface IGoapAction
     {
         string Name { get; }
-        Dictionary<string, object> PreConditions { get; }
+        GoapState PreCondition { get; }
 
-        Dictionary<string, object> Effects { get; }
+        GoapState Effect { get; }
 
         int Cost { get; }
 

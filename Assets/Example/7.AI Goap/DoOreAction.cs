@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FellTreeAction : IAction
+public class DoOreAction : IGoapAction
 {
-    public string Name => "砍树";
+    public string Name => "挖矿";
 
-    public Dictionary<string, object> PreConditions => new Dictionary<string, object>();
-
-    public Dictionary<string, object> Effects => new Dictionary<string, object>() { { "hasTree", true } };
+    public GoapState PreCondition => new GoapState(new Dictionary<string, int>());
+    public GoapState Effect => new GoapState(new Dictionary<string, int>() { { "ore", 10 }});
 
     public int Cost => 5;
 

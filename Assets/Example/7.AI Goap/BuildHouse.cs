@@ -3,15 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildHouse : IAction
+public class BuildHouse : IGoapAction
 {
     public string Name => "建造房子";
 
-    public Dictionary<string, object> PreConditions => new Dictionary<string, object>() { { "hasWood", true }, { "hasOre", true } };
 
-    public Dictionary<string, object> Effects => new Dictionary<string, object>() { { "hasWood", false }, { "hasOre", false } };
+    public int Cost => 5;
 
-    public int Cost =>5;
+    public GoapState PreCondition => new GoapState(new Dictionary<string, int>() { { "wood", 10 }, { "ore", 10 } });
+
+    public GoapState Effect => new GoapState(new Dictionary<string, int>() { { "wood", -10 }, { "ore", -10 } });
 
     public bool IsDone()
     {

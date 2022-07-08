@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyAgent : MonoBehaviour, IAgent
+public class MyAgent : MonoBehaviour, IGoapAgent
 {
-    private List<IAction> aiAcitons = new List<IAction>();
-    public List<IAction> AIActions => aiAcitons;
+    private List<IGoapAction> aiAcitons = new List<IGoapAction>();
+    public List<IGoapAction> AIActions => aiAcitons;
 
-    public void AddAction(IAction action)
+    public void AddAction(IGoapAction action)
     {
         if (!aiAcitons.Contains(action))
             aiAcitons.Add(action);
@@ -17,9 +17,9 @@ public class MyAgent : MonoBehaviour, IAgent
     void Start()
     {
         AddAction(new BuildHouse());
-        AddAction(new FellTreeAction());
-        AddAction(new MachiningTree());
-        AddAction(new MiningOre());
+        AddAction(new DoTreeAction());
+        AddAction(new DoWoodAction());
+        AddAction(new DoOreAction());
         Planer.Plan(aiAcitons, new BuildHouse());
     }
 }
