@@ -4,25 +4,27 @@ namespace FastDev
 {
     public class GoapState
     {
-        private Dictionary<string, int> values = new Dictionary<string, int>();
+        public Dictionary<string, int> Values { get; private set; }
 
-        public Dictionary<string, int> Values { get { return values; } }
-
-        public GoapState(Dictionary<string,int> values)
+        public GoapState()
         {
-            this.values = values;
+            Values = new Dictionary<string, int>();
+        }
+        public GoapState(Dictionary<string, int> values)
+        {
+            this.Values = values;
         }
 
         public void SetValue(string key, int value)
         {
-            values[key] = value;
+            Values[key] = value;
         }
 
         public int GetValue(string key)
         {
-            if (values.ContainsKey(key))
+            if (Values.ContainsKey(key))
             {
-                return values[key];
+                return Values[key];
             }
             return 0;
         }

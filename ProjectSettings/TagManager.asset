@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Process
+  - Wood
+  - Stone
+  - Bed
   layers:
   - Default
   - TransparentFX

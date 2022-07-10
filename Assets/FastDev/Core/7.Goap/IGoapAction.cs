@@ -1,22 +1,34 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace FastDev
 {
     public interface IGoapAction
     {
         string Name { get; }
+
+        int Cost { get; }
+
+        float Progress { get; }
+
         GoapState PreCondition { get; }
 
         GoapState Effect { get; }
 
-        int Cost { get; }
+        IGoapAgent Agent { get; }
 
-        bool IsInRange();
+        GameObject Target { get; }
 
-        bool IsReadyToRun();
+        bool CheckForRun();
 
-        bool IsDone();
+        bool MoveToTarget();
+
+        bool CheckIsDone();
 
         void Update();
+
+        void OnDone();
+
+        void OnFailed();
     }
 }
