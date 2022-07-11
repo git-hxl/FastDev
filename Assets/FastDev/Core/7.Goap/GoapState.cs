@@ -12,12 +12,15 @@ namespace FastDev
         }
         public GoapState(Dictionary<string, int> values)
         {
-            this.Values = values;
+            this.Values = new Dictionary<string, int>(values);
         }
 
-        public void SetValue(string key, int value)
+        public void AddValue(string key, int value)
         {
-            Values[key] = value;
+            if (!Values.ContainsKey(key))
+                Values[key] = value;
+            else
+                Values[key] += value;
         }
 
         public int GetValue(string key)

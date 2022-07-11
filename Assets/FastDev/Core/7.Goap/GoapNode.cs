@@ -7,6 +7,7 @@ namespace FastDev
         public int Index = 0;
         public GoapNode Child;
         public GoapNode Parent;
+        public GoapState GoapState = new GoapState();
         public List<IGoapAction> GoapActions = new List<IGoapAction>();
 
         public GoapNode(GoapNode parent)

@@ -1,65 +1,44 @@
 ﻿using FastDev;
 using UnityEngine;
 
-public class SleepAction : IGoapAction
+public class SleepAction : ProgressGoapAction
 {
-    public string Name => "睡觉";
-
-    public GoapState PreCondition => new GoapState(new System.Collections.Generic.Dictionary<string, int>()
+    public override string Name { get; protected set; } = "睡觉";
+    public override int Cost { get; protected set; } = 5;
+    public override float CostTime { get; protected set; } = -1f;
+    public override float Progress { get; protected set; }
+    public SleepAction(IGoapAgent agent) : base(agent) { }
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
     {
-        {AIStateKey.HP,-99 }
+        {AIStateKey.HP,-999 },
     });
 
-    public GoapState Effect => new GoapState(new System.Collections.Generic.Dictionary<string, int>()
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
     {
-        {AIStateKey.HP,100 }
+         {AIStateKey.HP,100},
     });
 
-    public int Cost => 5;
-
-    public float Progress { get; private set; }
-
-    public IGoapAgent Agent { get; private set; }
-
-    public GameObject Target { get; private set; }
-
-    public SleepAction(IGoapAgent agent)
+    public override void SetTarget()
     {
-        Agent = agent;
+        Target = GameObject.FindGameObjectWithTag("Bed");
     }
 
-    public bool CheckForRun()
+    public override bool CheckIsDone()
     {
-        return GoapPlanner.ComPareState(Agent.GoapState, PreCondition);
+        return Agent.GoapState.GetValue(AIStateKey.HP) >= 100;
     }
 
-    public bool MoveToTarget()
+    public override void OnDone()
     {
-        if (Target == null)
-            Target = GameObject.FindGameObjectWithTag("Bed");
-        if (Target == null)
-        {
-            OnFailed();
-            return false;
-        }
-        if (Vector3.Distance(Agent.Self.transform.position, Target.transform.position) > 1f)
-        {
-            Vector3 dir = (Target.transform.position - Agent.Self.transform.position).normalized;
-            Agent.Self.transform.Translate(dir * 10 * Time.deltaTime);
-            return false;
-        }
-        return true;
+        base.OnDone();
     }
 
-    public bool CheckIsDone()
-    {
-        return Agent.GoapState.GetValue(AIStateKey.HP) >= Effect.GetValue(AIStateKey.HP);
-    }
+    private float countTime;
 
-    private float time = 0.1f;
-
-    public void Update()
+    public override void Update()
     {
+        if (CheckIsDone())
+            return;
         if (!CheckForRun())
         {
             OnFailed();
@@ -67,31 +46,11 @@ public class SleepAction : IGoapAction
         }
         if (MoveToTarget())
         {
-            time -= Time.deltaTime;
-            if (time <= 0f)
-            {
-                Agent.GoapState.Values[AIStateKey.HP] += 10;
+            Agent.GoapState.AddValue(AIStateKey.HP, 1);
+            Progress = Agent.GoapState.GetValue(AIStateKey.HP) / 100f;
 
-                Progress = Agent.GoapState.Values[AIStateKey.HP] / (float)Effect.Values[AIStateKey.HP];
-                time = 0.1f;
-                Debug.Log("HP:" + Agent.GoapState.Values[AIStateKey.HP]);
-                if (CheckIsDone())
-                {
-                    OnDone();
-                }
-            }
+            if (CheckIsDone())
+                OnDone();
         }
-    }
-
-    public void OnDone()
-    {
-        Debug.Log(Name + ": Done!");
-        Agent.OnActionDone(this);
-    }
-
-    public void OnFailed()
-    {
-        Debug.LogError(Name + ": Run failed!");
-        Agent.OnActionFailed(this);
     }
 }

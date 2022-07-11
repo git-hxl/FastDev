@@ -9,8 +9,6 @@ namespace FastDev
 
         int Cost { get; }
 
-        float Progress { get; }
-
         GoapState PreCondition { get; }
 
         GoapState Effect { get; }
@@ -19,11 +17,11 @@ namespace FastDev
 
         GameObject Target { get; }
 
+        bool CheckIsDone();
+
         bool CheckForRun();
 
         bool MoveToTarget();
-
-        bool CheckIsDone();
 
         void Update();
 

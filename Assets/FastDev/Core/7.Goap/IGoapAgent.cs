@@ -16,5 +16,7 @@ namespace FastDev
 
         void OnActionDone(IGoapAction goapAction);
         void OnActionFailed(IGoapAction goapAction);
+
+        void OnPlanFailed();
     }
 }

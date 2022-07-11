@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace FastDev
         public static GoapNode Plan(IGoapAgent goapAgent, IGoapAction goal)
         {
             GoapNode curNode = new GoapNode(null);
+            //curNode.GoapState = new GoapState(goal.PreCondition.Values);
             curNode.GoapActions.Add(goal);
             Debug.Log("Planner: add action " + goal.Name + " Node:" + curNode.Index);
             while (curNode.GoapActions.Count > 0)
@@ -26,6 +28,7 @@ namespace FastDev
                         if (minCostAction == null)
                         {
                             Debug.LogError("目标不可达！！！");
+                            goapAgent.OnPlanFailed();
                             break;
                         }
                         if (curNode.Child == null)

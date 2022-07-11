@@ -74,7 +74,8 @@ public class MyAgent : MonoBehaviour, IGoapAgent
     {
         UpdateAction();
 
-        curProcessSlider.value = CurAction.Progress;
+        if (CurAction is ProgressGoapAction)
+            curProcessSlider.value = (CurAction as ProgressGoapAction).Progress;
         curHPSlider.value = GoapState.GetValue(AIStateKey.HP) / 100f;
         text.text = CurAction.Name;
     }
@@ -89,4 +90,6 @@ public class MyAgent : MonoBehaviour, IGoapAgent
         Debug.LogError("Reset,Start Plan...");
         goapNode = GoapPlanner.Plan(this, AIActions.FirstOrDefault((a) => a is ProcessTool));
     }
+
+    public void OnPlanFailed() { }
 }
