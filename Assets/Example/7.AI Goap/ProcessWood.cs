@@ -1,35 +1,46 @@
 ﻿using FastDev;
 using UnityEngine;
 
-public class ProcessWood : ProgressGoapAction
+public class ProcessWood : GoapAction
 {
     public override string Name { get; protected set; } = "加工木头";
     public override int Cost { get; protected set; } = 5;
-    public override float CostTime { get; protected set; } = 3f;
-    public override float Progress { get; protected set; }
-    public ProcessWood(IGoapAgent agent) : base(agent) { }
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
-    {
-        {AIStateKey.HP,100 },
-        {AIStateKey.Wood,100 },
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+        {AIStateKey.HP,true},
+        {AIStateKey.Wood,true},
     });
-
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
-    {
-         {AIStateKey.WoodLog,100 },
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+        {AIStateKey.WoodLog,true},
     });
+    public override IGoapAgent Agent { get; protected set; }
+    public override GameObject Target { get; protected set; } = GameObject.FindGameObjectWithTag("Process");
 
-    public override void SetTarget()
+    public ProcessWood(IGoapAgent goapAgent) : base(goapAgent) { }
+
+    protected override void OnDone()
     {
-        Target = GameObject.FindGameObjectWithTag("Process");
+
     }
 
-    public override void OnDone()
+    protected override void OnFailedByConditon()
     {
-        base.OnDone();
 
-        Agent.GoapState.AddValue(AIStateKey.HP, -50);
-        Agent.GoapState.AddValue(AIStateKey.Wood, -100);
-        Agent.GoapState.AddValue(AIStateKey.WoodLog, 100);
+    }
+
+    protected override void OnFailedByPath()
+    {
+
+    }
+
+    private float time = 2;
+    protected override void OnUpdate()
+    {
+        time -= Time.deltaTime;
+        if (time <= 0)
+        {
+            Agent.GoapState.SetValue(AIStateKey.WoodLog, true);
+            Agent.GoapState.SetValue(AIStateKey.HP, false);
+        }
+
     }
 }

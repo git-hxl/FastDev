@@ -1,56 +1,45 @@
 ﻿using FastDev;
 using UnityEngine;
 
-public class SleepAction : ProgressGoapAction
+public class SleepAction : GoapAction
 {
     public override string Name { get; protected set; } = "睡觉";
     public override int Cost { get; protected set; } = 5;
-    public override float CostTime { get; protected set; } = -1f;
-    public override float Progress { get; protected set; }
-    public SleepAction(IGoapAgent agent) : base(agent) { }
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
-    {
-        {AIStateKey.HP,-999 },
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+       
     });
-
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
-    {
-         {AIStateKey.HP,100},
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+        {AIStateKey.HP,true},
     });
+    public override IGoapAgent Agent { get; protected set; }
+    public override GameObject Target { get; protected set; } = GameObject.FindGameObjectWithTag("Bed");
 
-    public override void SetTarget()
+    public SleepAction(IGoapAgent goapAgent) : base(goapAgent) { }
+
+    protected override void OnDone()
     {
-        Target = GameObject.FindGameObjectWithTag("Bed");
+
     }
 
-    public override bool CheckIsDone()
+    protected override void OnFailedByConditon()
     {
-        return Agent.GoapState.GetValue(AIStateKey.HP) >= 100;
+
     }
 
-    public override void OnDone()
+    protected override void OnFailedByPath()
     {
-        base.OnDone();
+
     }
 
-    private float countTime;
-
-    public override void Update()
+    private float time = 2;
+    protected override void OnUpdate()
     {
-        if (CheckIsDone())
-            return;
-        if (!CheckForRun())
+        time -= Time.deltaTime;
+        if (time <= 0)
         {
-            OnFailed();
-            return;
+            Agent.GoapState.SetValue(AIStateKey.HP, true);
+            time = 2;
         }
-        if (MoveToTarget())
-        {
-            Agent.GoapState.AddValue(AIStateKey.HP, 1);
-            Progress = Agent.GoapState.GetValue(AIStateKey.HP) / 100f;
-
-            if (CheckIsDone())
-                OnDone();
-        }
+           
     }
 }

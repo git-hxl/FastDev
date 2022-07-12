@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 namespace FastDev
 {
     public interface IGoapAction
@@ -17,16 +15,14 @@ namespace FastDev
 
         GameObject Target { get; }
 
-        bool CheckIsDone();
+        bool CheckCondition();
 
-        bool CheckForRun();
+        bool CheckIsDone();
 
         bool MoveToTarget();
 
+        void Start();
+
         void Update();
-
-        void OnDone();
-
-        void OnFailed();
     }
 }

@@ -7,29 +7,31 @@ namespace FastDev
 {
     public static class GoapPlanner
     {
-
-        public static GoapNode Plan(IGoapAgent goapAgent, IGoapAction goal)
+        public static Queue<IGoapAction> Plan(IGoapAgent goapAgent, IGoapAction goal)
         {
+            Queue<IGoapAction> queueGoapActions = new Queue<IGoapAction>();
+
             GoapNode curNode = new GoapNode(null);
-            //curNode.GoapState = new GoapState(goal.PreCondition.Values);
             curNode.GoapActions.Add(goal);
             Debug.Log("Planner: add action " + goal.Name + " Node:" + curNode.Index);
-            while (curNode.GoapActions.Count > 0)
+
+            while (true)
             {
                 for (int i = 0; i < curNode.GoapActions.Count; i++)
                 {
-                    var goalAction = curNode.GoapActions[i];
+                    IGoapAction goalAction = curNode.GoapActions[i];
                     foreach (var preCondition in goalAction.PreCondition.Values)
                     {
+                        //当前状态是否符合目标状态
                         if (ComPareState(goapAgent.GoapState, preCondition))
                             continue;
-                        var selectedActions = GetMatchActions(goapAgent.AIActions, preCondition);
+                        var selectedActions = GetMatchActions(goapAgent.GoapActions, preCondition);
                         var minCostAction = GetMinCost(selectedActions);
                         if (minCostAction == null)
                         {
-                            Debug.LogError("目标不可达！！！");
+                            Debug.LogError("目标不可达！！！:" + goalAction.Name);
                             goapAgent.OnPlanFailed();
-                            break;
+                            return queueGoapActions;
                         }
                         if (curNode.Child == null)
                             curNode.Child = new GoapNode(curNode);
@@ -44,15 +46,25 @@ namespace FastDev
                     break;
                 curNode = curNode.Child;
             }
-            return curNode;
+
+            while (curNode!= null)
+            {
+                foreach (var item in curNode.GoapActions)
+                {
+                    queueGoapActions.Enqueue(item);
+                }
+                curNode = curNode.Parent;
+            }
+
+            return queueGoapActions;
         }
 
-        private static List<IGoapAction> GetMatchActions(List<IGoapAction> actions, KeyValuePair<string, int> preCondition)
+        private static List<IGoapAction> GetMatchActions(List<IGoapAction> actions, KeyValuePair<string, object> preCondition)
         {
             List<IGoapAction> matchActions = new List<IGoapAction>();
             foreach (var a in actions)
             {
-                if (a.Effect.Values.ContainsKey(preCondition.Key) && a.Effect.Values[preCondition.Key] >= preCondition.Value)
+                if (a.Effect.Values.ContainsKey(preCondition.Key) && a.Effect.Values[preCondition.Key].Equals(preCondition.Value))
                 {
                     matchActions.Add(a);
                 }
@@ -73,9 +85,9 @@ namespace FastDev
             return min;
         }
 
-        public static bool ComPareState(GoapState a, KeyValuePair<string, int> b)
+        public static bool ComPareState(GoapState a, KeyValuePair<string, object> b)
         {
-            if (!a.Values.ContainsKey(b.Key) || a.Values[b.Key] < b.Value)
+            if (!a.Values.ContainsKey(b.Key) || !a.Values[b.Key].Equals(b.Value))
                 return false;
             return true;
         }
@@ -84,7 +96,7 @@ namespace FastDev
         {
             foreach (var state in b.Values)
             {
-                if (!a.Values.ContainsKey(state.Key) || a.Values[state.Key] < state.Value)
+                if (!a.Values.ContainsKey(state.Key) || !a.Values[state.Key].Equals(state.Value))
                     return false;
             }
             return true;
