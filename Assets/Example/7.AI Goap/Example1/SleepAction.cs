@@ -1,15 +1,17 @@
-﻿using FastDev;
+﻿using Cysharp.Threading.Tasks;
+using FastDev;
 using UnityEngine;
 
 public class SleepAction : GoapAction
 {
     public override string Name { get; protected set; } = "睡觉";
     public override int Cost { get; protected set; } = 5;
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
-       
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
+    {
+
     });
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
-        {AIStateKey.HP,true},
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>() {
+        {AIStateKey.HP,200},
     });
     public override IGoapAgent Agent { get; protected set; }
     public override GameObject Target { get; protected set; } = GameObject.FindGameObjectWithTag("Bed");
@@ -18,7 +20,7 @@ public class SleepAction : GoapAction
 
     protected override void OnDone()
     {
-
+        
     }
 
     protected override void OnFailedByConditon()
@@ -31,15 +33,16 @@ public class SleepAction : GoapAction
 
     }
 
+    protected override void OnStart()
+    {
+        count = 0;
+        Progress = 0;
+    }
+
     private float time = 2;
+    private float count = 0;
     protected override void OnUpdate()
     {
-        time -= Time.deltaTime;
-        if (time <= 0)
-        {
-            Agent.GoapState.SetValue(AIStateKey.HP, true);
-            time = 2;
-        }
-           
+        Agent.GoapState.AddValue(AIStateKey.HP, 2);
     }
 }

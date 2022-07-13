@@ -5,10 +5,11 @@ public class CollectStone : GoapAction
 {
     public override string Name { get; protected set; } = "收集石头";
     public override int Cost { get; protected set; } = 5;
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
+    {
     });
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
-        {AIStateKey.Stone,true},
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>() {
+        {AIStateKey.Stone,1},
     });
     public override IGoapAgent Agent { get; protected set; }
     public override GameObject Target { get; protected set; } = GameObject.FindGameObjectWithTag("Stone");
@@ -17,7 +18,7 @@ public class CollectStone : GoapAction
 
     protected override void OnDone()
     {
-
+        
     }
 
     protected override void OnFailedByConditon()
@@ -30,11 +31,21 @@ public class CollectStone : GoapAction
 
     }
 
-    private float time = 2;
+    protected override void OnStart()
+    {
+        count = 0;
+        Progress = 0;
+    }
+
+    private float acTime = 2;
+    private float count = 0;
     protected override void OnUpdate()
     {
-        time -= Time.deltaTime;
-        if (time <= 0)
-            Agent.GoapState.SetValue(AIStateKey.Stone, true);
+        count += Time.deltaTime;
+        Progress = count / acTime;
+        if(Progress>=1)
+        {
+            Agent.GoapState.SetValue(AIStateKey.Stone, 1);
+        }
     }
 }

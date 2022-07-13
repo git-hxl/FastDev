@@ -15,13 +15,14 @@ namespace FastDev
 
         GameObject Target { get; }
 
+        GoapActionState GoapActionState { get; }
+        float Progress { get;}
+
         bool CheckCondition();
 
         bool CheckIsDone();
 
         bool MoveToTarget();
-
-        void Start();
 
         void Update();
     }

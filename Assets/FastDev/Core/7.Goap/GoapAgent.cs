@@ -10,13 +10,25 @@ namespace FastDev
 
         public IGoapAction CurAction { get; set; }
 
-        public IGoapAction Goal { get; set; }
+        public IGoapAction Goal { get; private set; }
 
         public GoapState GoapState { get; protected set; } = new GoapState();
 
         public GameObject Self => gameObject;
 
         private Queue<IGoapAction> queueGoapActions;
+
+        public void SetGoal(IGoapAction goal)
+        {
+            Goal = goal;
+
+            if (Goal != null)
+            {
+                GoapState = new GoapState();
+                queueGoapActions = GoapPlanner.Plan(this, Goal);
+            }
+                
+        }
 
         public void AddAction(IGoapAction goapAction)
         {
@@ -35,13 +47,12 @@ namespace FastDev
                 CurAction = null;
                 queueGoapActions = GoapPlanner.Plan(this, Goal);
             }
-               
         }
 
         public virtual void OnActionDone(IGoapAction goapAction)
         {
-            Debug.LogError(goapAction.Name + ": Done");
             CurAction = null;
+            Debug.LogError(goapAction.Name + ": OnActionDone");
         }
 
         public virtual void OnActionPathFailed(IGoapAction goapAction)
@@ -54,18 +65,11 @@ namespace FastDev
             Debug.LogError("OnPlanFailed");
         }
 
-        private void Start()
-        {
-            if (Goal != null)
-                queueGoapActions = GoapPlanner.Plan(this, Goal);
-        }
-
-        private void Update()
+        protected virtual void Update()
         {
             if (CurAction == null && queueGoapActions.Count > 0)
             {
                 CurAction = queueGoapActions.Dequeue();
-                CurAction.Start();
             }
             if (CurAction != null)
             {

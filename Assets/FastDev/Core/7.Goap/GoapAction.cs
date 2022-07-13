@@ -16,6 +16,10 @@ namespace FastDev
 
         public abstract GameObject Target { get; protected set; }
 
+        public GoapActionState GoapActionState { get; protected set; }
+
+        public float Progress { get; protected set; }
+
         public GoapAction(IGoapAgent goapAgent)
         {
             this.Agent = goapAgent;
@@ -46,30 +50,48 @@ namespace FastDev
             return true;
         }
 
-        public virtual void Start()
-        {
-            Debug.Log("Start:" + Name);
-        }
-
         public void Update()
         {
+            //done
             if (CheckIsDone())
             {
+                GoapActionState = GoapActionState.OnDone;
                 OnDone();
                 Agent.OnActionDone(this);
+                GoapActionState = GoapActionState.None;
                 return;
             }
+
+            //check condition
             if (!CheckCondition())
             {
                 OnFailedByConditon();
                 Agent.OnActionConditionFailed(this);
                 return;
             }
-            if (!MoveToTarget())
-                return;
 
+            //start
+            if (GoapActionState == GoapActionState.None)
+            {
+                GoapActionState = GoapActionState.OnStart;
+                Debug.Log(Name + " " + GoapActionState.ToString());
+                OnStart();
+            }
+
+            //move
+            if (!MoveToTarget())
+            {
+                GoapActionState = GoapActionState.OnMove;
+                return;
+            }
+
+            //update
+            GoapActionState = GoapActionState.OnUpdate;
             OnUpdate();
         }
+
+
+        protected abstract void OnStart();
         protected abstract void OnDone();
         protected abstract void OnUpdate();
         protected abstract void OnFailedByConditon();

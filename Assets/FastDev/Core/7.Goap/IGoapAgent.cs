@@ -10,6 +10,8 @@ namespace FastDev
         IGoapAction Goal { get; }
         GoapState GoapState { get; }
         GameObject Self { get; }
+
+        void SetGoal(IGoapAction goal);
         void AddAction(IGoapAction goapAction);
         void OnActionPathFailed(IGoapAction goapAction);
         void OnActionConditionFailed(IGoapAction goapAction);

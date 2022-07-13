@@ -7,4 +7,6 @@
     public const string Stone = "Stone";
 
     public const string Axe = "Axe";
+
+    public const string NoEnemyInRagne = "";
 }

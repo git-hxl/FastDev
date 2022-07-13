@@ -13,7 +13,6 @@ namespace FastDev
 
             GoapNode curNode = new GoapNode(null);
             curNode.GoapActions.Add(goal);
-            Debug.Log("Planner: add action " + goal.Name + " Node:" + curNode.Index);
 
             while (true)
             {
@@ -38,7 +37,6 @@ namespace FastDev
                         if (!curNode.Child.GoapActions.Contains(minCostAction))
                         {
                             curNode.Child.GoapActions.Add(minCostAction);
-                            Debug.Log("Planner: add action " + minCostAction.Name + "->" + goalAction.Name + " Node:" + curNode.Child.Index);
                         }
                     }
                 }
@@ -47,24 +45,28 @@ namespace FastDev
                 curNode = curNode.Child;
             }
 
-            while (curNode!= null)
+            string actionPath = "";
+
+            while (curNode != null)
             {
                 foreach (var item in curNode.GoapActions)
                 {
+                    actionPath += item.Name + "->";
                     queueGoapActions.Enqueue(item);
                 }
                 curNode = curNode.Parent;
             }
+            Debug.Log("Goap Action Plan：" + actionPath);
 
             return queueGoapActions;
         }
 
-        private static List<IGoapAction> GetMatchActions(List<IGoapAction> actions, KeyValuePair<string, object> preCondition)
+        private static List<IGoapAction> GetMatchActions(List<IGoapAction> actions, KeyValuePair<string, int> preCondition)
         {
             List<IGoapAction> matchActions = new List<IGoapAction>();
             foreach (var a in actions)
             {
-                if (a.Effect.Values.ContainsKey(preCondition.Key) && a.Effect.Values[preCondition.Key].Equals(preCondition.Value))
+                if (a.Effect.Values.ContainsKey(preCondition.Key) && a.Effect.Values[preCondition.Key] >= preCondition.Value)
                 {
                     matchActions.Add(a);
                 }
@@ -85,9 +87,9 @@ namespace FastDev
             return min;
         }
 
-        public static bool ComPareState(GoapState a, KeyValuePair<string, object> b)
+        public static bool ComPareState(GoapState a, KeyValuePair<string, int> b)
         {
-            if (!a.Values.ContainsKey(b.Key) || !a.Values[b.Key].Equals(b.Value))
+            if (!a.Values.ContainsKey(b.Key) || a.Values[b.Key] < b.Value)
                 return false;
             return true;
         }
@@ -96,11 +98,10 @@ namespace FastDev
         {
             foreach (var state in b.Values)
             {
-                if (!a.Values.ContainsKey(state.Key) || !a.Values[state.Key].Equals(state.Value))
+                if (!a.Values.ContainsKey(state.Key) || a.Values[state.Key] < state.Value)
                     return false;
             }
             return true;
         }
-
     }
 }
