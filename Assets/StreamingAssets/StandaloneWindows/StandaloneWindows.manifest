@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 1440279390
+CRC: 774546817
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
+      Name: gif
+      Dependencies: {}
+    Info_1:
       Name: ui
       Dependencies: {}

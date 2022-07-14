@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-public class UITestPanel : MonoBehaviour, IPanel
+public class UITestPanel : UIPanel
 {
     #region UIAttribute
 	private Image imgRoot;
@@ -18,22 +18,23 @@ public class UITestPanel : MonoBehaviour, IPanel
 	public RectTransform Recttext { get { if (recttext == null) { recttext = transform.Find("_Root/_text").GetComponent<RectTransform>(); } return recttext; } }
 	#endregion UIAttribute
 
-    private void Start()
-    {
-        BtConfirm.onClick.AddListener(Close);
-    }
-    public void Close()
+    protected override void OnClose()
     {
         transform.GetChild(0).DOScale(0, 0.3f).SetEase(Ease.InCubic).OnComplete(() =>
         {
             gameObject.SetActive(false);
         });
     }
-    public void Open()
+
+    protected override void OnLoad()
+    {
+        BtConfirm.onClick.AddListener(Close);
+    }
+
+    protected override void OnOpen()
     {
         gameObject.SetActive(true);
         transform.GetChild(0).localScale = Vector3.zero;
         transform.GetChild(0).DOScale(1, 0.3f).SetEase(Ease.OutCubic);
     }
-
 }

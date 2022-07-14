@@ -33,6 +33,11 @@ namespace FastDev
         {
             if (resLoaderConfig == null)
                 return;
+            if (assetBundleManifest == null)
+            {
+                AssetBundle ab = AssetBundle.LoadFromFile(assetPath + "/" + PlatformUtil.GetPlatformName());
+                assetBundleManifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            }
             foreach (var item in assetBundleManifest.GetAllAssetBundles())
             {
                 var assetBundle = await LoadAssetBundle(item);

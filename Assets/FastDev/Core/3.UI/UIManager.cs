@@ -7,6 +7,7 @@ namespace FastDev
         private string bundleName = "ui";
         private Dictionary<string, IPanel> panels = new Dictionary<string, IPanel>();
 
+        public Stack<IPanel> OpenedPanels { get; set; } = new Stack<IPanel>();
         /// <summary>
         /// 加载UI面板
         /// </summary>
@@ -22,7 +23,10 @@ namespace FastDev
                     var panel = Instantiate(prefab, transform).GetComponent<IPanel>();
 
                     if (panel != null)
+                    {
+                        panel.Load();
                         panels[path] = panel;
+                    }
                 }
             }
             return panels[path];
