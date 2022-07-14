@@ -24,7 +24,6 @@ namespace FastDev
 
             if (Goal != null)
             {
-                GoapState = new GoapState();
                 queueGoapActions = GoapPlanner.Plan(this, Goal);
             }
                 

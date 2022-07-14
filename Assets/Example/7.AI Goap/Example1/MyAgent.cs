@@ -13,6 +13,9 @@ public class MyAgent : GoapAgent
 
     public Text text;
 
+    public int MaxHP = 100;
+    public float CurHP;
+
     public override void OnActionDone(IGoapAction goapAction)
     {
         base.OnActionDone(goapAction);
@@ -42,6 +45,6 @@ public class MyAgent : GoapAgent
         {
             curProcessSlider.value = CurAction.Progress;
         }
-        curHPSlider.value = GoapState.GetValue(AIStateKey.HP) / 200f;
+        curHPSlider.value = CurHP / MaxHP;
     }
 }

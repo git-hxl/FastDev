@@ -911,6 +911,8 @@ MonoBehaviour:
   curProcessSlider: {fileID: 7164392669145016936}
   curHPSlider: {fileID: 7164392669648561925}
   text: {fileID: 7164392669313668468}
+  MaxHP: 100
+  CurHP: 0
 --- !u!1 &7164392670707501437
 GameObject:
   m_ObjectHideFlags: 0

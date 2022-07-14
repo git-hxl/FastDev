@@ -7,9 +7,9 @@ public class PatrolAction : GoapAction
 {
     public override string Name { get; protected set; } = "巡逻";
     public override int Cost { get; protected set; } = 5;
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new Dictionary<string, int>() {
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new Dictionary<string, object>() {
 
-        {AIStateKey.NoEnemyInRagne,1 },
+        {AIStateKey.NoEnemyInRagne,true },
     });
     public override GoapState Effect { get; protected set; } = new GoapState();
     public override IGoapAgent Agent { get; protected set; }
@@ -47,7 +47,7 @@ public class PatrolAction : GoapAction
     protected override void OnStart()
     {
         nextPos = Target.transform.position;
-      
+
     }
 
     GameObject enemy;
@@ -69,12 +69,12 @@ public class PatrolAction : GoapAction
         {
             if (Vector3.Distance(Agent.Self.transform.position, enemy.transform.position) < 5)
             {
-                Agent.GoapState.SetValue(AIStateKey.NoEnemyInRagne, 0);
+                Agent.GoapState.SetValue(AIStateKey.NoEnemyInRagne, false);
             }
         }
         else
         {
             enemy = GameObject.FindGameObjectWithTag("Player");
-        } 
+        }
     }
 }

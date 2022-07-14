@@ -61,12 +61,12 @@ namespace FastDev
             return queueGoapActions;
         }
 
-        private static List<IGoapAction> GetMatchActions(List<IGoapAction> actions, KeyValuePair<string, int> preCondition)
+        private static List<IGoapAction> GetMatchActions(List<IGoapAction> actions, KeyValuePair<string, object> preCondition)
         {
             List<IGoapAction> matchActions = new List<IGoapAction>();
             foreach (var a in actions)
             {
-                if (a.Effect.Values.ContainsKey(preCondition.Key) && a.Effect.Values[preCondition.Key] >= preCondition.Value)
+                if (a.Effect.Values.ContainsKey(preCondition.Key) && a.Effect.Values[preCondition.Key].Equals(preCondition.Value))
                 {
                     matchActions.Add(a);
                 }
@@ -87,9 +87,9 @@ namespace FastDev
             return min;
         }
 
-        public static bool ComPareState(GoapState a, KeyValuePair<string, int> b)
+        public static bool ComPareState(GoapState a, KeyValuePair<string, object> b)
         {
-            if (!a.Values.ContainsKey(b.Key) || a.Values[b.Key] < b.Value)
+            if (!a.Values.ContainsKey(b.Key) || !a.Values[b.Key].Equals(b.Value))
                 return false;
             return true;
         }
@@ -98,7 +98,7 @@ namespace FastDev
         {
             foreach (var state in b.Values)
             {
-                if (!a.Values.ContainsKey(state.Key) || a.Values[state.Key] < state.Value)
+                if (!a.Values.ContainsKey(state.Key) || !a.Values[state.Key].Equals(state.Value))
                     return false;
             }
             return true;

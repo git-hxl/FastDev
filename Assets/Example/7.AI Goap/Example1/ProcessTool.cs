@@ -6,13 +6,13 @@ public class ProcessTool : GoapAction
 {
     public override string Name { get; protected set; } = "生产工具";
     public override int Cost { get; protected set; } = 5;
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>() {
-          {AIStateKey.HP,50},
-        {AIStateKey.WoodLog,1},
-         {AIStateKey.Stone,1},
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+        {AIStateKey.HP,true},
+        {AIStateKey.WoodLog,true},
+        {AIStateKey.Stone,true},
     });
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>() {
-        {AIStateKey.Axe,1},
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+        {AIStateKey.Axe,true},
     });
     public override IGoapAgent Agent { get; protected set; }
     public override GameObject Target { get; protected set; } = GameObject.FindGameObjectWithTag("Process");
@@ -52,14 +52,14 @@ public class ProcessTool : GoapAction
 
         if (Progress >= 1f)
         {
-            Agent.GoapState.SetValue(AIStateKey.Axe, 1);
+            Agent.GoapState.SetValue(AIStateKey.Axe, true);
 
-            Agent.GoapState.SetValue(AIStateKey.WoodLog, 0);
-            Agent.GoapState.SetValue(AIStateKey.Stone, 0);
-
+            Agent.GoapState.SetValue(AIStateKey.WoodLog, false);
+            Agent.GoapState.SetValue(AIStateKey.Stone, false);
         }
 
-        Agent.GoapState.AddValue(AIStateKey.HP, -1);
+
+        (Agent as MyAgent).CurHP = (Agent as MyAgent).MaxHP * (1 - Progress);
     }
 
 }

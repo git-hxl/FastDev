@@ -8,5 +8,5 @@
 
     public const string Axe = "Axe";
 
-    public const string NoEnemyInRagne = "";
+    public const string NoEnemyInRagne = "NoEnemyInRagne";
 }

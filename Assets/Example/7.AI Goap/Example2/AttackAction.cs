@@ -5,13 +5,13 @@ public class AttackAction : GoapAction
 {
     public override string Name { get; protected set; } = "攻击";
     public override int Cost { get; protected set; }
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
+    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>()
     {
-
+        { AIStateKey.NoEnemyInRagne,false }
     });
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>()
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>()
     {
-        { AIStateKey.NoEnemyInRagne,1 }
+        { AIStateKey.NoEnemyInRagne,true }
     });
 
     public override IGoapAgent Agent { get; protected set; }
@@ -21,15 +21,22 @@ public class AttackAction : GoapAction
     public AttackAction(IGoapAgent goapAgent) : base(goapAgent) { }
 
 
-    public override bool CheckIsDone()
+
+    public override bool MoveToTarget()
     {
+
         Target = GameObject.FindGameObjectWithTag("Player");
-        return Target == null || Vector3.Distance(Target.transform.position, Agent.Self.transform.position) > 5;
+        if (Target == null || Vector3.Distance(Target.transform.position, Agent.Self.transform.position) > 10)
+        {
+            Agent.GoapState.SetValue(AIStateKey.NoEnemyInRagne, true);
+            return false;
+        }
+        return base.MoveToTarget();
     }
 
     protected override void OnDone()
     {
-        Agent.GoapState.SetValue(AIStateKey.NoEnemyInRagne, 1);
+
     }
 
     protected override void OnFailedByConditon()
@@ -44,20 +51,22 @@ public class AttackAction : GoapAction
 
     protected override void OnStart()
     {
-       
+        if (Target == null)
+            Target = GameObject.FindGameObjectWithTag("Player");
     }
 
     private float atkTime = 1;
-    private float count = 0;
+    private float count = 1;
     protected override void OnUpdate()
     {
         if (count >= atkTime)
         {
             Debug.Log("攻击");
             Target.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
-            if (Random.value <= 0.1)
+            if (Random.value <= 0.1f)
             {
                 GameObject.Destroy(Target.gameObject);
+                Agent.GoapState.SetValue(AIStateKey.NoEnemyInRagne, true);
             }
             count = 0;
         }

@@ -5,10 +5,9 @@ public class CollectWood : GoapAction
 {
     public override string Name { get; protected set; } = "收集木头";
     public override int Cost { get; protected set; } = 5;
-    public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>() {
-    });
-    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, int>() {
-        {AIStateKey.Wood,1},
+    public override GoapState PreCondition { get; protected set; } = new GoapState();
+    public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
+        {AIStateKey.Wood,true},
     });
     public override IGoapAgent Agent { get; protected set; }
     public override GameObject Target { get; protected set; } = GameObject.FindGameObjectWithTag("Wood");
@@ -44,7 +43,7 @@ public class CollectWood : GoapAction
         Progress = count / acTime;
         if (Progress >= 1)
         {
-            Agent.GoapState.SetValue(AIStateKey.Wood, 1);
+            Agent.GoapState.SetValue(AIStateKey.Wood, true);
         }
     }
 }
