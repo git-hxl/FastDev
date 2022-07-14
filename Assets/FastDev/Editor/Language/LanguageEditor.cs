@@ -2,7 +2,9 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using LitJson;
+using Newtonsoft.Json;
+using System.Linq;
+
 namespace FastDev
 {
     public class LanguageEditor : EditorWindow
@@ -27,16 +29,13 @@ namespace FastDev
             string id = FileUtil.GetMD5(inputStr);
             if (GUILayout.Button("查询/添加"))
             {
-                if (!dict.ContainsKey(id) && !string.IsNullOrEmpty(id))
+                if (!dict.ContainsKey(id) && !string.IsNullOrEmpty(inputStr))
                 {
                     dict[id] = new LanguageStruct() { Chinese = inputStr };
                     LanguageManager.Instance.SaveToPath(dict);
                     AssetDatabase.Refresh();
                 }
-                JsonWriter jsonWriter = new JsonWriter();
-                jsonWriter.PrettyPrint = true;
-                JsonMapper.ToJson(dict[id], jsonWriter);
-                outputStr = id + "\n" + jsonWriter.ToString().UnicodeToChinese();
+                outputStr = JsonConvert.SerializeObject(dict.FirstOrDefault((a)=>a.Key == id),Formatting.Indented);
             }
             if (GUILayout.Button("移除"))
             {

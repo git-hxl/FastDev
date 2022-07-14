@@ -1,1 +1,9 @@
-{"fileName":"resconfig.json","resVersion":"1.0.0","appVersion":"1.0.0","resDict":{"gif":"4f92ea8770782296b18ba7596770e15c","ui":"9274ad4ac8392d2e866f3a4d6b06c0ef","StandaloneWindows":"9fd37fac53a77dfb2a3651412ca968c7"}}
+{
+  "resVersion": "1.0.0",
+  "appVersion": "1.0.0",
+  "resDict": {
+    "gif": "04adb9a9c36c85a2a76d030cba89db64",
+    "ui": "af02f0775ae3a8ec21b6b20a9faa9409",
+    "StandaloneWindows": "a58eb6cb303682c5f87bcb153edf7db8"
+  }
+}

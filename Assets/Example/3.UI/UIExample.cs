@@ -10,6 +10,8 @@ public class UIExample : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ResLoader.Instance.ResLoaderType = ResLoaderType.FromEditor;
+
         Button bt = GetComponentInChildren<Button>();
 
         bt.onClick.AddListener(()=>{

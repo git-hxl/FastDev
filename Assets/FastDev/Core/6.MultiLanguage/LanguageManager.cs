@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 namespace FastDev
@@ -28,7 +29,7 @@ namespace FastDev
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
-                languageDict = LitJson.JsonMapper.ToObject<Dictionary<string, LanguageStruct>>(json);
+                languageDict = JsonConvert.DeserializeObject<Dictionary<string, LanguageStruct>>(json);
                 Debug.Log("curlanguage:" + LanguageType);
             }
         }
@@ -57,7 +58,7 @@ namespace FastDev
             if (File.Exists(languagePath))
             {
                 string json = File.ReadAllText(languagePath);
-                return LitJson.JsonMapper.ToObject<Dictionary<string, LanguageStruct>>(json);
+                return JsonConvert.DeserializeObject<Dictionary<string, LanguageStruct>>(json);
             }
             return null;
         }
@@ -65,11 +66,8 @@ namespace FastDev
         public void SaveToPath(Dictionary<string, LanguageStruct> dict)
         {
             string languagePath = Application.streamingAssetsPath + "/language.json";
-            LitJson.JsonWriter jsonWriter = new LitJson.JsonWriter();
-            jsonWriter.PrettyPrint = true;
-            LitJson.JsonMapper.ToJson(dict, jsonWriter);
-            string json = jsonWriter.ToString();
-            File.WriteAllText(languagePath, json.UnicodeToChinese());
+            string json = JsonConvert.SerializeObject(dict,Formatting.Indented);
+            File.WriteAllText(languagePath, json);
         }
 
         [ContextMenu("SetToEnglish")]

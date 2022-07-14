@@ -21,6 +21,11 @@ namespace FastDev
         }
         public void Open()
         {
+            if(UIManager.Instance.OpenedPanels.Contains(this))
+            {
+                Debug.LogError("Open ui failed,is Opened ui");
+                return;
+            }
             UIManager.Instance.OpenedPanels.Push(this);
             OnOpen();
         }

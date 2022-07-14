@@ -8,31 +8,31 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Example/2.Audio/2.Audio.unity
     guid: e979198f9383f2940bb6c6fe22429cc7
-  - enabled: 1
-    path: Assets/Example/Common/Common.unity
-    guid: dba1a465b9a250948856099eb4d7da51
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Example/Debugger/Debugger.unity
     guid: 8ba6d0fda3861194281e045d70b28f7f
-  - enabled: 1
-    path: Assets/Example/Http/Http.unity
-    guid: 54da520d7f173d545a33ae31bb44014e
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Example/5.Msg/5.Msg.unity
     guid: 5745986aac326104ea1893467d935ad5
   - enabled: 1
     path: Assets/Example/4.Pool/4.Pool.unity
     guid: 85e84c35ca9072e4b945af4aa8348092
-  - enabled: 1
-    path: Assets/Example/Res/Res.unity
-    guid: 6884f99012d28d84aaf3f96c3013aad6
-  - enabled: 1
-    path: Assets/Example/Socket/Socket.unity
-    guid: da18ff7a4fe92394a80fb4cda013fd85
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Example/3.UI/3.UI.unity
     guid: 34dc63892972cbf45ac9dd15d11c3d93
-  - enabled: 1
-    path: Assets/Example/UniTask/UniTask.unity
-    guid: 56cad13f8f831b448a003be77699aaf4
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

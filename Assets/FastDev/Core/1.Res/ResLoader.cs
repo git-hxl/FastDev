@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace FastDev
             if (File.Exists(configPath))
             {
                 string config = File.ReadAllText(configPath);
-                resLoaderConfig = LitJson.JsonMapper.ToObject<ResLoaderConfig>(config);
+                resLoaderConfig = JsonConvert.DeserializeObject<ResLoaderConfig>(config);
             }
         }
 

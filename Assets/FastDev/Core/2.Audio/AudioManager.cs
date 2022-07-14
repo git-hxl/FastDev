@@ -1,4 +1,4 @@
-﻿using LitJson;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -29,7 +29,7 @@ namespace FastDev
             settingPath = Application.persistentDataPath + "/audioSetting.txt";
             try
             {
-                AudioSetting = JsonMapper.ToObject<AudioSetting>(File.ReadAllText(settingPath));
+                AudioSetting = JsonConvert.DeserializeObject<AudioSetting>(File.ReadAllText(settingPath));
             }
             catch
             {
@@ -62,7 +62,7 @@ namespace FastDev
 
         public void SaveSetting()
         {
-            File.WriteAllText(settingPath, JsonMapper.ToJson(AudioSetting));
+            File.WriteAllText(settingPath, JsonConvert.SerializeObject(AudioSetting));
         }
 
         public override void Dispose()

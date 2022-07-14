@@ -1,23 +1,26 @@
-
 {
-    "e561f2b842541980dbc2e5cbe22e9f02" : {
-        "Chinese" : "今天是个好日子",
-        "English" : ""
-    },
-    "d2d542427b570a7f0778f0ee4133a2f5" : {
-        "Chinese" : "打怪\n做任务",
-        "English" : "Fight monsters \n Do tasks"
-    },
-    "301d003de8e64cc14e0008f1d3e054c7" : {
-        "Chinese" : "哈哈{0}哈哈",
-        "English" : "Haha{0}Haha"
-    },
-    "cf5414c7411bbba626102a59323e40e2" : {
-        "Chinese" : "打怪1\n做任务3",
-        "English" : "Fight monsters1 \n Do tasks3"
-    },
-    "33ba2e28c1f1e628aec4ca6766c364aa" : {
-        "Chinese" : "哈哈 哈哈",
-        "English" : ""
-    }
+  "e561f2b842541980dbc2e5cbe22e9f02": {
+    "Chinese": "今天是个好日子",
+    "English": ""
+  },
+  "cf5414c7411bbba626102a59323e40e2": {
+    "Chinese": "打怪1\n做任务3",
+    "English": ""
+  },
+  "33ba2e28c1f1e628aec4ca6766c364aa": {
+    "Chinese": "哈哈 哈哈",
+    "English": ""
+  },
+  "301d003de8e64cc14e0008f1d3e054c7": {
+    "Chinese": "哈哈{0}哈哈",
+    "English": ""
+  },
+  "8c8fa3529ee34d4e69a0baafb7069da3": {
+    "Chinese": "哈哈",
+    "English": ""
+  },
+  "b15d91274e9fc68608c609999e0413fa": {
+    "Chinese": "关闭",
+    "English": ""
+  }
 }

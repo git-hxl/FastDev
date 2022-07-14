@@ -2,7 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
-using LitJson;
+using Newtonsoft.Json;
+
 namespace FastDev
 {
     public class AssetBundleEditor : EditorWindow
@@ -19,7 +20,7 @@ namespace FastDev
             if (File.Exists(ABBuildSetting.serializePath))
             {
                 string jsonTxt = File.ReadAllText(ABBuildSetting.serializePath);
-                abBuildSetting = JsonMapper.ToObject<ABBuildSetting>(jsonTxt);
+                abBuildSetting = JsonConvert.DeserializeObject<ABBuildSetting>(jsonTxt);
             }
             else
             {
@@ -94,7 +95,7 @@ namespace FastDev
         }
         private void OnDestroy()
         {
-            string jsonText = JsonMapper.ToJson(abBuildSetting);
+            string jsonText = JsonConvert.SerializeObject(abBuildSetting);
             File.WriteAllText(ABBuildSetting.serializePath, jsonText);
         }
         /// <summary>
@@ -121,7 +122,7 @@ namespace FastDev
             string configPath = GetTargetPath() + "/" + ResLoaderConfig.fileName;
             if (File.Exists(configPath))
             {
-                ResConfig = JsonMapper.ToObject<ResLoaderConfig>(File.ReadAllText(configPath));
+                ResConfig = JsonConvert.DeserializeObject<ResLoaderConfig>(File.ReadAllText(configPath));
             }
             foreach (var item in hash)
             {
@@ -134,7 +135,7 @@ namespace FastDev
             }
             ResConfig.appVersion = abBuildSetting.appVersion;
             ResConfig.resVersion = abBuildSetting.resVersion;
-            File.WriteAllText(configPath, JsonMapper.ToJson(ResConfig));
+            File.WriteAllText(configPath, JsonConvert.SerializeObject(ResConfig,Formatting.Indented));
             Debug.Log("写入成功");
         }
 

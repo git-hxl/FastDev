@@ -107,7 +107,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -274,7 +274,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u963F\u677E\u5927\n\u5341\u5927"
+  m_Text: "\u5173\u95ED"
 --- !u!114 &7611555690684310405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bde2bb73df53ad44a775b2031372ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 
+  ID: b15d91274e9fc68608c609999e0413fa
 --- !u!1 &1539111836959954609
 GameObject:
   m_ObjectHideFlags: 0

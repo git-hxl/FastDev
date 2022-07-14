@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using LitJson;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,10 +30,10 @@ namespace FastDev
 
         private async UniTask HttpGetConfig()
         {
-            localResLoaderConfig = JsonMapper.ToObject<ResLoaderConfig>(File.ReadAllText(localResConfigPath)); ;
+            localResLoaderConfig = JsonConvert.DeserializeObject<ResLoaderConfig>(File.ReadAllText(localResConfigPath)); ;
             string txt = await HttpManager.Instance.GetTxt(remoteResConfigPath);
             if (!string.IsNullOrEmpty(txt))
-                remoteResLoaderConfig = JsonMapper.ToObject<ResLoaderConfig>(txt);
+                remoteResLoaderConfig = JsonConvert.DeserializeObject<ResLoaderConfig>(txt);
         }
 
         public async void StartUpdateRes()
@@ -79,7 +79,7 @@ namespace FastDev
                         return;
                     }
                 }
-                File.WriteAllText(localResConfigPath, JsonMapper.ToJson(remoteResLoaderConfig));
+                File.WriteAllText(localResConfigPath, JsonConvert.SerializeObject(remoteResLoaderConfig));
             }
             Debug.Log("Update Completed!");
             onUpdateSuccessed?.Invoke();
