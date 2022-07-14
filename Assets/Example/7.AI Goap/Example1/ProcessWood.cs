@@ -7,8 +7,8 @@ public class ProcessWood : GoapAction
     public override string Name { get; protected set; } = "加工木头";
     public override int Cost { get; protected set; } = 5;
     public override GoapState PreCondition { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
-        {AIStateKey.HP,true},
         {AIStateKey.Wood,true},
+        {AIStateKey.HP,true},
     });
     public override GoapState Effect { get; protected set; } = new GoapState(new System.Collections.Generic.Dictionary<string, object>() {
         {AIStateKey.WoodLog,true},
