@@ -18,7 +18,7 @@ public class UITestPanel : UIPanel
 	public RectTransform Recttext { get { if (recttext == null) { recttext = transform.Find("_Root/_text").GetComponent<RectTransform>(); } return recttext; } }
 	#endregion UIAttribute
 
-    protected override void OnClose()
+    public override void OnClose()
     {
         transform.GetChild(0).DOScale(0, 0.3f).SetEase(Ease.InCubic).OnComplete(() =>
         {
@@ -26,12 +26,12 @@ public class UITestPanel : UIPanel
         });
     }
 
-    protected override void OnLoad()
+    public override void OnLoad()
     {
         BtConfirm.onClick.AddListener(Close);
     }
 
-    protected override void OnOpen()
+    public override void OnOpen()
     {
         gameObject.SetActive(true);
         transform.GetChild(0).localScale = Vector3.zero;

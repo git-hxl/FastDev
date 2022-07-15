@@ -5,33 +5,14 @@ namespace FastDev
     {
         public void Close()
         {
-            var peekPanel = UIManager.Instance.OpenedPanels.Peek() as UIPanel;
-            if (peekPanel != this)
-            {
-                Debug.LogError("close ui failed,is not curOpened ui");
-                return;
-            }
-            UIManager.Instance.OpenedPanels.Pop();
-            OnClose();
-        }
-        public void Load()
-        {
-
-            OnLoad();
+            UIManager.Instance.Close(this);
         }
         public void Open()
         {
-            if(UIManager.Instance.OpenedPanels.Contains(this))
-            {
-                Debug.LogError("Open ui failed,is Opened ui");
-                return;
-            }
-            UIManager.Instance.OpenedPanels.Push(this);
-            OnOpen();
+            UIManager.Instance.Open(this);
         }
-
-        protected abstract void OnClose();
-        protected abstract void OnLoad();
-        protected abstract void OnOpen();
+        public abstract void OnClose();
+        public abstract void OnLoad();
+        public abstract void OnOpen();
     }
 }

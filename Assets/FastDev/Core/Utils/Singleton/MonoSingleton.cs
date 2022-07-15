@@ -10,7 +10,7 @@ namespace FastDev
             {
                 if (instance == null)
                 {
-                    instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                    new GameObject(typeof(T).Name).AddComponent<T>();
                 }
 
                 return instance;
@@ -27,7 +27,7 @@ namespace FastDev
             }
             else
             {
-                DestroyImmediate(this);
+                DestroyImmediate(gameObject);
             }
         }
 
