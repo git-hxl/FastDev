@@ -1,0 +1,66 @@
+{
+  "W": {
+    "Type": 0,
+    "KeyCodes": [
+      119
+    ],
+    "Axis": ""
+  },
+  "A": {
+    "Type": 0,
+    "KeyCodes": [
+      97
+    ],
+    "Axis": ""
+  },
+  "S": {
+    "Type": 0,
+    "KeyCodes": [
+      115
+    ],
+    "Axis": ""
+  },
+  "D": {
+    "Type": 0,
+    "KeyCodes": [
+      100
+    ],
+    "Axis": ""
+  },
+  "剪辑": {
+    "Type": 0,
+    "KeyCodes": [
+      306,
+      120
+    ],
+    "Axis": ""
+  },
+  "复制": {
+    "Type": 0,
+    "KeyCodes": [
+      306,
+      99
+    ],
+    "Axis": ""
+  },
+  "粘贴": {
+    "Type": 0,
+    "KeyCodes": [
+      306,
+      118
+    ],
+    "Axis": ""
+  },
+  "空格": {
+    "Type": 0,
+    "KeyCodes": [
+      32
+    ],
+    "Axis": ""
+  },
+  "Mouse X": {
+    "Type": 1,
+    "KeyCodes": [],
+    "Axis": "Mouse X"
+  }
+}

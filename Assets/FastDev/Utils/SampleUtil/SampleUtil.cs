@@ -29,7 +29,7 @@ namespace FastDev
 
             Debug.Log("RSA签名数据：" + signText);
 
-            bool value = SecurityUtil.SignatureDeformatter(publicKey, text+"x", signText);
+            bool value = SecurityUtil.SignatureDeformatter(publicKey, text, signText);
 
             Debug.Log("RSA验签结果：" + value);
 
