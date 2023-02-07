@@ -8,7 +8,7 @@ namespace FastDev
     public class PlayerController : MonoBehaviour
     {
         private CharacterController characterController;
-        private Camera camera;
+        private CameraController cameraController;
         private bool isGround;
         private float velocitY;
 
@@ -21,7 +21,7 @@ namespace FastDev
         void Start()
         {
             characterController = GetComponent<CharacterController>();
-            camera = Camera.main;
+            cameraController = FindObjectOfType<CameraController>();
         }
 
         // Update is called once per frame
@@ -35,11 +35,15 @@ namespace FastDev
 
             Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-            if (move != Vector3.zero && camera != null)
+            if (cameraController != null)
             {
-                Quaternion targetAngle = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, TurnSpeed * Time.deltaTime);
-                characterController.Move(transform.forward * Time.deltaTime * MoveSpeed);
+                Quaternion targetAngle = Quaternion.Euler(0, cameraController.transform.eulerAngles.y, 0);
+                if (cameraController.Mode == CameraMode.TP && move != Vector3.zero)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, TurnSpeed * Time.deltaTime);
+                }
+
+                characterController.Move(transform.TransformDirection(move) * MoveSpeed * Time.deltaTime);
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && isGround)
