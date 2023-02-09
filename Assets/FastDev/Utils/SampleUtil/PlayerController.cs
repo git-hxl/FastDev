@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FastDev
@@ -12,11 +10,12 @@ namespace FastDev
         private bool isGround;
         private float velocitY;
 
-        public float MoveSpeed;
-        public float TurnSpeed;
-        public float JumpHeight;
+        public float MoveSpeed = 5f;
+        public float TurnSpeed = 10f;
+        public float RotateSpeed = 200f;
+        public float JumpHeight = 2.5f;
 
-        public float GravityFactor = 1f;
+        public float GravityFactor = 3f;
         // Start is called before the first frame update
         void Start()
         {
@@ -41,6 +40,15 @@ namespace FastDev
                 if (cameraController.Mode == CameraMode.TP && move != Vector3.zero)
                 {
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetAngle, TurnSpeed * Time.deltaTime);
+                }
+
+                if (cameraController.Mode == CameraMode.FP)
+                {
+                    float x = Input.GetAxis("Mouse X");
+                    if (x != 0)
+                    {
+                        transform.Rotate(Vector3.up, x * RotateSpeed * Time.deltaTime);
+                    }
                 }
 
                 characterController.Move(transform.TransformDirection(move) * MoveSpeed * Time.deltaTime);
