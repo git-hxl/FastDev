@@ -7,7 +7,7 @@ namespace FastDev
     {
         public Dictionary<string, UIPanel> UIPanels { get; private set; } = new Dictionary<string, UIPanel>();
 
-        private UIPanel LoadUIPanel(string path)
+        public UIPanel LoadUIPanel(string path)
         {
             if (UIPanels.ContainsKey(path))
                 return UIPanels[path];
@@ -17,18 +17,32 @@ namespace FastDev
             return uIPanel;
         }
 
-        public void OpenUI(string path, UISortOrder sortOrder = UISortOrder.Middle)
+        public UIPanel OpenUI(string path, UISortOrder sortOrder = UISortOrder.Middle)
         {
             UIPanel uIPanel = LoadUIPanel(path);
             uIPanel.Canvas.sortingOrder = (int)sortOrder;
             uIPanel.Open();
             uIPanel.transform.SetAsFirstSibling();
+            return uIPanel;
         }
+
+        public T GetUI<T>() where T : UIPanel
+        {
+            foreach (var item in UIPanels)
+            {
+                if (item.Value is T)
+                {
+                    return item.Value as T;
+                }
+            }
+            return null;
+        }
+
 
         public void CloseUI(string path)
         {
-            UIPanel uIPanel = LoadUIPanel(path);
-            uIPanel.Close();
+            if (UIPanels.ContainsKey(path))
+                UIPanels[path].Close();
         }
 
         public void HideAllActiveUI()
