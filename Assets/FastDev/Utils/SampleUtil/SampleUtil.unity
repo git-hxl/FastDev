@@ -1042,7 +1042,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 5
-  TurnSpeed: 10
   RotateSpeed: 200
   JumpHeight: 2.5
   GravityFactor: 3
@@ -1196,6 +1195,7 @@ GameObject:
   - component: {fileID: 1297328444}
   - component: {fileID: 1297328443}
   - component: {fileID: 1297328442}
+  - component: {fileID: 1297328446}
   - component: {fileID: 1297328445}
   m_Layer: 0
   m_Name: Main Camera
@@ -1278,20 +1278,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297328441}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6689e6ba047389041be9eaf908aa8597, type: 3}
+  m_Script: {fileID: 11500000, guid: f5f3ea87a567bc041af089cfa702c3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 826499852}
-  TPOffset: {x: 0, y: 2, z: -8}
-  FPOffset: {x: 0, y: 2, z: -1}
-  Mode: 1
+  Offset: {x: 0, y: 0.25, z: -1}
   RotateSpeed: 200
-  ScrollSpeed: 200
   LerpSpeed: 5
-  MaxZDistance: -20
   MaxXAngle: 50
+  ScrollSpeed: 200
+  MaxZDistance: -10
   Raycast: 1
   WallThickness: 1
+--- !u!114 &1297328446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297328441}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b45362e9a3404b44af95e8bd2f14d51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 2120533913}
+  Offset: {x: 0, y: 0, z: 0}
+  RotateSpeed: 200
+  LerpSpeed: 20
+  MaxXAngle: 50
 --- !u!1 &1416033796
 GameObject:
   m_ObjectHideFlags: 0
