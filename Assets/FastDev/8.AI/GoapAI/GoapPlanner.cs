@@ -6,34 +6,21 @@ namespace FastDev
 {
     public class GoapPlanner
     {
-        public class GoapNode
+        private GoapAgent goapAgent;
+        private HashSet<GoapAction> goapActions;
+
+        public GoapPlanner(GoapAgent goapAgent, HashSet<GoapAction> goapActions)
         {
-            public GoapNode Parent;
-            public int Cost;
-            public IGoapAction GoapAction;
-
-            public HashSet<KeyValuePair<string, object>> State;
-
-            public GoapNode(GoapNode parent, int cost, HashSet<KeyValuePair<string, object>> state, IGoapAction action)
-            {
-                this.Parent = parent;
-                this.Cost = cost;
-                this.State = state;
-                this.GoapAction = action;
-            }
+            this.goapAgent = goapAgent;
+            this.goapActions = goapActions;
         }
 
-        public Stack<IGoapAction> Plan(IGoapAgent agent, HashSet<IGoapAction> availableActions, HashSet<KeyValuePair<string, object>> worldState, HashSet<KeyValuePair<string, object>> goal)
+        public Stack<GoapAction> Plan(HashSet<KeyValuePair<string, object>> worldState, HashSet<KeyValuePair<string, object>> goal)
         {
-            foreach (IGoapAction a in availableActions)
+            HashSet<GoapAction> usableActions = new HashSet<GoapAction>();
+            foreach (GoapAction a in goapActions)
             {
-                a.Reset();
-            }
-
-            HashSet<IGoapAction> usableActions = new HashSet<IGoapAction>();
-            foreach (IGoapAction a in availableActions)
-            {
-                if (a.CheckProceduralPrecondition(agent))
+                if (a.CheckProceduralPrecondition())
                     usableActions.Add(a);
             }
 
@@ -59,7 +46,7 @@ namespace FastDev
                 }
             }
 
-            Stack<IGoapAction> stack = new Stack<IGoapAction>();
+            Stack<GoapAction> stack = new Stack<GoapAction>();
 
             string debug = "";
             GoapNode curNode = cheapest;
@@ -69,7 +56,7 @@ namespace FastDev
                 if (curNode.GoapAction != null)
                 {
                     stack.Push(curNode.GoapAction);
-
+                    curNode.GoapAction.OnStart();
                     debug += "<--" + curNode.GoapAction.ToString();
                 }
                 curNode = curNode.Parent;
@@ -80,10 +67,10 @@ namespace FastDev
         }
 
 
-        private bool BuildGraph(GoapNode parent, List<GoapNode> findNodes, HashSet<IGoapAction> availableActions, HashSet<KeyValuePair<string, object>> goal)
+        private bool BuildGraph(GoapNode parent, List<GoapNode> findNodes, HashSet<GoapAction> goapActions, HashSet<KeyValuePair<string, object>> goal)
         {
             bool foundOne = false;
-            foreach (var action in availableActions)
+            foreach (var action in goapActions)
             {
                 //满足前提执行条件
                 if (Contains(parent.State, action.Preconditions))
@@ -100,7 +87,7 @@ namespace FastDev
                     }
                     else
                     {
-                        HashSet<IGoapAction> subset = ActionSubset(availableActions, action);
+                        HashSet<GoapAction> subset = ActionSubset(goapActions, action);
                         bool found = BuildGraph(goapNode, findNodes, subset, goal);
                         if (found)
                             foundOne = true;
@@ -177,10 +164,10 @@ namespace FastDev
             return state;
         }
 
-        private HashSet<IGoapAction> ActionSubset(HashSet<IGoapAction> actions, IGoapAction removeAction)
+        private HashSet<GoapAction> ActionSubset(HashSet<GoapAction> actions, GoapAction removeAction)
         {
-            HashSet<IGoapAction> subset = new HashSet<IGoapAction>();
-            foreach (IGoapAction a in actions)
+            HashSet<GoapAction> subset = new HashSet<GoapAction>();
+            foreach (GoapAction a in actions)
             {
                 if (!a.Equals(removeAction))
                     subset.Add(a);

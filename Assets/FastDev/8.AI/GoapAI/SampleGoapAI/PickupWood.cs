@@ -6,39 +6,39 @@ namespace FastDev
 {
     public class PickupWood : GoapAction
     {
-        public override HashSet<KeyValuePair<string, object>> Preconditions { get; }
+        public override HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
 
-        public override HashSet<KeyValuePair<string, object>> Effects { get; }
+        public override HashSet<KeyValuePair<string, object>> Effects { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
 
-        public override int Cost { get; }
-        public override GameObject Target { get; protected set; }
-
-        public PickupWood()
+        public override int Cost { get; protected set; } = 10;
+        public PickupWood(GoapAgent goapAgent) : base(goapAgent)
         {
-            Preconditions = new HashSet<KeyValuePair<string, object>>();
-            Effects = new HashSet<KeyValuePair<string, object>>();
-
             Cost = 10;
 
             Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasWood, true));
         }
 
-        public override bool CheckProceduralPrecondition(IGoapAgent goapAgent)
+        public override bool IsInRange()
+        {
+            return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
+        }
+
+        public override void OnStart()
+        {
+            //throw new System.NotImplementedException();
+        }
+
+        public override bool CheckProceduralPrecondition()
         {
             Target = GameObject.FindGameObjectWithTag("Wood");
 
             return Target != null;
         }
 
-        public override bool RequireInRange()
-        {
-            return true;
-        }
-
-        public override bool Run(IGoapAgent goapAgent)
+        public override void OnRun()
         {
             IsDone = true;
-            return true;
+            return;
         }
     }
 }

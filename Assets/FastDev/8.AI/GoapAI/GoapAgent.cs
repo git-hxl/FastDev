@@ -2,23 +2,36 @@
 using UnityEngine;
 namespace FastDev
 {
-    public abstract class GoapAgent : MonoBehaviour, IGoapAgent
+    public abstract class GoapAgent : MonoBehaviour
     {
         public abstract HashSet<KeyValuePair<string, object>> WorldState { get; protected set; }
 
         public abstract HashSet<KeyValuePair<string, object>> GoalState { get; protected set; }
 
-        public abstract HashSet<IGoapAction> AvailableActions { get; protected set; }
+        public abstract HashSet<GoapAction> AllGoapActions { get; protected set; }
 
-        public GoapPlanner GoapPlanner { get; private set; } = new GoapPlanner();
+        public Stack<GoapAction> GoapActions { get; private set; }
 
-        public Stack<IGoapAction> CurrentActions { get; private set; }
-        public IGoapAction RunAction { get; private set; }
-        public abstract bool MoveToTarget(IGoapAction goapAction);
+        public GoapAction CurGoapAction { get; private set; }
 
-        public virtual void OnActionFailed(IGoapAction failedAction)
+        public abstract GoapPlanner GoapPlanner { get; protected set; }
+
+        private void Awake()
         {
-            Debug.LogError("OnActionFailed:" + failedAction.ToString());
+            OnInit();
+        }
+
+        public abstract void OnInit();
+        public abstract void OnMove();
+
+        public virtual void OnActionFailed()
+        {
+            Debug.LogError("OnActionFailed:" + CurGoapAction.ToString());
+        }
+
+        public virtual void OnActionDone()
+        {
+            Debug.Log("OnActionDone:" + CurGoapAction.ToString());
         }
 
         public virtual void OnPlanFailed(HashSet<KeyValuePair<string, object>> failedGoal)
@@ -31,12 +44,13 @@ namespace FastDev
             Debug.Log("OnPlanDone:" + goal.ToString());
         }
 
-        public void Plan()
+        public void StartPlan()
         {
-            RunAction = null;
-            CurrentActions = GoapPlanner.Plan(this, AvailableActions, WorldState, GoalState);
+            CurGoapAction = null;
 
-            if (CurrentActions == null)
+            GoapActions = GoapPlanner.Plan(WorldState, GoalState);
+
+            if (GoapActions == null)
             {
                 OnPlanFailed(GoalState);
             }
@@ -44,43 +58,37 @@ namespace FastDev
 
         private void Update()
         {
-            if (CurrentActions != null && CurrentActions.Count > 0)
+            if (GoapActions != null && GoapActions.Count > 0)
             {
-                IGoapAction goapAction = CurrentActions.Peek();
+                CurGoapAction = GoapActions.Peek();
 
-                if (goapAction.IsDone)
+                if (CurGoapAction.IsDone)
                 {
-                    CurrentActions.Pop();
+                    OnActionDone();
+                    GoapActions.Pop();
+
+
+                    if (GoapActions.Count <= 0)
+                    {
+                        OnPlanDone(GoalState);
+                    }
+
                     return;
                 }
 
-                if (goapAction != RunAction)
+                if (CurGoapAction.Target == null)
                 {
-                    RunAction = goapAction;
-                    RunAction.Start();
-                }
-
-                if (goapAction.Target == null)
-                {
-                    OnActionFailed(goapAction);
+                    OnActionFailed();
                     return;
                 }
 
-                if (goapAction.RequireInRange())
+                if (!CurGoapAction.IsInRange())
                 {
-                    if (!MoveToTarget(goapAction))
-                        return;
+                    OnMove();
+                    return;
                 }
 
-                if (goapAction.Run(this))
-                {
-                    CurrentActions.Pop();
-                }
-
-                if (CurrentActions.Count <= 0)
-                {
-                    OnPlanDone(GoalState);
-                }
+                CurGoapAction.OnRun();
             }
         }
     }

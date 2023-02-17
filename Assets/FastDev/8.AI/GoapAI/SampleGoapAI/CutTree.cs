@@ -9,56 +9,51 @@ namespace FastDev
 {
     internal class CutTree : GoapAction
     {
-        public override HashSet<KeyValuePair<string, object>> Preconditions { get; }
+        public override HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
 
-        public override HashSet<KeyValuePair<string, object>> Effects { get; }
+        public override HashSet<KeyValuePair<string, object>> Effects { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
 
-        public override int Cost { get; }
-        public override GameObject Target { get; protected set; }
+        public override int Cost { get; protected set; } = 5;
 
         private float time = 2f;
-        public CutTree()
-        {
-            Preconditions = new HashSet<KeyValuePair<string, object>>();
-            Effects = new HashSet<KeyValuePair<string, object>>();
 
+        public CutTree(GoapAgent goapAgent) : base(goapAgent)
+        {
             Preconditions.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, true));
-
-            Cost = 5;
-
             Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasWood, true));
-
-
         }
 
-        public override void Reset()
+        public override bool IsInRange()
         {
-            base.Reset();
-            time = 2f;
+            return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
         }
 
-        public override bool CheckProceduralPrecondition(IGoapAgent goapAgent)
+
+        public override bool CheckProceduralPrecondition()
         {
             Target = GameObject.FindGameObjectWithTag("Tree");
 
             return Target != null;
         }
 
-        public override bool RequireInRange()
+        public override void OnStart()
         {
-            return true;
+            time = 2f;
         }
 
-        public override bool Run(IGoapAgent goapAgent)
+
+        public override void OnRun()
         {
             time -= Time.deltaTime;
             if (time < 0)
             {
                 IsDone = true;
-                return true;
+                return;
             }
 
-            return false;
+            return;
         }
+
+
     }
 }

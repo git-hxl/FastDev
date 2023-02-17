@@ -3,34 +3,26 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public abstract class GoapAction : IGoapAction
+    public abstract class GoapAction
     {
-        public abstract HashSet<KeyValuePair<string, object>> Preconditions { get; }
-
-        public abstract HashSet<KeyValuePair<string, object>> Effects { get; }
-
-        public abstract int Cost { get; }
-
-        public abstract GameObject Target { get; protected set; }
-
+        public abstract HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; }
+        public abstract HashSet<KeyValuePair<string, object>> Effects { get; protected set; }
+        public abstract int Cost { get; protected set; }
+        public GoapAgent GoapAgent { get; protected set; }
+        public GameObject Target { get; protected set; }
         public bool IsDone { get; protected set; }
 
-        public virtual void Reset()
+        public GoapAction(GoapAgent goapAgent)
         {
-            Target = null;
+            GoapAgent = goapAgent;
+        }
+
+        public abstract bool IsInRange();
+        public abstract bool CheckProceduralPrecondition();
+        public virtual void OnStart()
+        {
             IsDone = false;
         }
-        public abstract bool RequireInRange();
-        public virtual bool IsInRange(Vector3 pos)
-        {
-            if (Vector3.Distance(pos, Target.transform.position) < 0.1f)
-            {
-                return true;
-            }
-            return false;
-        }
-        public abstract bool CheckProceduralPrecondition(IGoapAgent goapAgent);
-        public virtual void Start() { }
-        public abstract bool Run(IGoapAgent goapAgent);
+        public abstract void OnRun();
     }
 }
