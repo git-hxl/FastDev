@@ -7,9 +7,9 @@ public class PlayerController : MonoBehaviour
     private float velocitY;
 
     public float MoveSpeed = 2.5f;
-    public float RotateSpeed = 10f;
     public float JumpHeight = 2.5f;
     public float GravityFactor = 3f;
+    public float TurnSpeed = 10f;
 
     private void Start()
     {
@@ -25,10 +25,8 @@ public class PlayerController : MonoBehaviour
             velocitY = 0f;
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        Quaternion targetAngle = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, RotateSpeed * Time.deltaTime);
-        characterController.Move(transform.TransformDirection(move) * MoveSpeed * Time.deltaTime);
+        Vector3 moveDir = (new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))).normalized;
+        characterController.Move(transform.TransformDirection(moveDir) * MoveSpeed * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Space) && isGround)
         {
@@ -37,5 +35,14 @@ public class PlayerController : MonoBehaviour
 
         velocitY += Physics.gravity.y * GravityFactor * Time.deltaTime;
         characterController.Move(Vector3.up * velocitY * Time.deltaTime);
+    }
+
+    private void LateUpdate()
+    {
+        Quaternion targetRotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
+        if (transform.rotation != targetRotation)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
+        }
     }
 }

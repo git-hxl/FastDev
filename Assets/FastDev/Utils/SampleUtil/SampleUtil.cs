@@ -10,6 +10,7 @@ namespace FastDev
         // Start is called before the first frame update
         void Start()
         {
+            Application.targetFrameRate = 120;
             string md5txt = SecurityUtil.MD5Encrypt(text);
             Debug.Log("MD5£º" + md5txt);
 
