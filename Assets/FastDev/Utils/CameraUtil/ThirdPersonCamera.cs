@@ -28,18 +28,13 @@ public class ThirdPersonCamera : MonoBehaviour
 
         transform.RotateAround(Target.position, Vector3.up, x * RotateSpeed * Time.deltaTime);
 
-        transform.RotateAround(Target.position, transform.right, y * RotateSpeed * Time.deltaTime);
-
         float xAngle = transform.eulerAngles.x;
-        if (xAngle > MaxXAngle && xAngle < 180)
-        {
-            xAngle = MaxXAngle;
-        }
-        if (xAngle < 360 - MaxXAngle && xAngle > 180)
-        {
-            xAngle = 360 - MaxXAngle;
-        }
-        transform.rotation = Quaternion.Euler(xAngle, transform.eulerAngles.y, 0);
+
+        if (xAngle > 180)
+            xAngle -= 360;
+
+        if ((xAngle < MaxXAngle && y > 0) || (xAngle > -MaxXAngle && y < 0))
+            transform.RotateAround(Target.position, transform.right, y * RotateSpeed * Time.deltaTime);
 
         Offset.z = Mathf.Clamp(Offset.z + z * ScrollSpeed * Time.deltaTime, MaxZDistance, 0);
     }
@@ -47,7 +42,6 @@ public class ThirdPersonCamera : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 targetPos = Target.position + transform.TransformVector(Offset);
-
         if (Raycast)
         {
             RaycastHit raycastHit;
@@ -62,7 +56,6 @@ public class ThirdPersonCamera : MonoBehaviour
                 }
             }
         }
-
         transform.position = Vector3.Lerp(transform.position, targetPos, LerpSpeed * Time.deltaTime);
     }
 }

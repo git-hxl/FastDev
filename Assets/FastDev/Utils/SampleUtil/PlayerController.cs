@@ -19,13 +19,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+
         isGround = characterController.isGrounded;
         if (isGround && velocitY < 0)
         {
             velocitY = 0f;
         }
 
-        Vector3 moveDir = (new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))).normalized;
+        Vector3 moveDir = new Vector3(x, 0, z).normalized;
         characterController.Move(transform.TransformDirection(moveDir) * MoveSpeed * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Space) && isGround)
@@ -42,7 +45,7 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
         if (transform.rotation != targetRotation)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
+            transform.rotation = targetRotation;//Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
         }
     }
 }
