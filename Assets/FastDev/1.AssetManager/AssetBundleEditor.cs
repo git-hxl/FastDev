@@ -119,19 +119,19 @@ namespace FastDev
                 }
 
                 AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(outputPath, builds, (BuildAssetBundleOptions)assetBundleEditorSetting.CompressionType, assetBundleEditorSetting.Platform);
-                Dictionary<string, string> config = new Dictionary<string, string>();
 
+                AssetBundleConfig assetBundleConfig = new AssetBundleConfig();
+                assetBundleConfig.Bundles = new Dictionary<string, string>();
                 foreach (var bundle in manifest.GetAllAssetBundles())
                 {
-                    config[bundle] = manifest.GetAssetBundleHash(bundle).ToString();
+                    assetBundleConfig.Bundles[bundle] = manifest.GetAssetBundleHash(bundle).ToString();
                 }
-                config["AssetVersion"] = assetBundleEditorSetting.AssetVersion;
-                config["AppVersion"] = assetBundleEditorSetting.AppVersion;
+                assetBundleConfig.AssetVersion = assetBundleEditorSetting.AssetVersion;
+                assetBundleConfig.AppVersion = assetBundleEditorSetting.AppVersion;
 
-                string configJson = JsonConvert.SerializeObject(config, Formatting.Indented);
+                string configJson = JsonConvert.SerializeObject(assetBundleConfig, Formatting.Indented);
 
-                File.WriteAllText(outputPath + "/config.json", configJson);
-
+                File.WriteAllText(outputPath + "/AssetBundleConfig.json", configJson);
                 AssetDatabase.Refresh();
             }
         }
