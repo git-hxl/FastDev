@@ -35,16 +35,14 @@ namespace FastDev
         {
             if (GUILayout.Button("查询"))
             {
-                outputStr = "";
                 string id = string.Format("{0:X}", inputStr.GetHashCode());
+                outputStr = id;
                 if (LanguageManager.Instance.LanguageDict.ContainsKey(id))
                 {
                     LanguageData languageData = LanguageManager.Instance.LanguageDict[id];
-                    outputStr = id + "\n" + JsonConvert.SerializeObject(languageData, Formatting.Indented);
+                    outputStr += "\n" + JsonConvert.SerializeObject(languageData, Formatting.Indented);
                 }
-                    
             }
-
             if (GUILayout.Button("添加"))
             {
                 string id = LanguageManager.Instance.RegisterText(inputStr);
