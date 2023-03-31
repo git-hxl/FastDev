@@ -6,63 +6,31 @@ namespace FastDev
 {
     public class SampleAgent : GoapAgent
     {
-        public override HashSet<KeyValuePair<string, object>> WorldState { get; protected set; }
-        public override HashSet<KeyValuePair<string, object>> GoalState { get; protected set; }
-
-        public override HashSet<GoapAction> AllGoapActions { get; protected set; }
-
-        public override GoapPlanner GoapPlanner { get; protected set; }
-
         public override void OnInit()
         {
-            WorldState = new HashSet<KeyValuePair<string, object>>();
-
-            //WorldState.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, false));
-
-            GoalState = new HashSet<KeyValuePair<string, object>>();
-            GoalState.Add(new KeyValuePair<string, object>(GlobalStateKey.HasWood, true));
-
-            AllGoapActions = new HashSet<GoapAction>();
-
+            base .OnInit();
             AllGoapActions.Add(new CutTree(this));
             AllGoapActions.Add(new PickupAxe(this));
             AllGoapActions.Add(new PickupWood(this));
 
-            GoapPlanner = new GoapPlanner(this, AllGoapActions);
         }
 
         private void Start()
         {
-            StartPlan();
+            StartPlan(new HashSet<KeyValuePair<string, object>> { new KeyValuePair<string, object>(GlobalStateKey.HasWood, true) });
         }
 
-
-        public override void OnActionDone()
+        public override void OnPlanDone()
         {
-            base.OnActionDone();
-        }
+            base.OnPlanDone();
 
-        public override void OnActionFailed()
-        {
-            base.OnActionFailed();
-        }
-
-        public override void OnPlanFailed(HashSet<KeyValuePair<string, object>> failedGoal)
-        {
-            base.OnPlanFailed(failedGoal);
-        }
-
-        public override void OnPlanDone(HashSet<KeyValuePair<string, object>> goal)
-        {
-            base.OnPlanDone(goal);
-
-            StartPlan();
+            StartPlan(new HashSet<KeyValuePair<string, object>> { new KeyValuePair<string, object>(GlobalStateKey.HasWood, true) });
         }
 
         public override void OnMove()
         {
             float step = 5 * Time.deltaTime;
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, CurGoapAction.Target.transform.position, step);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GoapAction.Target.transform.position, step);
         }
     }
 }

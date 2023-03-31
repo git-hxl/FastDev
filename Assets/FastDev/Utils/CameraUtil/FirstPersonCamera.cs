@@ -1,38 +1,42 @@
 using UnityEngine;
-public class FirstPersonCamera : MonoBehaviour
+
+namespace FastDev
 {
-    public Transform Target;
-    public Vector3 Offset = new Vector3(0f, 0f, 0f);
-
-    public float RotateSpeed = 200f;
-    public float MaxXAngle = 50f;
-
-    private void OnEnable()
+    public class FirstPersonCamera : MonoBehaviour
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        transform.forward = Target.forward;
-    }
+        public Transform Target;
+        public Vector3 Offset = new Vector3(0f, 0f, 0f);
 
-    private void Update()
-    {
-        float x = Input.GetAxis("Mouse X");
-        float y = -Input.GetAxis("Mouse Y");
+        public float RotateSpeed = 200f;
+        public float MaxXAngle = 50f;
 
-        transform.Rotate(Vector3.up, x * RotateSpeed * Time.deltaTime, Space.World);
+        private void OnEnable()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            transform.forward = Target.forward;
+        }
 
-        float xAngle = transform.eulerAngles.x;
+        private void Update()
+        {
+            float x = Input.GetAxis("Mouse X");
+            float y = -Input.GetAxis("Mouse Y");
 
-        if (xAngle > 180)
-            xAngle -= 360;
+            transform.Rotate(Vector3.up, x * RotateSpeed * Time.deltaTime, Space.World);
 
-        if ((xAngle < MaxXAngle && y > 0) || (xAngle > -MaxXAngle && y < 0))
-            transform.Rotate(Vector3.right, y * RotateSpeed * Time.deltaTime, Space.Self);
+            float xAngle = transform.eulerAngles.x;
 
-    }
+            if (xAngle > 180)
+                xAngle -= 360;
 
-    private void LateUpdate()
-    {
-        Vector3 targetPos = Target.position + Target.TransformVector(Offset);
-        transform.position = targetPos;
+            if ((xAngle < MaxXAngle && y > 0) || (xAngle > -MaxXAngle && y < 0))
+                transform.Rotate(Vector3.right, y * RotateSpeed * Time.deltaTime, Space.Self);
+
+        }
+
+        private void LateUpdate()
+        {
+            Vector3 targetPos = Target.position + Target.TransformVector(Offset);
+            transform.position = targetPos;
+        }
     }
 }

@@ -1,27 +1,24 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Threading;
 using UnityEngine;
 
 namespace FastDev
 {
-    public class AudioPlayer
+    [Serializable]
+    public class AudioPlayer : MonoBehaviour
     {
-        public AudioSource AudioSource { get; private set; }
-        public AudioType AudioType { get; private set; }
+        public AudioType AudioType;
+        public AudioSource AudioSource;
 
         private CancellationTokenSource playToken;
         private CancellationTokenSource stopToken;
-        public AudioPlayer(AudioType audioType, GameObject target)
+
+        private void Start()
         {
-            AudioType = audioType;
-            AudioSource = target.AddComponent<AudioSource>();
-            switch (audioType)
-            {
-                case AudioType.Music:
-                    AudioSource.loop = true;
-                    break;
-            }
-            AudioSource.volume = AudioManager.Instance.GetVolume(audioType);
+            if (AudioSource == null)
+                AudioSource = gameObject.AddComponent<AudioSource>();
+            AudioSource.volume = AudioManager.Instance.GetVolume(AudioType);
             AudioManager.Instance.RegisterAudioPlayer(this);
         }
 
@@ -73,7 +70,7 @@ namespace FastDev
             {
                 playToken.Cancel();
             }
-                
+
             if (AudioSource != null && AudioSource.isPlaying)
             {
                 UniTask.Create(async () =>
@@ -86,6 +83,11 @@ namespace FastDev
                     Stop();
                 }).Forget();
             }
+        }
+
+        private void OnDestroy()
+        {
+            AudioManager.Instance?.UnRegisterAudioPlayer(this);
         }
     }
 }

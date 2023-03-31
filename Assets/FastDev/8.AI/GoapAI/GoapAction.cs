@@ -10,6 +10,7 @@ namespace FastDev
         public abstract int Cost { get; protected set; }
         public GoapAgent GoapAgent { get; protected set; }
         public GameObject Target { get; protected set; }
+        public bool IsStart { get; protected set; }
         public bool IsDone { get; protected set; }
 
         public GoapAction(GoapAgent goapAgent)
@@ -17,12 +18,30 @@ namespace FastDev
             GoapAgent = goapAgent;
         }
 
-        public abstract bool IsInRange();
-        public abstract bool CheckProceduralPrecondition();
-        public virtual void OnStart()
+        public virtual bool CheckProceduralPrecondition()
+        {
+            return true;
+        }
+
+        public virtual void OnInit()
         {
             IsDone = false;
+            IsStart = false;
+            Target = null;
         }
+
+        public virtual bool IsFailed()
+        {
+            return Target == null;
+        }
+
+        public abstract bool IsInRange();
+
+        public virtual void OnStart()
+        {
+            IsStart = true;
+        }
+
         public abstract void OnRun();
     }
 }

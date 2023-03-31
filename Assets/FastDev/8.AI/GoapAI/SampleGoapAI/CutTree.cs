@@ -36,8 +36,14 @@ namespace FastDev
             return Target != null;
         }
 
+        public override bool IsFailed()
+        {
+            return Target == null;
+        }
+
         public override void OnStart()
         {
+            base.OnStart();
             time = 2f;
         }
 

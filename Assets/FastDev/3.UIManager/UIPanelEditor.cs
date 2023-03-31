@@ -69,9 +69,9 @@ using UnityEngine.UI;
 using TMPro;
 public class $类名 : UIPanel
 {
-    #region UIAttribute
+    #region
     $UIAttribute
-    #endregion UIAttribute
+    #endregion
 }";
         [MenuItem(EditorToolName, true)]
         private static bool ValidateFunc()
@@ -86,8 +86,18 @@ public class $类名 : UIPanel
             GameObject obj = Selection.activeGameObject;
             string className = obj.name.Replace(" ", "");
             string objPath = AssetDatabase.GetAssetPath(obj);
+
+
             string objDir = objPath.Substring(0, objPath.LastIndexOf('/'));
             string filePath = $"{objDir}/{className}.cs";
+
+
+            string[] files = AssetDatabase.FindAssets($"t:Script {className}");
+            if (files.Length > 0)
+            {
+                filePath = AssetDatabase.GUIDToAssetPath(files[0]);
+            }
+
             if (File.Exists(filePath))
             {
                 if (EditorUtility.DisplayDialog("CreateUIPanel", "已存在同名类,是否覆盖自动生成部分？", "是", "否"))
@@ -100,8 +110,8 @@ public class $类名 : UIPanel
                 }
             }
             classStr = classStr.Replace("$类名", className);
-            string startTag = "#region UIAttribute\r\n";
-            string endTag = "#endregion UIAttribute";
+            string startTag = "#region\r\n";
+            string endTag = "#endregion";
             int startIndex = classStr.IndexOf(startTag);
             int endIndex = classStr.IndexOf(endTag);
             string replaceStr = classStr.Substring(startIndex + startTag.Length, endIndex - startIndex - startTag.Length);
@@ -112,7 +122,6 @@ public class $类名 : UIPanel
                 stream.Write(data, 0, data.Length);
             }
             AssetDatabase.Refresh();
-            EditorPrefs.SetString("CreateUIPanel", className);
         }
         /// <summary>
         /// 创建变量
@@ -148,21 +157,6 @@ public class $类名 : UIPanel
                 }
             }
             return variables;
-        }
-
-        [UnityEditor.Callbacks.DidReloadScripts]
-        public static void OnScriptCompleted()
-        {
-            string className = EditorPrefs.GetString("CreateUIPanel", "");
-            GameObject obj = Selection.activeGameObject;
-            if (!string.IsNullOrEmpty(className) && obj != null)
-            {
-                Debug.Log($"create {className} successed");
-                EditorPrefs.DeleteKey("CreateUIPanel");
-                Type type = Type.GetType(className);
-                if (type != null && obj.GetComponent(type) == null)
-                    obj.AddComponent(type);
-            }
         }
     }
 }

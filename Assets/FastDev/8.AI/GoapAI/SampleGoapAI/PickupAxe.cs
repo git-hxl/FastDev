@@ -15,15 +15,12 @@ namespace FastDev
 
         public override int Cost { get; protected set; } = 1;
 
-        public PickupAxe(GoapAgent goapAgent):base(goapAgent)
+        public PickupAxe(GoapAgent goapAgent) : base(goapAgent)
         {
             Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, true));
         }
 
-        public override bool IsInRange()
-        {
-            return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
-        }
+
 
         public override bool CheckProceduralPrecondition()
         {
@@ -32,9 +29,19 @@ namespace FastDev
             return Target != null;
         }
 
+        public override bool IsFailed()
+        {
+            return Target == null;
+        }
+
+        public override bool IsInRange()
+        {
+            return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
+        }
+
         public override void OnStart()
         {
-            //throw new NotImplementedException();
+            base.OnStart();
         }
 
         public override void OnRun()

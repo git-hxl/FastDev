@@ -5,49 +5,53 @@ using System.IO;
 
 namespace FastDev
 {
-    public class PoolManager : MonoSingleton<PoolManager>, IPoolManager
+    public class PoolManager : MonoSingleton<PoolManager>
     {
-        private string objTag = "(Pool)";
-        public Dictionary<string, Stack<GameObject>> PoolObjects { get; } = new Dictionary<string, Stack<GameObject>>();
-        public int MaxStack { get; } = 99;
+        public Dictionary<string, Stack<PoolObject>> PoolObjects { get; } = new Dictionary<string, Stack<PoolObject>>();
+        public int MaxStack { get; } = 9;
 
-        GameObject IPoolManager.LoadAsset(string path)
+        public GameObject PoolParent;
+
+        protected override void OnInit()
         {
-            GameObject obj = Instantiate(AssetManager.Instance.LoadAsset<GameObject>("prefab", path));
-            obj.name = Path.GetFileNameWithoutExtension(path) + objTag;
+            base.OnInit();
+
+            PoolParent = new GameObject("PoolParent");
+        }
+
+        private GameObject LoadAsset(string path)
+        {
+            var asset = AssetManager.Instance.LoadAsset<GameObject>("prefab", path);
+            GameObject obj = Instantiate(asset, PoolParent.transform);
+            obj.name = Path.GetFileNameWithoutExtension(path);
             return obj;
         }
 
         public GameObject Allocate(string path)
         {
-            string name = Path.GetFileNameWithoutExtension(path) + objTag;
+            string name = Path.GetFileNameWithoutExtension(path);
             if (!PoolObjects.ContainsKey(name))
-                PoolObjects[name] = new Stack<GameObject>();
+                PoolObjects[name] = new Stack<PoolObject>();
             var stack = PoolObjects[name];
 
-            GameObject obj = null;
+            PoolObject poolObj = null;
             while (stack.Count > 0)
             {
-                obj = stack.Pop();
-                if (obj != null)
+                poolObj = stack.Pop();
+                if (poolObj != null)
                 {
                     break;
                 }
             }
-            if (obj == null)
-                obj = (this as IPoolManager).LoadAsset(path);
-            return obj;
-        }
-
-        public GameObject Allocate(string path, int autoRecycleTime = 0)
-        {
-            GameObject obj = Allocate(path);
-
-            if (autoRecycleTime > 0)
+            if (poolObj == null)
             {
-                Recycle(obj, autoRecycleTime).Forget();
+                var asset = LoadAsset(path);
+                poolObj = asset.GetComponent<PoolObject>();
+                if (poolObj == null)
+                    poolObj = asset.AddComponent<PoolObject>();
             }
-            return obj;
+            poolObj.PoolState = PoolState.Allocated;
+            return poolObj.gameObject;
         }
 
         /// <summary>
@@ -57,21 +61,33 @@ namespace FastDev
         /// <returns></returns>
         public void Recycle(GameObject obj)
         {
+            if (!Application.isPlaying)
+                return;
+            if (PoolParent == null)
+                return;
             if (obj == null)
                 return;
-            string objName = obj.name;
-            if (!objName.Contains(objTag))
+            var poolObj = obj.GetComponent<PoolObject>();
+            if (poolObj == null)
                 return;
-            if (!PoolObjects.ContainsKey(objName))
-                PoolObjects[objName] = new Stack<GameObject>();
-            var stack = PoolObjects[objName];
-            if (stack.Count < MaxStack && !stack.Contains(obj))
+            if (poolObj.PoolState == PoolState.Allocated || poolObj.PoolState == PoolState.WaitToRecycled)
             {
-                stack.Push(obj);
-                obj.SetActive(false);
-                return;
+                string objName = obj.name;
+                if (!PoolObjects.ContainsKey(objName))
+                    PoolObjects[objName] = new Stack<PoolObject>();
+                var stack = PoolObjects[objName];
+                if (stack.Count < MaxStack && !stack.Contains(poolObj))
+                {
+                    stack.Push(poolObj);
+                    obj.SetActive(false);
+                    obj.transform.SetParent(PoolParent.transform);
+                    poolObj.PoolState = PoolState.Recycled;
+                }
+                else
+                {
+                    Destroy(obj);
+                }
             }
-            Destroy(obj.gameObject);
         }
 
         /// <summary>
@@ -82,8 +98,21 @@ namespace FastDev
         /// <returns></returns>
         public async UniTaskVoid Recycle(GameObject obj, int millisecondsDelay)
         {
+            if (obj == null)
+                return;
+
+            var poolObj = obj.GetComponent<PoolObject>();
+
+            if (poolObj == null) return;
+
+            poolObj.PoolState = PoolState.WaitToRecycled;
+
             await UniTask.Delay(millisecondsDelay);
-            Recycle(obj);
+
+            if (poolObj.PoolState == PoolState.WaitToRecycled)
+            {
+                Recycle(obj);
+            }
         }
 
     }

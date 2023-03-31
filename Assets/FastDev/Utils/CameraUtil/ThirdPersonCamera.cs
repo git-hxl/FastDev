@@ -1,61 +1,65 @@
 using UnityEngine;
 
-public class ThirdPersonCamera : MonoBehaviour
+namespace FastDev
 {
-    public Transform Target;
-    public Vector3 Offset = new Vector3(0f, 0.25f, -1f);
-
-    public float RotateSpeed = 200f;
-    public float LerpSpeed = 10f;
-    public float MaxXAngle = 50f;
-
-    public float ScrollSpeed = 500f;
-    public float MaxZDistance = -10f;
-    public bool Raycast = true;
-    public float WallThickness = 1f;
-
-    private void OnEnable()
+    public class ThirdPersonCamera : MonoBehaviour
     {
-        Cursor.lockState = CursorLockMode.None;
-        transform.rotation = Quaternion.Euler(45f, 0f, 0f);
-    }
+        public Transform Target;
+        public Vector3 Offset = new Vector3(0f, 0.25f, -1f);
 
-    private void Update()
-    {
-        float x = Input.GetAxis("Mouse X");
-        float y = -Input.GetAxis("Mouse Y");
-        float z = Input.GetAxis("Mouse ScrollWheel");
+        public float RotateSpeed = 200f;
+        public float LerpSpeed = 10f;
+        public float MaxXAngle = 50f;
 
-        transform.RotateAround(Target.position, Vector3.up, x * RotateSpeed * Time.deltaTime);
+        public float ScrollSpeed = 500f;
+        public float MaxZDistance = -10f;
+        public bool Raycast = true;
+        public float WallThickness = 1f;
 
-        float xAngle = transform.eulerAngles.x;
-
-        if (xAngle > 180)
-            xAngle -= 360;
-
-        if ((xAngle < MaxXAngle && y > 0) || (xAngle > -MaxXAngle && y < 0))
-            transform.RotateAround(Target.position, transform.right, y * RotateSpeed * Time.deltaTime);
-
-        Offset.z = Mathf.Clamp(Offset.z + z * ScrollSpeed * Time.deltaTime, MaxZDistance, 0);
-    }
-
-    private void LateUpdate()
-    {
-        Vector3 targetPos = Target.position + transform.TransformVector(Offset);
-        if (Raycast)
+        private void OnEnable()
         {
-            RaycastHit raycastHit;
-            Vector3 dir = (targetPos - Target.position).normalized;
-            float maxDistance = Vector3.Distance(targetPos, Target.position);
-            Ray ray = new Ray(Target.position, dir);
-            if (Physics.Raycast(ray, out raycastHit, maxDistance))
+            Cursor.lockState = CursorLockMode.None;
+            transform.rotation = Quaternion.Euler(45f, 0f, 0f);
+        }
+
+        private void Update()
+        {
+            float x = Input.GetAxis("Mouse X");
+            float y = -Input.GetAxis("Mouse Y");
+            float z = Input.GetAxis("Mouse ScrollWheel");
+
+            transform.RotateAround(Target.position, Vector3.up, x * RotateSpeed * Time.deltaTime);
+
+            float xAngle = transform.eulerAngles.x;
+
+            if (xAngle > 180)
+                xAngle -= 360;
+
+            if ((xAngle < MaxXAngle && y > 0) || (xAngle > -MaxXAngle && y < 0))
+                transform.RotateAround(Target.position, transform.right, y * RotateSpeed * Time.deltaTime);
+
+            Offset.z = Mathf.Clamp(Offset.z + z * ScrollSpeed * Time.deltaTime, MaxZDistance, 0);
+        }
+
+        private void LateUpdate()
+        {
+            Vector3 targetPos = Target.position + transform.TransformVector(Offset);
+            if (Raycast)
             {
-                if (raycastHit.collider.gameObject.tag != "Player")
+                RaycastHit raycastHit;
+                Vector3 dir = (targetPos - Target.position).normalized;
+                float maxDistance = Vector3.Distance(targetPos, Target.position);
+                Ray ray = new Ray(Target.position, dir);
+                if (Physics.Raycast(ray, out raycastHit, maxDistance))
                 {
-                    targetPos = raycastHit.point + -dir * WallThickness;
+                    if (raycastHit.collider.gameObject.tag != "Player")
+                    {
+                        targetPos = raycastHit.point + -dir * WallThickness;
+                    }
                 }
             }
+            transform.position = Vector3.Lerp(transform.position, targetPos, LerpSpeed * Time.deltaTime);
         }
-        transform.position = Vector3.Lerp(transform.position, targetPos, LerpSpeed * Time.deltaTime);
     }
+
 }

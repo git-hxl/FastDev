@@ -23,11 +23,6 @@ namespace FastDev
             return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
         }
 
-        public override void OnStart()
-        {
-            //throw new System.NotImplementedException();
-        }
-
         public override bool CheckProceduralPrecondition()
         {
             Target = GameObject.FindGameObjectWithTag("Wood");

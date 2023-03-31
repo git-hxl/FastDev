@@ -7,18 +7,16 @@ namespace FastDev
     public class GoapPlanner
     {
         private GoapAgent goapAgent;
-        private HashSet<GoapAction> goapActions;
 
-        public GoapPlanner(GoapAgent goapAgent, HashSet<GoapAction> goapActions)
+        public GoapPlanner(GoapAgent goapAgent)
         {
             this.goapAgent = goapAgent;
-            this.goapActions = goapActions;
         }
 
-        public Stack<GoapAction> Plan(HashSet<KeyValuePair<string, object>> worldState, HashSet<KeyValuePair<string, object>> goal)
+        public Stack<GoapAction> Plan(HashSet<KeyValuePair<string, object>> goal)
         {
             HashSet<GoapAction> usableActions = new HashSet<GoapAction>();
-            foreach (GoapAction a in goapActions)
+            foreach (GoapAction a in goapAgent.AllGoapActions)
             {
                 if (a.CheckProceduralPrecondition())
                     usableActions.Add(a);
@@ -26,7 +24,7 @@ namespace FastDev
 
             List<GoapNode> findNodes = new List<GoapNode>();
 
-            GoapNode start = new GoapNode(null, 0, worldState, null);
+            GoapNode start = new GoapNode(null, 0, goapAgent.WorldState, null);
             bool success = BuildGraph(start, findNodes, usableActions, goal);
 
             if (!success)
@@ -56,12 +54,11 @@ namespace FastDev
                 if (curNode.GoapAction != null)
                 {
                     stack.Push(curNode.GoapAction);
-                    curNode.GoapAction.OnStart();
+                    curNode.GoapAction.OnInit();
                     debug += "<--" + curNode.GoapAction.ToString();
                 }
                 curNode = curNode.Parent;
             }
-
             Debug.Log("GoapPlan:" + debug);
             return stack;
         }

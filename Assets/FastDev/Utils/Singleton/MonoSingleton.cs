@@ -8,7 +8,7 @@ namespace FastDev
         {
             get
             {
-                if (instance == null)
+                if (instance == null && Application.isPlaying)
                 {
                     new GameObject(typeof(T).Name).AddComponent<T>();
                 }
@@ -24,12 +24,15 @@ namespace FastDev
                 instance = this as T;
                 DontDestroyOnLoad(gameObject);
                 Debug.Log(typeof(T).Name + " Init!");
+                OnInit();
             }
             else
             {
                 DestroyImmediate(gameObject);
             }
         }
+
+        protected virtual void OnInit() { }
 
         public virtual void Dispose()
         {

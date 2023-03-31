@@ -29,7 +29,7 @@ namespace FastDev
             }
 #endif
             if (asset == null)
-                Debug.LogError("asset load failed: " + bundleName);
+                Debug.LogError("asset load failed: " + path);
             return asset;
         }
 

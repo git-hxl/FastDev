@@ -23,8 +23,13 @@ namespace FastDev
             Debug.Log("curlanguage:" + LanguageType);
         }
 
-        public string GetText(string id)
+        public string GetText(string id, bool isChineseKey = false)
         {
+            if (isChineseKey)
+            {
+                id = string.Format("{0:X}", id.GetHashCode());
+            }
+
             if (LanguageDict.ContainsKey(id))
             {
                 return LanguageDict[id].GetText();

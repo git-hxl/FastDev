@@ -6,18 +6,23 @@ namespace FastDev
 {
     public class AudioManager : MonoSingleton<AudioManager>
     {
+        public AudioPlayer DefaultMusicPlayer;
+        public AudioPlayer DefaultUIPlayer;
+
         public AudioManagerSetting Setting { get; private set; }
-        public AudioPlayer DefaultMusicPlayer { get; private set; }
-        public AudioPlayer DefaultUIPlayer { get; private set; }
+
         public List<AudioPlayer> Players { get; private set; } = new List<AudioPlayer>();
 
-        protected override void Awake()
+        protected override void OnInit()
         {
-            base.Awake();
+            base.OnInit();
             Setting = AudioManagerSetting.Init();
 
-            DefaultMusicPlayer = new AudioPlayer(AudioType.Music, gameObject);
-            DefaultUIPlayer = new AudioPlayer(AudioType.UI, gameObject);
+            DefaultMusicPlayer = gameObject.AddComponent<AudioPlayer>();
+            DefaultMusicPlayer.AudioType = AudioType.Music;
+
+            DefaultUIPlayer = gameObject.AddComponent<AudioPlayer>();
+            DefaultUIPlayer.AudioType = AudioType.UI;
         }
 
         public AudioClip LoadAudioClip(string path)

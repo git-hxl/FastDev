@@ -8,7 +8,7 @@ namespace FastDev
 
         void RemoveText(string text);
 
-        string GetText(string id);
+        string GetText(string id, bool isChineseKey = false);
 
         void SetLanguageType(LanguageType languageType);
     }

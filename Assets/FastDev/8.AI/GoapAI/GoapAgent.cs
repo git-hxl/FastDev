@@ -4,91 +4,101 @@ namespace FastDev
 {
     public abstract class GoapAgent : MonoBehaviour
     {
-        public abstract HashSet<KeyValuePair<string, object>> WorldState { get; protected set; }
+        public HashSet<KeyValuePair<string, object>> WorldState { get; set; }
 
-        public abstract HashSet<KeyValuePair<string, object>> GoalState { get; protected set; }
+        public HashSet<GoapAction> AllGoapActions { get; private set; }
 
-        public abstract HashSet<GoapAction> AllGoapActions { get; protected set; }
+        public Stack<GoapAction> PlanActions { get; private set; }
 
-        public Stack<GoapAction> GoapActions { get; private set; }
+        public GoapPlanner GoapPlanner { get; private set; }
 
-        public GoapAction CurGoapAction { get; private set; }
-
-        public abstract GoapPlanner GoapPlanner { get; protected set; }
+        public GoapAction GoapAction { get; private set; }
 
         private void Awake()
         {
             OnInit();
         }
 
-        public abstract void OnInit();
+        public virtual void OnInit()
+        {
+            WorldState = new HashSet<KeyValuePair<string, object>>();
+            AllGoapActions = new HashSet<GoapAction>();
+            GoapPlanner = new GoapPlanner(this);
+        }
+
+        public virtual void OnActionFailed(GoapAction goapAction)
+        {
+            Debug.LogError("OnActionFailed:" + goapAction.ToString());
+        }
+
+        public virtual void OnActionDone(GoapAction goapAction)
+        {
+            Debug.Log("OnActionDone:" + goapAction.ToString());
+        }
+
+        public virtual void OnPlanFailed()
+        {
+            Debug.LogError("OnPlanFailed");
+        }
+
+        public virtual void OnPlanDone()
+        {
+            Debug.Log("OnPlanDone");
+        }
+
         public abstract void OnMove();
 
-        public virtual void OnActionFailed()
+        public void StartPlan(HashSet<KeyValuePair<string, object>> goalState)
         {
-            Debug.LogError("OnActionFailed:" + CurGoapAction.ToString());
-        }
+            PlanActions = GoapPlanner.Plan(goalState);
 
-        public virtual void OnActionDone()
-        {
-            Debug.Log("OnActionDone:" + CurGoapAction.ToString());
-        }
-
-        public virtual void OnPlanFailed(HashSet<KeyValuePair<string, object>> failedGoal)
-        {
-            Debug.LogError("OnPlanFailed:" + failedGoal.ToString());
-        }
-
-        public virtual void OnPlanDone(HashSet<KeyValuePair<string, object>> goal)
-        {
-            Debug.Log("OnPlanDone:" + goal.ToString());
-        }
-
-        public void StartPlan()
-        {
-            CurGoapAction = null;
-
-            GoapActions = GoapPlanner.Plan(WorldState, GoalState);
-
-            if (GoapActions == null)
+            if (PlanActions == null)
             {
-                OnPlanFailed(GoalState);
+                OnPlanFailed();
             }
+        }
+
+        public void StopPlanActions()
+        {
+            PlanActions.Clear();
         }
 
         private void Update()
         {
-            if (GoapActions != null && GoapActions.Count > 0)
+            if (PlanActions != null && PlanActions.Count > 0)
             {
-                CurGoapAction = GoapActions.Peek();
+                GoapAction = PlanActions.Peek();
 
-                if (CurGoapAction.IsDone)
+                if (GoapAction.IsDone)
                 {
-                    OnActionDone();
-                    GoapActions.Pop();
-
-
-                    if (GoapActions.Count <= 0)
+                    OnActionDone(GoapAction);
+                    PlanActions.Pop();
+                    if (PlanActions.Count <= 0)
                     {
-                        OnPlanDone(GoalState);
+                        OnPlanDone();
                     }
-
                     return;
                 }
 
-                if (CurGoapAction.Target == null)
+                if (GoapAction.IsFailed())
                 {
-                    OnActionFailed();
+                    OnActionFailed(GoapAction);
                     return;
                 }
 
-                if (!CurGoapAction.IsInRange())
+                if (!GoapAction.IsInRange())
                 {
                     OnMove();
                     return;
                 }
 
-                CurGoapAction.OnRun();
+                if (!GoapAction.IsStart)
+                {
+                    GoapAction.OnStart();
+                    return;
+                }
+
+                GoapAction.OnRun();
             }
         }
     }
