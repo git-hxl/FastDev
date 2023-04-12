@@ -25,9 +25,15 @@ namespace FastDev
 
         public override bool CheckProceduralPrecondition()
         {
-            Target = GameObject.FindGameObjectWithTag("Wood");
+            var target = GameObject.FindGameObjectWithTag("Wood");
 
-            return Target != null;
+            return target != null;
+        }
+
+        public override void OnStart()
+        {
+            //throw new System.NotImplementedException();
+            Target = GameObject.FindGameObjectWithTag("Wood");
         }
 
         public override void OnRun()

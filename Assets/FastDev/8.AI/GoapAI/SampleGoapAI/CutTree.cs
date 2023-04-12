@@ -1,8 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace FastDev
@@ -31,9 +28,9 @@ namespace FastDev
 
         public override bool CheckProceduralPrecondition()
         {
-            Target = GameObject.FindGameObjectWithTag("Tree");
+            var target = GameObject.FindGameObjectWithTag("Tree");
 
-            return Target != null;
+            return target != null;
         }
 
         public override bool IsFailed()
@@ -43,10 +40,9 @@ namespace FastDev
 
         public override void OnStart()
         {
-            base.OnStart();
+            Target = GameObject.FindGameObjectWithTag("Tree");
             time = 2f;
         }
-
 
         public override void OnRun()
         {

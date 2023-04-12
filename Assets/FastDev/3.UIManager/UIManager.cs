@@ -21,10 +21,7 @@ namespace FastDev
         {
             if (!curOpenedUIPanels.Contains(uIPanel))
             {
-                var topUi = GetTopActiveUI();
-                if (topUi != null)
-                    uIPanel.Canvas.sortingOrder = topUi.Canvas.sortingOrder + 1;
-
+                uIPanel.SetSortToTop();
                 curOpenedUIPanels.Add(uIPanel);
                 uIPanel.OnOpen();
             }

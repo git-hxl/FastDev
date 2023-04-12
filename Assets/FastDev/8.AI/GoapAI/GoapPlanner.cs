@@ -46,20 +46,20 @@ namespace FastDev
 
             Stack<GoapAction> stack = new Stack<GoapAction>();
 
-            string debug = "";
+            List<string> debugs = new List<string>();
             GoapNode curNode = cheapest;
-
             while (curNode != null)
             {
                 if (curNode.GoapAction != null)
                 {
                     stack.Push(curNode.GoapAction);
                     curNode.GoapAction.OnInit();
-                    debug += "<--" + curNode.GoapAction.ToString();
+                    debugs.Add("<color=#FFF000>" + curNode.GoapAction.ToString() + "</color>");
                 }
                 curNode = curNode.Parent;
             }
-            Debug.Log("GoapPlan:" + debug);
+            debugs.Reverse();
+            Debug.Log("GoapPlan:" + string.Join(">>", debugs));
             return stack;
         }
 
@@ -69,14 +69,14 @@ namespace FastDev
             bool foundOne = false;
             foreach (var action in goapActions)
             {
-                //Âú×ãÇ°ÌáÖ´ĞĞÌõ¼ş
+                //æ»¡è¶³å‰ææ‰§è¡Œæ¡ä»¶
                 if (Contains(parent.State, action.Preconditions))
                 {
                     HashSet<KeyValuePair<string, object>> currentState = Combines(parent.State, action.Effects);
 
                     GoapNode goapNode = new GoapNode(parent, parent.Cost + action.Cost, currentState, action);
 
-                    //ĞÂ×´Ì¬Âú×ãÄ¿±ê×´Ì¬
+                    //æ–°çŠ¶æ€æ»¡è¶³ç›®æ ‡çŠ¶æ€
                     if (Contains(currentState, goal))
                     {
                         findNodes.Add(goapNode);
@@ -96,7 +96,7 @@ namespace FastDev
 
 
         /// <summary>
-        /// a °üº¬ b
+        /// a åŒ…å« b
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
