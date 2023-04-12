@@ -3,7 +3,8 @@
     public enum AudioType
     {
         UI,
-        Sound,
-        Music
+        Voice,//人声
+        Sound,//音效
+        Music,//背景音乐
     }
 }

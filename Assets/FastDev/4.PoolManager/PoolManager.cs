@@ -5,7 +5,7 @@ using System.IO;
 
 namespace FastDev
 {
-    public class PoolManager : MonoSingleton<PoolManager>
+    public class PoolManager : Singleton<PoolManager>
     {
         public Dictionary<string, Stack<PoolObject>> PoolObjects { get; } = new Dictionary<string, Stack<PoolObject>>();
         public int MaxStack { get; } = 9;
@@ -22,7 +22,7 @@ namespace FastDev
         private GameObject LoadAsset(string path)
         {
             var asset = AssetManager.Instance.LoadAsset<GameObject>("prefab", path);
-            GameObject obj = Instantiate(asset, PoolParent.transform);
+            GameObject obj = GameObject.Instantiate(asset, PoolParent.transform);
             obj.name = Path.GetFileNameWithoutExtension(path);
             return obj;
         }
@@ -85,7 +85,7 @@ namespace FastDev
                 }
                 else
                 {
-                    Destroy(obj);
+                    GameObject.Destroy(obj);
                 }
             }
         }

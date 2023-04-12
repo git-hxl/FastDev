@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,12 +12,14 @@ namespace FastDev
         {
             btOpen.onClick.AddListener(() =>
             {
-                UIManager.Instance.OpenUI("Assets/FastDev/3.UIManager/SampleUIManager/SampleUIPanel.prefab");
+                UIPanel uIPanel = UIManager.Instance.LoadUIPanel("Assets/FastDev/3.UIManager/SampleUIManager/SampleUIPanel.prefab");
+                uIPanel.OpenUI();
             });
 
             btOpen2.onClick.AddListener(() =>
             {
-                UIManager.Instance.OpenUI("Assets/FastDev/3.UIManager/SampleUIManager/SampleUIPanel2.prefab");
+                UIPanel uIPanel = UIManager.Instance.LoadUIPanel("Assets/FastDev/3.UIManager/SampleUIManager/SampleUIPanel2.prefab");
+                uIPanel.OpenUI();
             });
         }
 
@@ -27,7 +27,12 @@ namespace FastDev
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                UIManager.Instance.transform.GetComponentInChildren<UIPanel>()?.Close();
+                UIPanel uIPanel = UIManager.Instance.GetTopActiveUI();
+                if (uIPanel != null)
+                {
+                    uIPanel.CloseUI();
+                }
+
             }
 
             if (Input.GetKeyDown(KeyCode.F1))

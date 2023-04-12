@@ -26,7 +26,7 @@ namespace FastDev
             RectTransform
         }
 
-        private const string EditorToolName = "Assets/UI Éú³ÉUIPanel.cs";
+        private const string EditorToolName = "Assets/UI ç”ŸæˆUIPanel.cs";
         private const string tag = "_";
 
         private static string GetVarName(UIElementType uIElementType)
@@ -67,7 +67,7 @@ namespace FastDev
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class $ÀàÃû : UIPanel
+public class $ç±»å : UIPanel
 {
     #region
     $UIAttribute
@@ -100,7 +100,7 @@ public class $ÀàÃû : UIPanel
 
             if (File.Exists(filePath))
             {
-                if (EditorUtility.DisplayDialog("CreateUIPanel", "ÒÑ´æÔÚÍ¬ÃûÀà,ÊÇ·ñ¸²¸Ç×Ô¶¯Éú³É²¿·Ö£¿", "ÊÇ", "·ñ"))
+                if (EditorUtility.DisplayDialog("CreateUIPanel", "å·²å­˜åœ¨åŒåç±»,æ˜¯å¦è¦†ç›–è‡ªåŠ¨ç”Ÿæˆéƒ¨åˆ†ï¼Ÿ", "æ˜¯", "å¦"))
                 {
                     classStr = File.ReadAllText(filePath);
                 }
@@ -109,7 +109,7 @@ public class $ÀàÃû : UIPanel
                     return;
                 }
             }
-            classStr = classStr.Replace("$ÀàÃû", className);
+            classStr = classStr.Replace("$ç±»å", className);
             string startTag = "#region\r\n";
             string endTag = "#endregion";
             int startIndex = classStr.IndexOf(startTag);
@@ -124,12 +124,12 @@ public class $ÀàÃû : UIPanel
             AssetDatabase.Refresh();
         }
         /// <summary>
-        /// ´´½¨±äÁ¿
+        /// åˆ›å»ºå˜é‡
         /// </summary>
         /// <param name="obj"></param>
         public static string CreatVariables(GameObject obj)
         {
-            string variables = "\t";//ÖÆ±í·û 
+            string variables = "\t";//åˆ¶è¡¨ç¬¦ 
             Transform[] transforms = obj.GetComponentsInChildren<Transform>(true);
             foreach (var item in transforms)
             {

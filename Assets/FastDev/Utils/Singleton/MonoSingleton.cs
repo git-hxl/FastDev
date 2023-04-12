@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 namespace FastDev
 {
     public abstract class MonoSingleton<T> : MonoBehaviour, IDispose where T : MonoSingleton<T>
@@ -8,11 +8,14 @@ namespace FastDev
         {
             get
             {
-                if (instance == null && Application.isPlaying)
+                if (instance == null)
                 {
-                    new GameObject(typeof(T).Name).AddComponent<T>();
+                    instance = FindObjectOfType<T>(true);
                 }
-
+                if(instance == null)
+                {
+                    Debug.LogError(typeof(T).Name + " is Null!!!");
+                }
                 return instance;
             }
         }
@@ -34,10 +37,10 @@ namespace FastDev
 
         protected virtual void OnInit() { }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             instance = null;
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
         }
     }
 }

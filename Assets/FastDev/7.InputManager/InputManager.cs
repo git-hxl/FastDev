@@ -5,16 +5,16 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class InputManager : MonoSingleton<InputManager>, IInputManager
+    public class InputManager : Singleton<InputManager>, IInputManager
     {
         public bool InputEnabled { get; set; } = true;
 
         public Dictionary<string, InputData> RegisterInputDatas { get; private set; } = new Dictionary<string, InputData>();
 
         private string configPath;
-        protected override void Awake()
+        protected override void OnInit()
         {
-            base.Awake();
+            base.OnInit();
             configPath = Application.streamingAssetsPath + "/InputSetting.json";
             if (File.Exists(configPath))
             {
@@ -142,11 +142,6 @@ namespace FastDev
         {
             string json = JsonConvert.SerializeObject(RegisterInputDatas, Formatting.Indented);
             File.WriteAllText(configPath, json);
-        }
-
-        private void OnDestroy()
-        {
-            Save();
         }
     }
 }

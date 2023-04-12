@@ -1000,7 +1000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bde2bb73df53ad44a775b2031372ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: C9D3B907
+  ID: CF599F9A
 --- !u!114 &2050855247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,7 +1034,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u591A\u8BED\u8A00"
+  m_Text: "3\u591A\u8BED\u8A002\n\u54C8\u54C8\u54C8"
 --- !u!222 &2050855248
 CanvasRenderer:
   m_ObjectHideFlags: 0

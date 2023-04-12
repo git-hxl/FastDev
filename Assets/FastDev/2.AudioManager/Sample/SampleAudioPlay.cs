@@ -82,7 +82,7 @@ namespace FastDev
 
         private void OnDestroy()
         {
-            AudioManager.Instance.Setting.Save();
+            AudioManager.Instance?.SaveSetting();
         }
     }
 }

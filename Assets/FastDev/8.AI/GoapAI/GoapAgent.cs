@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 namespace FastDev
 {
@@ -28,7 +28,7 @@ namespace FastDev
 
         public virtual void OnActionFailed(GoapAction goapAction)
         {
-            Debug.LogError("OnActionFailed:" + goapAction.ToString());
+            Debug.LogWarning("OnActionFailed:" + goapAction.ToString());
         }
 
         public virtual void OnActionDone(GoapAction goapAction)

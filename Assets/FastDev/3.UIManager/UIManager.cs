@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace FastDev
 {
     public class UIManager : MonoSingleton<UIManager>
     {
+        private List<UIPanel> curOpenedUIPanels = new List<UIPanel>();
         public Dictionary<string, UIPanel> UIPanels { get; private set; } = new Dictionary<string, UIPanel>();
 
         public UIPanel LoadUIPanel(string path)
@@ -12,18 +12,32 @@ namespace FastDev
             if (UIPanels.ContainsKey(path))
                 return UIPanels[path];
             GameObject ui = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
-            UIPanel uIPanel = Instantiate(ui, transform).GetComponent<UIPanel>();
+            var uIPanel = Instantiate(ui, transform).GetComponent<UIPanel>();
             UIPanels[path] = uIPanel;
             return uIPanel;
         }
 
-        public UIPanel OpenUI(string path, UISortOrder sortOrder = UISortOrder.Middle)
+        public void OpenUI(UIPanel uIPanel)
         {
-            UIPanel uIPanel = LoadUIPanel(path);
-            uIPanel.Canvas.sortingOrder = (int)sortOrder;
-            uIPanel.Open();
-            uIPanel.transform.SetAsFirstSibling();
-            return uIPanel;
+            if (!curOpenedUIPanels.Contains(uIPanel))
+            {
+                var topUi = GetTopActiveUI();
+                if (topUi != null)
+                    uIPanel.Canvas.sortingOrder = topUi.Canvas.sortingOrder + 1;
+
+                curOpenedUIPanels.Add(uIPanel);
+                uIPanel.OnOpen();
+            }
+        }
+
+        public void CloseUI(UIPanel uIPanel)
+        {
+            if (curOpenedUIPanels.Contains(uIPanel))
+            {
+                uIPanel.Canvas.sortingOrder = 0;
+                curOpenedUIPanels.Remove(uIPanel);
+                uIPanel.OnClose();
+            }
         }
 
         public T GetUI<T>() where T : UIPanel
@@ -38,18 +52,18 @@ namespace FastDev
             return null;
         }
 
-
-        public void CloseUI(string path)
+        public UIPanel GetTopActiveUI()
         {
-            if (UIPanels.ContainsKey(path))
-                UIPanels[path].Close();
+            if (curOpenedUIPanels.Count > 0)
+                return curOpenedUIPanels[curOpenedUIPanels.Count - 1];
+            return null;
         }
 
         public void HideAllActiveUI()
         {
             foreach (var panel in UIPanels)
             {
-                panel.Value.Hide();
+                panel.Value.Canvas.enabled = false;
             }
         }
 
@@ -57,7 +71,7 @@ namespace FastDev
         {
             foreach (var panel in UIPanels)
             {
-                panel.Value.UnHide();
+                panel.Value.Canvas.enabled = true;
             }
         }
     }

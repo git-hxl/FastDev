@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 namespace FastDev
 {
@@ -23,9 +24,9 @@ namespace FastDev
             Debug.Log("curlanguage:" + LanguageType);
         }
 
-        public string GetText(string id, bool isChineseKey = false)
+        public string GetText(string id)
         {
-            if (isChineseKey)
+            if (IsChinese(id))
             {
                 id = string.Format("{0:X}", id.GetHashCode());
             }
@@ -73,6 +74,11 @@ namespace FastDev
             {
                 item.UpdateText();
             }
+        }
+
+        public bool IsChinese(string text)
+        {
+            return Regex.IsMatch(text, @"[\u4e00-\u9fa5]");
         }
     }
 }

@@ -16,6 +16,8 @@ namespace FastDev
                 GameObject obj = PoolManager.Instance.Allocate("Assets/FastDev/4.PoolManager/Sample/Cube.prefab");
                 obj.SetActive(true);
                 obj.transform.position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
+
+                PoolManager.Instance.Recycle(obj, 1000).Forget();
             });
         }
 

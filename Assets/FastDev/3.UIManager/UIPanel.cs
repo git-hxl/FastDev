@@ -1,33 +1,20 @@
-﻿using UnityEngine;
+using UnityEngine;
 namespace FastDev
 {
     public abstract class UIPanel : MonoBehaviour
     {
-        public Canvas Canvas { get; private set; }
-
+        public Canvas Canvas { get; protected set; }
         private void Awake()
         {
             Canvas = GetComponent<Canvas>();
         }
-
-        public virtual void Open()
+        public virtual void OnOpen()
         {
             gameObject.SetActive(true);
         }
-
-        public virtual void Close()
+        public virtual void OnClose()
         {
             gameObject.SetActive(false);
-        }
-
-        public void Hide()
-        {
-            Canvas.enabled = false;
-        }
-
-        public void UnHide()
-        {
-            Canvas.enabled = true;
         }
     }
 }

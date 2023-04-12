@@ -10,12 +10,18 @@ namespace FastDev
         void Start()
         {
             MsgManager.Instance.Register(0, Test);
+            MsgSyncManager.Instance.Register(0, Test);
 
             SampleMsg2 sampleMsg2 = new SampleMsg2();
 
             MsgManager.Instance.Register(0, sampleMsg2.Test_SampleMsg2);
         }
+
         private void Test(object[] arg)
+        {
+            Debug.Log(arg[0].ToString());
+        }
+        private void Test(byte[] arg)
         {
             Debug.Log(arg[0].ToString());
         }
@@ -27,7 +33,7 @@ namespace FastDev
     {
         ~SampleMsg2()
         {
-            Debug.LogError("SampleMsg2 Œˆππ÷¥––");
+            Debug.LogError("SampleMsg2 ÊûêÊûÑÊâßË°å");
         }
 
         public void Test_SampleMsg2(object[] arg)

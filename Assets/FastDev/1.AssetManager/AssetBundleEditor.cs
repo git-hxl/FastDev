@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -40,6 +41,11 @@ namespace FastDev
                 assetBundleEditorSetting = JsonConvert.DeserializeObject<AssetBundleEditorSetting>(jsonTxt);
             }
             AssetDatabase.RemoveUnusedAssetBundleNames();
+
+            foreach (var item in AssetDatabase.GetAllAssetBundleNames())
+            {
+                assetBundleEditorSetting.SelectBundles.Add(item);
+            }
         }
 
         private void OnGUI()
@@ -128,7 +134,7 @@ namespace FastDev
                 }
                 assetBundleConfig.AssetVersion = assetBundleEditorSetting.AssetVersion;
                 assetBundleConfig.AppVersion = assetBundleEditorSetting.AppVersion;
-
+                assetBundleConfig.DateTime = DateTime.Now.ToString();
                 string configJson = JsonConvert.SerializeObject(assetBundleConfig, Formatting.Indented);
 
                 File.WriteAllText(outputPath + "/AssetBundleConfig.json", configJson);

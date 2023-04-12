@@ -1,6 +1,6 @@
 ﻿namespace FastDev
 {
-    public abstract class Singleton<T> where T : class, new()
+    public abstract class Singleton<T> : IDispose where T : Singleton<T>, new()
     {
         private static T instance;
         private static object locker = new object();
@@ -15,13 +15,17 @@
                         if (instance == null)
                         {
                             instance = new T();
+                            instance.OnInit();
                         }
                     }
                 }
                 return instance;
             }
         }
-        public virtual void Dispose()
+
+        protected virtual void OnInit() { }
+
+        public void Dispose()
         {
             instance = null;
         }

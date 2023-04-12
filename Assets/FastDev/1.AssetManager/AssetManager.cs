@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace FastDev
 {
-    public class AssetManager : MonoSingleton<AssetManager>, IAssetManager
+    public class AssetManager : Singleton<AssetManager>, IAssetManager
     {
         private Dictionary<string, AssetBundle> assetBundleDict = new Dictionary<string, AssetBundle>();
 
@@ -31,6 +32,19 @@ namespace FastDev
             if (asset == null)
                 Debug.LogError("asset load failed: " + path);
             return asset;
+        }
+
+
+        public AssetBundleConfig LoadConfig()
+        {
+            string path = Application.streamingAssetsPath + "/" + PlatformUtil.GetPlatformName() + "/AssetBundleConfig.json";
+            if (File.Exists(path))
+            {
+                AssetBundleConfig config = JsonConvert.DeserializeObject<AssetBundleConfig>(File.ReadAllText(path));
+                return config;
+            }
+
+            return null;
         }
 
         public async UniTask<T> LoadAssetAsync<T>(string bundleName, string path) where T : UnityEngine.Object

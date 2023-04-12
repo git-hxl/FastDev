@@ -11,6 +11,10 @@ namespace FastDev
         {
             //await AssetManager.Instance.LoadAssetBundleAsync("Assets/StreamingAssets/StandaloneWindows/prefab", (progress) => { Debug.Log(progress); });
 
+            AssetBundleConfig config = AssetManager.Instance.LoadConfig();
+
+            Debug.Log(config.DateTime);
+
             GameObject cube = AssetManager.Instance.LoadAsset<GameObject>("prefab", "Assets/FastDev/1.AssetManager/Sample/Cube.prefab");
             Instantiate(cube);
 
