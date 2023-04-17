@@ -162,7 +162,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45180557}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -211,13 +211,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 45180557}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.6, y: 0.53, z: -13}
+  m_LocalRotation: {x: -0, y: 0.51317936, z: -0, w: 0.85828143}
+  m_LocalPosition: {x: -10.6, y: 3.17, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 61.752, z: 0}
 --- !u!1 &141525131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,14 +1021,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826499848}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 1.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2120533913}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!114 &826499853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,10 +1041,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114c8a51f8f250a4296a2b40935da67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
+  MoveSpeed: 20
   JumpHeight: 2.5
   GravityFactor: 3
   TurnSpeed: 10
+  LockDir: 1
 --- !u!1 &1012125219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,6 +1076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: "asdasd123123!@$%##^\u554A\u5927\u5927"
+  TestObj: {fileID: 45180557}
 --- !u!4 &1012125221
 Transform:
   m_ObjectHideFlags: 0
@@ -1276,20 +1278,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1297328441}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5f3ea87a567bc041af089cfa702c3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 826499852}
-  Offset: {x: 0, y: 0.25, z: -5}
+  Offset: {x: 0, y: 0.25, z: 0}
+  MaxXAngle: 60
   RotateSpeed: 200
   LerpSpeed: 10
-  MaxXAngle: 50
+  Target: {fileID: 826499852}
+  MaxZDistance: 10
   ScrollSpeed: 500
-  MaxZDistance: -10
-  Raycast: 1
-  WallThickness: 1
 --- !u!114 &1297328446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1302,10 +1302,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b45362e9a3404b44af95e8bd2f14d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 826499852}
-  Offset: {x: 0, y: 2.5, z: 0}
+  Offset: {x: 0, y: 1, z: 0}
+  MaxXAngle: 60
   RotateSpeed: 200
-  MaxXAngle: 50
+  LerpSpeed: 10
+  Target: {fileID: 826499852}
 --- !u!1 &1416033796
 GameObject:
   m_ObjectHideFlags: 0

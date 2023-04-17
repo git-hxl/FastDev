@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class DebuggerLog : MonoSingleton<DebuggerLog>
+    public class LogManager : MonoSingleton<LogManager>
     {
         private FileStream fileStream;
         public string LogPath { get; private set; }
 
         /// <summary>
-        /// Log£º»áÏÔÊ¾ËùÓĞÀàĞÍµÄLog¡£
-        /// Warning£º»áÏÔÊ¾Warning,Assert,Error,Exception
-        /// Assert£º»áÏÔÊ¾Assert£¬Error£¬Exception
-        /// Error£ºÏÔÊ¾ErrorºÍException
-        /// Exception£ºÖ»»áÏÔÊ¾Exception
+        /// Logï¼šä¼šæ˜¾ç¤ºæ‰€æœ‰ç±»å‹çš„Logã€‚
+        /// Warningï¼šä¼šæ˜¾ç¤ºWarning,Assert,Error,Exception
+        /// Assertï¼šä¼šæ˜¾ç¤ºAssertï¼ŒErrorï¼ŒException
+        /// Errorï¼šæ˜¾ç¤ºErrorå’ŒException
+        /// Exceptionï¼šåªä¼šæ˜¾ç¤ºException
         /// </summary>
         public LogType FilterLogType = LogType.Error;
 
@@ -52,9 +52,9 @@ namespace FastDev
             Debug.unityLogger.filterLogType = FilterLogType;
         }
 
-        public void EnableLog(int level)
+        public void EnableLog(LogType logType)
         {
-            FilterLogType = (LogType)level;
+            FilterLogType = logType;
             EnableLog();
         }
 

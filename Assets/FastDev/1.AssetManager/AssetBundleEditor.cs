@@ -1,12 +1,10 @@
 #if UNITY_EDITOR
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-
 namespace FastDev
 {
     public class AssetBundleEditor : EditorWindow
@@ -20,7 +18,7 @@ namespace FastDev
 
         private AssetBundleEditorSetting assetBundleEditorSetting;
 
-        [MenuItem("FastDev/AssetBundle¹¤¾ß")]
+        [MenuItem("FastDev/AssetBundleå·¥å…·")]
         public static void OpenWindow()
         {
             AssetBundleEditor window = (AssetBundleEditor)EditorWindow.GetWindow(typeof(AssetBundleEditor), false, "AssetBundle");
@@ -58,11 +56,11 @@ namespace FastDev
 
         private void GUISelectBuildFolder()
         {
-            GUILayout.Label("´ò°üÂ·¾¶");
+            GUILayout.Label("æ‰“åŒ…è·¯å¾„");
             assetBundleEditorSetting.BuildPath = GUILayout.TextField(assetBundleEditorSetting.BuildPath);
-            if (GUILayout.Button("Ñ¡ÔñÎÄ¼ş¼Ğ"))
+            if (GUILayout.Button("é€‰æ‹©æ–‡ä»¶å¤¹"))
             {
-                string selectPath = EditorUtility.OpenFolderPanel("´ò°üÄ¿Â¼", Application.dataPath, "");
+                string selectPath = EditorUtility.OpenFolderPanel("æ‰“åŒ…ç›®å½•", Application.dataPath, "");
                 if (!string.IsNullOrEmpty(selectPath))
                 {
                     assetBundleEditorSetting.BuildPath = selectPath;
@@ -72,15 +70,15 @@ namespace FastDev
 
         private void GUIBuildSetting()
         {
-            GUILayout.Label("´ò°üÆ½Ì¨");
+            GUILayout.Label("æ‰“åŒ…å¹³å°");
             assetBundleEditorSetting.Platform = (BuildTarget)EditorGUILayout.EnumPopup(assetBundleEditorSetting.Platform);
 
-            GUILayout.Label("Ñ¹Ëõ·½Ê½");
+            GUILayout.Label("å‹ç¼©æ–¹å¼");
             assetBundleEditorSetting.CompressionType = (CompressionType)EditorGUILayout.EnumPopup(assetBundleEditorSetting.CompressionType);
 
-            GUILayout.Label("×ÊÔ´°æ±¾");
+            GUILayout.Label("èµ„æºç‰ˆæœ¬");
             assetBundleEditorSetting.AssetVersion = GUILayout.TextField(assetBundleEditorSetting.AssetVersion);
-            GUILayout.Label("App°æ±¾");
+            GUILayout.Label("Appç‰ˆæœ¬");
             assetBundleEditorSetting.AppVersion = GUILayout.TextField(assetBundleEditorSetting.AppVersion);
         }
 
@@ -106,7 +104,7 @@ namespace FastDev
 
         private void GUIBuild()
         {
-            if (GUILayout.Button("´ò°ü"))
+            if (GUILayout.Button("æ‰“åŒ…"))
             {
                 AssetBundleBuild[] builds = new AssetBundleBuild[assetBundleEditorSetting.SelectBundles.Count];
 
@@ -140,6 +138,14 @@ namespace FastDev
                 File.WriteAllText(outputPath + "/AssetBundleConfig.json", configJson);
                 AssetDatabase.Refresh();
             }
+        }
+
+        private void OnDisable()
+        {
+            string jsonTxt = JsonConvert.SerializeObject(assetBundleEditorSetting);
+
+            File.WriteAllText(AssetBundleEditorSetting.SettingPath, jsonTxt);
+
         }
     }
 }

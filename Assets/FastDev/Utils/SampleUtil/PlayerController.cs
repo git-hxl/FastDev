@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace FastDev
 {
@@ -8,11 +9,13 @@ namespace FastDev
         private new Camera camera;
         private bool isGround;
         private float velocitY;
+        private bool isMove;
 
         public float MoveSpeed = 2.5f;
         public float JumpHeight = 2.5f;
         public float GravityFactor = 3f;
         public float TurnSpeed = 10f;
+        public bool LockDir;
 
         private void Start()
         {
@@ -24,6 +27,8 @@ namespace FastDev
         {
             float x = Input.GetAxisRaw("Horizontal");
             float z = Input.GetAxisRaw("Vertical");
+
+            isMove = (x != 0 || z != 0);
 
             isGround = characterController.isGrounded;
             if (isGround && velocitY < 0)
@@ -45,12 +50,15 @@ namespace FastDev
 
         private void LateUpdate()
         {
-            Quaternion targetRotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
-            if (transform.rotation != targetRotation)
+            if ((isMove && !LockDir) || LockDir)
             {
-                transform.rotation = targetRotation;//Quaternion.Slerp(transform.rotation, targetRotation, TurnSpeed * Time.deltaTime);
+                SetDirToCamera(camera.transform.eulerAngles.y);
             }
         }
-    }
 
+        public void SetDirToCamera(float yAngle)
+        {
+            transform.eulerAngles = new Vector3(0, yAngle, 0);
+        }
+    }
 }

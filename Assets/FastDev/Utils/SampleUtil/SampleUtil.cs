@@ -7,12 +7,17 @@ namespace FastDev
     public class SampleUtil : MonoBehaviour
     {
         public string text;
+
+        public GameObject TestObj;
+
+        private Vector3 targetPos;
+        private Quaternion targetDir;
         // Start is called before the first frame update
         void Start()
         {
             Application.targetFrameRate = 120;
             string md5txt = SecurityUtil.MD5Encrypt(text);
-            Debug.Log("MD5£º" + md5txt);
+            Debug.Log("MD5ï¼š" + md5txt);
 
             string privateKey;
             string publicKey;
@@ -20,33 +25,51 @@ namespace FastDev
 
             string encryptData = SecurityUtil.RsaEncrypt(text, publicKey);
 
-            Debug.Log("RSA¼ÓÃÜÊı¾İ£º" + encryptData);
+            Debug.Log("RSAåŠ å¯†æ•°æ®ï¼š" + encryptData);
 
             string decryptData = SecurityUtil.RsaDecrypt(encryptData, privateKey);
 
-            Debug.Log("RSA½âÃÜÊı¾İ£º" + decryptData);
+            Debug.Log("RSAè§£å¯†æ•°æ®ï¼š" + decryptData);
 
             string signText = SecurityUtil.SignatureFormatter(privateKey, text);
 
-            Debug.Log("RSAÇ©ÃûÊı¾İ£º" + signText);
+            Debug.Log("RSAç­¾åæ•°æ®ï¼š" + signText);
 
             bool value = SecurityUtil.SignatureDeformatter(publicKey, text, signText);
 
-            Debug.Log("RSAÑéÇ©½á¹û£º" + value);
+            Debug.Log("RSAéªŒç­¾ç»“æœï¼š" + value);
 
             string aesEncryptTxt = SecurityUtil.AESEncrypt(text, "123456789xxxxxxxxxxxxxxxxx");
 
-            Debug.Log("Aes¼ÓÃÜÊı¾İ£º" + aesEncryptTxt);
+            Debug.Log("AesåŠ å¯†æ•°æ®ï¼š" + aesEncryptTxt);
 
             string aesTxt = SecurityUtil.AESDecrypt(aesEncryptTxt, "123456789");
 
-            Debug.Log("Aes½âÃÜÊı¾İ£º" + aesTxt);
+            Debug.Log("Aesè§£å¯†æ•°æ®ï¼š" + aesTxt);
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (targetPos != Vector3.zero)
+            {
+                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPos, 3f * Time.deltaTime);
+                Camera.main.transform.rotation = Quaternion.Lerp(Camera.main.transform.rotation, targetDir, 3f * Time.deltaTime);
 
+                if (Camera.main.transform.position == targetPos)
+                {
+                    targetPos = Vector3.zero;
+                }
+            }
+        }
+
+        [ContextMenu("TestCamerLerp")]
+        public void TestCameraLerp()
+        {
+            Camera camera = Camera.main;
+
+            targetPos = TestObj.transform.position;
+            targetDir = TestObj.transform.rotation;
         }
     }
 }

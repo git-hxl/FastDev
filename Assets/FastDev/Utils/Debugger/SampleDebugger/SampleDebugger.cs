@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,8 +12,8 @@ namespace FastDev
         void Start()
         {
             Console.Instance.RegisterCommand(ConsoleCommand.SystemInfo, Test);
-            Console.Instance.RegisterCommand(ConsoleCommand.EnableLog, (args) => { DebuggerLog.Instance.EnableLog(int.Parse(args[0].ToString())); return "ok"; });
-            Console.Instance.RegisterCommand(ConsoleCommand.DisableLog, (args) => { DebuggerLog.Instance.DisableLog(); return "ok"; });
+            Console.Instance.RegisterCommand(ConsoleCommand.EnableLog, (args) => { LogManager.Instance.EnableLog((LogType)args[0]); return "ok"; });
+            Console.Instance.RegisterCommand(ConsoleCommand.DisableLog, (args) => { LogManager.Instance.DisableLog(); return "ok"; });
 
             Console.Instance.RegisterCommand("Test", (args) => throw new System.Exception());
         }

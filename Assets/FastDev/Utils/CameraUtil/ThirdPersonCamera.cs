@@ -1,65 +1,68 @@
+using System;
 using UnityEngine;
-
 namespace FastDev
 {
-    public class ThirdPersonCamera : MonoBehaviour
+    public class ThirdPersonCamera : CameraBase
     {
-        public Transform Target;
-        public Vector3 Offset = new Vector3(0f, 0.25f, -1f);
+        
+        private float setZDistance;
+        private float autoSetZDistance;
 
-        public float RotateSpeed = 200f;
-        public float LerpSpeed = 10f;
-        public float MaxXAngle = 50f;
-
+        public float MaxZDistance = 10f;
         public float ScrollSpeed = 500f;
-        public float MaxZDistance = -10f;
-        public bool Raycast = true;
-        public float WallThickness = 1f;
 
-        private void OnEnable()
+        protected override void OnInit()
         {
-            Cursor.lockState = CursorLockMode.None;
-            transform.rotation = Quaternion.Euler(45f, 0f, 0f);
+            base.OnInit();
+            setZDistance = MaxZDistance;
+            autoSetZDistance = setZDistance / 2f;
         }
 
         private void Update()
         {
-            float x = Input.GetAxis("Mouse X");
-            float y = -Input.GetAxis("Mouse Y");
-            float z = Input.GetAxis("Mouse ScrollWheel");
-
-            transform.RotateAround(Target.position, Vector3.up, x * RotateSpeed * Time.deltaTime);
-
-            float xAngle = transform.eulerAngles.x;
-
-            if (xAngle > 180)
-                xAngle -= 360;
-
-            if ((xAngle < MaxXAngle && y > 0) || (xAngle > -MaxXAngle && y < 0))
-                transform.RotateAround(Target.position, transform.right, y * RotateSpeed * Time.deltaTime);
-
-            Offset.z = Mathf.Clamp(Offset.z + z * ScrollSpeed * Time.deltaTime, MaxZDistance, 0);
+            UpdateRotate();
         }
 
         private void LateUpdate()
         {
-            Vector3 targetPos = Target.position + transform.TransformVector(Offset);
-            if (Raycast)
+            UpdatePos();
+        }
+
+        protected override void UpdatePos()
+        {
+            float z = Input.GetAxis("Mouse ScrollWheel");
+
+            if (z != 0)
             {
-                RaycastHit raycastHit;
-                Vector3 dir = (targetPos - Target.position).normalized;
-                float maxDistance = Vector3.Distance(targetPos, Target.position);
-                Ray ray = new Ray(Target.position, dir);
-                if (Physics.Raycast(ray, out raycastHit, maxDistance))
+                setZDistance = setZDistance - z * ScrollSpeed * Time.deltaTime;
+                setZDistance = Mathf.Clamp(setZDistance, 0, MaxZDistance);
+                autoSetZDistance = setZDistance;
+            }
+
+            targetPos = Target.position + transform.TransformVector(Offset);
+
+            Ray ray = new Ray(targetPos, -transform.forward);
+            RaycastHit raycastHit;
+            if (Physics.Raycast(ray, out raycastHit, setZDistance))
+            {
+                if (raycastHit.transform != Target)
                 {
-                    if (raycastHit.collider.gameObject.tag != "Player")
+                    float distance = Vector3.Distance(raycastHit.point, targetPos);
+                    if (autoSetZDistance > distance)
                     {
-                        targetPos = raycastHit.point + -dir * WallThickness;
+                        autoSetZDistance -= LerpSpeed * Time.deltaTime;
                     }
                 }
             }
-            transform.position = Vector3.Lerp(transform.position, targetPos, LerpSpeed * Time.deltaTime);
-        }
-    }
+            else if (autoSetZDistance < setZDistance)
+            {
+                autoSetZDistance += LerpSpeed * Time.deltaTime;
+            }
 
+            targetPos = targetPos - targetDir * autoSetZDistance;
+            transform.position = targetPos;
+        }
+
+        
+    }
 }
