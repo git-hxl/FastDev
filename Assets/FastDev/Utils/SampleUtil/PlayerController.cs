@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-
 namespace FastDev
 {
     public class PlayerController : MonoBehaviour
@@ -9,7 +7,8 @@ namespace FastDev
         private new Camera camera;
         private bool isGround;
         private float velocitY;
-        private bool isMove;
+
+        private Vector3 inputDir;
 
         public float MoveSpeed = 2.5f;
         public float JumpHeight = 2.5f;
@@ -28,16 +27,16 @@ namespace FastDev
             float x = Input.GetAxisRaw("Horizontal");
             float z = Input.GetAxisRaw("Vertical");
 
-            isMove = (x != 0 || z != 0);
-
             isGround = characterController.isGrounded;
+
             if (isGround && velocitY < 0)
             {
                 velocitY = 0f;
             }
 
-            Vector3 moveDir = new Vector3(x, 0, z).normalized;
-            characterController.Move(transform.TransformDirection(moveDir) * MoveSpeed * Time.deltaTime);
+            inputDir = new Vector3(x, 0, z).normalized;
+
+            characterController.Move(transform.TransformDirection(inputDir) * MoveSpeed * Time.deltaTime);
 
             if (Input.GetKeyDown(KeyCode.Space) && isGround)
             {
@@ -50,15 +49,14 @@ namespace FastDev
 
         private void LateUpdate()
         {
-            if ((isMove && !LockDir) || LockDir)
+            if (LockDir)
             {
-                SetDirToCamera(camera.transform.eulerAngles.y);
+                transform.eulerAngles = new Vector3(0, camera.transform.eulerAngles.y, 0);
             }
-        }
-
-        public void SetDirToCamera(float yAngle)
-        {
-            transform.eulerAngles = new Vector3(0, yAngle, 0);
+            else if (inputDir != Vector3.zero)
+            {
+                transform.eulerAngles = new Vector3(0, camera.transform.eulerAngles.y, 0);
+            }
         }
     }
 }

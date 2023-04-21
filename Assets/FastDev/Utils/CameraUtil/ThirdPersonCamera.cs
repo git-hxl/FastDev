@@ -62,7 +62,5 @@ namespace FastDev
             targetPos = targetPos - targetDir * autoSetZDistance;
             transform.position = targetPos;
         }
-
-        
     }
 }
