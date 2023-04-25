@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 namespace FastDev
 {
-    public class ThirdPersonCamera : CameraBase
+    public class ThirdPersonCameraSample : CameraBase
     {
         
         private float setZDistance;

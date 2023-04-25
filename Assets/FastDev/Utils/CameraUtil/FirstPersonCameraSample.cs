@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class FirstPersonCamera : CameraBase
+    public class FirstPersonCameraSample : CameraBase
     {
         private void Update()
         {

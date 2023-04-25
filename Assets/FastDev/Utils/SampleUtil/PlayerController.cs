@@ -43,7 +43,7 @@ namespace FastDev
                 velocitY += Mathf.Sqrt(JumpHeight * -3.0f * Physics.gravity.y);
             }
 
-            velocitY += Physics.gravity.y * GravityFactor * Time.deltaTime;
+            velocitY += Physics.gravity.y * GravityFactor * Time.deltaTime; 
             characterController.Move(Vector3.up * velocitY * Time.deltaTime);
         }
 

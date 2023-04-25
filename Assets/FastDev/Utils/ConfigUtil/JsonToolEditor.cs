@@ -58,17 +58,6 @@ namespace FastDev
                 }
             }
 
-            GUILayout.Label("输出Csharp路径");
-            setting.OutputCsharpDir = GUILayout.TextField(setting.OutputCsharpDir);
-            if (GUILayout.Button("选择文件夹"))
-            {
-                string selectPath = EditorUtility.OpenFolderPanel("输出路径", Application.dataPath, "");
-                if (!string.IsNullOrEmpty(selectPath))
-                {
-                    setting.OutputCsharpDir = selectPath;
-                }
-            }
-
             if (GUILayout.Button("执行批处理"))
             {
                 RunBat();
@@ -89,11 +78,9 @@ namespace FastDev
 
             string excelDir = setting.InputExcelDir.Replace("/", "\\");
             string jsonDir = setting.OutputJsonDir.Replace("/", "\\");
-            string csharpDir = setting.OutputCsharpDir.Replace("/", "\\");
-
             if (Directory.Exists(cmdWorkDir))
             {
-                RunCmd("JsonTool.bat", excelDir + " " + jsonDir + " " + csharpDir, cmdWorkDir).Forget();
+                RunCmd("JsonTool.bat", excelDir + " " + jsonDir, cmdWorkDir).Forget();
             }
         }
 
