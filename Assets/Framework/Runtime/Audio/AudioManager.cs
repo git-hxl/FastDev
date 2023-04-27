@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +39,12 @@ namespace Framework
 
         public AudioPlayer GetAudioPlayer(AudioType audioType)
         {
-            return this.AudioPlayers.FirstOrDefault((a) => a.AudioType == audioType);
+            AudioPlayer audioPlayer = this.AudioPlayers.FirstOrDefault((a) => a.AudioType == audioType);
+            if (audioPlayer == null)
+            {
+                audioPlayer = CreateAudioPlayer(audioType);
+            }
+            return audioPlayer;
         }
 
         public float GetVolume(AudioType audioType)
@@ -83,7 +87,6 @@ namespace Framework
             string json = JsonConvert.SerializeObject(Setting, Formatting.Indented);
             File.WriteAllText(SettingPath, json);
         }
-
 
         private void OnDestroy()
         {

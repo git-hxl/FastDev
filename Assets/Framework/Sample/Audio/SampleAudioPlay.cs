@@ -24,24 +24,24 @@ public class SampleAudioPlay : MonoBehaviour
         btPlayRandom.onClick.AddListener(() =>
         {
             Vector3 pos = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Sound).Play("Assets/FastDev/2.AudioManager/Sample/SFX_ArrowFly.wav");
+            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Sound).Play("Assets/Framework/Sample/Audio/SFX_ArrowFly.wav");
 
         });
 
         btPlayUI.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.UI).PlayOnOnShot("Assets/FastDev/2.AudioManager/Sample/UIClick.wav");
+            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.UI).PlayOnOnShot("Assets/Framework/Sample/Audio/UIClick.wav");
         });
 
 
         btPlayMusic.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Sound).Play("Assets/FastDev/2.AudioManager/Sample/SFX_FireThrower_Fire_Loop.wav");
+            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Music).Play("Assets/Framework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav");
         });
 
         btStopMusic.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Sound).Stop();
+            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Music).Stop();
         });
 
         sliderTotal.value = AudioManager.Instance.Setting.TotalVolume;

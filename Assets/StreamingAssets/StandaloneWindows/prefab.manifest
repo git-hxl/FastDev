@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 93677210
+CRC: 3934365
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7c545d1148c6dd259b0962988519d12a
+    Hash: b253be479706252c722ae22d83e30745
   TypeTreeHash:
     serializedVersion: 2
     Hash: ccdf19e42652927b3ca1379ec4c0235c
@@ -27,5 +27,5 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/FastDev/1.AssetManager/Sample/Cube.prefab
+- Assets/Framework/Sample/Asset/Cube.prefab
 Dependencies: []

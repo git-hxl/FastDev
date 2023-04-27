@@ -38,11 +38,6 @@ namespace Framework.Editor
                 assetBundleEditorSetting = JsonConvert.DeserializeObject<AssetBundleEditorSetting>(jsonTxt);
             }
             AssetDatabase.RemoveUnusedAssetBundleNames();
-
-            foreach (var item in AssetDatabase.GetAllAssetBundleNames())
-            {
-                assetBundleEditorSetting.SelectBundles.Add(item);
-            }
         }
 
         private void OnGUI()
@@ -87,14 +82,14 @@ namespace Framework.Editor
             foreach (var item in AssetDatabase.GetAllAssetBundleNames())
             {
                 bool value = assetBundleEditorSetting.SelectBundles.Contains(item);
-                if (GUILayout.Toggle(value, item))
+                value = GUILayout.Toggle(value, item);
+
+                if (value && !assetBundleEditorSetting.SelectBundles.Contains(item))
                 {
-                    if (!assetBundleEditorSetting.SelectBundles.Contains(item))
-                    {
-                        assetBundleEditorSetting.SelectBundles.Add(item);
-                    }
+                    assetBundleEditorSetting.SelectBundles.Add(item);
                 }
-                else if (assetBundleEditorSetting.SelectBundles.Contains(item))
+
+                if (!value && assetBundleEditorSetting.SelectBundles.Contains(item))
                 {
                     assetBundleEditorSetting.SelectBundles.Remove(item);
                 }

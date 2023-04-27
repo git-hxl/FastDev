@@ -33,10 +33,10 @@ namespace FastDev
 
         public virtual void OnActionDone(GoapAction goapAction, bool isComplete)
         {
-            Debug.Log("OnActionDone:<color=#00FF00>" + goapAction.ToString() + "</color> result:" + isComplete);
+            Debug.Log("OnActionDone:<color=#00FF00>" + goapAction.ToString() + "</color> plan complete result:" + isComplete);
         }
 
-        public virtual void OnPlanDone(Stack<GoapAction> planActions)
+        public virtual void OnPrePlanDone(Stack<GoapAction> planActions)
         {
             if (planActions == null)
             {
@@ -52,7 +52,7 @@ namespace FastDev
         {
             this.CurGoapAction = null;
             var result = GoapPlanner.Plan(goalState);
-            OnPlanDone(result);
+            OnPrePlanDone(result);
         }
 
         public void StopPlanActions()

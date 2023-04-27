@@ -14,9 +14,9 @@ public class SampleMsgDispatch : MonoBehaviour
             {
                 await UniTask.Delay(1000);
                 //同步线程消息
-                MsgSyncManager.Instance.Enqueue(0, new byte[] { 1 });
+                MsgSyncManager.Instance.Enqueue(0, 101, 102);
 
-                MsgManager.Instance.Dispatch(0, 100);
+                MsgManager.Instance.Dispatch(0, 11, 12);
             }
         });
     }

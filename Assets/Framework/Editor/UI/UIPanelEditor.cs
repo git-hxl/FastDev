@@ -62,11 +62,12 @@ namespace Framework.Editor
         }
 
         public static string classStr =
-@"using FastDev;
+@"
+using Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class $类名 : IUIPanel
+public class $类名 : UIPanel
 {
     #region
     $UIAttribute

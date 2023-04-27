@@ -10,20 +10,51 @@ namespace Framework
         public LanguageType LanguageType { get; private set; }
         public List<LanguageData> LanguageDatas { get; private set; }
 
-        private string path;
+        private string languagePath;
 
         protected override void OnInit()
         {
             base.OnInit();
             LanguageDatas = new List<LanguageData>();
-            path = Application.streamingAssetsPath + "/MultiLanguage.json";
-            if (File.Exists(path))
+            languagePath = Application.streamingAssetsPath + "/MultiLanguage.json";
+            if (File.Exists(languagePath))
             {
-                string json = File.ReadAllText(path);
+                string json = File.ReadAllText(languagePath);
                 LanguageDatas = JsonConvert.DeserializeObject<List<LanguageData>>(json);
             }
             LanguageType = (LanguageType)PlayerPrefs.GetInt("Language", 0);
             Debug.Log("curlanguage:" + LanguageType);
+        }
+
+        public LanguageData RegisterText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return null;
+            var languageData = LanguageDatas.FirstOrDefault((a) => a.Chinese == text);
+            if (languageData == null)
+            {
+                int id = 1000;
+                if (LanguageDatas.Count > 0)
+                {
+                    id = LanguageDatas.Last().ID + 1;
+                }
+                languageData = new LanguageData(id, text);
+                LanguageDatas.Add(languageData);
+                File.WriteAllText(languagePath, JsonConvert.SerializeObject(LanguageDatas, Formatting.Indented));
+                return languageData;
+            }
+            return languageData;
+        }
+
+        public bool RemoveLanguageData(LanguageData languageData)
+        {
+            if (LanguageDatas.Contains(languageData))
+            {
+                LanguageDatas.Remove(languageData);
+                File.WriteAllText(languagePath, JsonConvert.SerializeObject(LanguageDatas, Formatting.Indented));
+                return true;
+            }
+            return false;
         }
 
         public string GetText(int id)
@@ -36,21 +67,6 @@ namespace Framework
             return "";
         }
 
-        public LanguageData RegisterText(string text)
-        {
-            var languageData = LanguageDatas.FirstOrDefault((a) => a.Chinese == text);
-            if (languageData == null)
-            {
-                int id = 1000 + LanguageDatas.Count;
-                languageData = new LanguageData(id, text);
-                LanguageDatas.Add(languageData);
-                File.WriteAllText(path, JsonConvert.SerializeObject(LanguageDatas, Formatting.Indented));
-                return languageData;
-            }
-
-            return languageData;
-        }
-
         public int GetID(string text)
         {
             LanguageData languageData = LanguageDatas.FirstOrDefault((a) => a.Chinese == text);
@@ -59,23 +75,6 @@ namespace Framework
                 return languageData.ID;
             }
             return -1;
-        }
-
-        public void RemoveText(int id)
-        {
-            LanguageData languageData = LanguageDatas.FirstOrDefault((a) => a.ID == id);
-            RemoveLanguageData(languageData);
-        }
-
-        public bool RemoveLanguageData(LanguageData languageData)
-        {
-            if (LanguageDatas.Contains(languageData))
-            {
-                LanguageDatas.Remove(languageData);
-                File.WriteAllText(path, JsonConvert.SerializeObject(LanguageDatas, Formatting.Indented));
-                return true;
-            }
-            return false;
         }
 
         public void SetLanguageType(LanguageType languageType)

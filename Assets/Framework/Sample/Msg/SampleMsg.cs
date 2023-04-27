@@ -5,24 +5,24 @@ using UnityEngine;
 
 public class SampleMsg : MonoBehaviour
 {
+    //SampleMsg2 sampleMsg2;
     // Start is called before the first frame update
     void Start()
     {
         MsgManager.Instance.Register(0, Test);
-        MsgSyncManager.Instance.Register(0, Test);
 
         SampleMsg2 sampleMsg2 = new SampleMsg2();
 
         MsgManager.Instance.Register(0, sampleMsg2.Test_SampleMsg2);
     }
 
-    private void Test(object[] arg)
+    private void Test(object[] args)
     {
-        Debug.Log(arg[0].ToString());
-    }
-    private void Test(byte[] arg)
-    {
-        Debug.Log(arg[0].ToString());
+        foreach (var item in args)
+        {
+            Debug.Log("SampleMsg: " + item.ToString());
+        }
+
     }
 
 }
@@ -35,8 +35,11 @@ public class SampleMsg2
         Debug.LogError("SampleMsg2 析构执行");
     }
 
-    public void Test_SampleMsg2(object[] arg)
+    public void Test_SampleMsg2(object[] args)
     {
-        Debug.Log(arg[0].ToString());
+        foreach (var item in args)
+        {
+            Debug.Log("SampleMsg2: " + item.ToString());
+        }
     }
 }

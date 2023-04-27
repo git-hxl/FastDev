@@ -2,8 +2,10 @@
   "OpenTotalVolume": true,
   "OpenMusicVolume": true,
   "TotalVolume": 1.0,
-  "UIVolume": 0.3,
-  "VoiceVolume": 0.4,
-  "SoundVolume": 0.5,
-  "MusicVolume": 0.6
+  "AudioTypeVolume": {
+    "UI": 1.0,
+    "Voice": 1.0,
+    "Sound": 1.0,
+    "Music": 1.0
+  }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
-    private new Camera camera;
+    private Camera cacheCamera;
     private bool isGround;
     private float velocitY;
 
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        camera = Camera.main;
+        cacheCamera = Camera.main;
     }
 
     private void Update()
@@ -49,11 +49,11 @@ public class PlayerController : MonoBehaviour
     {
         if (LockDir)
         {
-            transform.eulerAngles = new Vector3(0, camera.transform.eulerAngles.y, 0);
+            transform.eulerAngles = new Vector3(0, cacheCamera.transform.eulerAngles.y, 0);
         }
         else if (inputDir != Vector3.zero)
         {
-            transform.eulerAngles = new Vector3(0, camera.transform.eulerAngles.y, 0);
+            transform.eulerAngles = new Vector3(0, cacheCamera.transform.eulerAngles.y, 0);
         }
     }
 }

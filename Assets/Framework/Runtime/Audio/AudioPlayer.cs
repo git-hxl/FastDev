@@ -36,6 +36,10 @@ namespace Framework
 
         private void OnDestroy()
         {
+            if (AudioSource != null)
+            {
+                Destroy(AudioSource);
+            }
             AudioManager.Instance?.UnRegisterAudioPlayer(this);
         }
     }

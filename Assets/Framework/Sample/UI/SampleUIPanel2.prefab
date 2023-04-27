@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 5595989221859952202}
   - component: {fileID: 5595989221859952203}
   - component: {fileID: 5595989221859952204}
-  - component: {fileID: -812729557411590017}
+  - component: {fileID: 4605460042461369833}
   m_Layer: 5
   m_Name: SampleUIPanel2
   m_TagString: Untagged
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &-812729557411590017
+--- !u!114 &4605460042461369833
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 5595989222104548156}
   - component: {fileID: 5595989222104548157}
   m_Layer: 5
-  m_Name: Image
+  m_Name: _Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

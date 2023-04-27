@@ -64,25 +64,30 @@ public class SampleInput : MonoBehaviour
         }
 
 
-        if (InputManager.Instance.GetAxis("Mouse X") > 0f)
+        //if (InputManager.Instance.GetAxis("Mouse X") > 0f)
+        //{
+        //    Debug.Log("Mouse X");
+        //}
+
+
+        if (InputManager.Instance.GetKeyUp("A"))
         {
-            Debug.Log("Mouse X");
+            Debug.Log("A:" + Time.frameCount);
         }
 
-
-        if (InputManager.Instance.GetKeyUp("A") || InputManager.Instance.GetKeyUp("D"))
+        if (InputManager.Instance.GetKeyUp("D") )
         {
-            Debug.Log("AD:" + Time.frameCount);
+            Debug.Log("D:" + Time.frameCount);
         }
 
         if (InputManager.Instance.GetKeyDown("S"))
         {
-            Debug.Log("WS:" + Time.frameCount);
+            Debug.Log("S:" + Time.frameCount);
         }
 
         if (InputManager.Instance.GetKeyDown("W"))
         {
-            Debug.Log("WS:" + Time.frameCount);
+            Debug.Log("W:" + Time.frameCount);
         }
     }
 }

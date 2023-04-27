@@ -15,12 +15,18 @@ namespace Framework
 
         public IUIPanel GetUIPanel(string path)
         {
+            IUIPanel uIPanel = null;
             if (UIPanels.ContainsKey(path))
-                return UIPanels[path];
-            GameObject ui = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
-            var panel = GameObject.Instantiate(ui).GetComponent<IUIPanel>();
-            UIPanels[path] = panel;
-            return panel;
+                uIPanel = UIPanels[path];
+            if (uIPanel == null)
+            {
+                GameObject uiAsset = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
+                GameObject uiObj = GameObject.Instantiate(uiAsset);
+                uiObj.SetActive(false);
+                uIPanel = uiObj.GetComponent<IUIPanel>();
+                UIPanels[path] = uIPanel;
+            }
+            return uIPanel;
         }
 
 
@@ -36,7 +42,7 @@ namespace Framework
             return default(T);
         }
 
-        
+
         public T GetUI<T>() where T : UIPanel
         {
             foreach (var item in UIPanels)

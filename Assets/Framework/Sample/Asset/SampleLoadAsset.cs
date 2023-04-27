@@ -14,10 +14,10 @@ public class SampleLoadAsset : MonoBehaviour
 
         Debug.Log(config.DateTime);
 
-        GameObject cube = AssetManager.Instance.LoadAsset<GameObject>("prefab", "Assets/FastDev/1.AssetManager/Sample/Cube.prefab");
+        GameObject cube = AssetManager.Instance.LoadAsset<GameObject>("prefab", "Assets/Framework/Sample/Asset/Cube.prefab");
         Instantiate(cube);
 
-        GameObject cube2 = await AssetManager.Instance.LoadAssetAsync<GameObject>("prefab", "Assets/FastDev/1.AssetManager/Sample/Cube.prefab");
+        GameObject cube2 = await AssetManager.Instance.LoadAssetAsync<GameObject>("prefab", "Assets/Framework/Sample/Asset/Cube.prefab");
         cube2.name = "async cube";
         Instantiate(cube2);
     }

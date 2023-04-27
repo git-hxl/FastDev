@@ -52,9 +52,9 @@ namespace Framework
             Debug.unityLogger.filterLogType = FilterLogType;
         }
 
-        public void EnableLog(LogType logType)
+        public void EnableLog(int logType)
         {
-            FilterLogType = logType;
+            FilterLogType = (LogType)logType;
             EnableLog();
         }
 

@@ -1,6 +1,6 @@
 using Framework;
 using UnityEngine;
-namespace FastDev
+namespace Framework
 {
     public abstract class UIPanel : MonoBehaviour, IUIPanel
     {

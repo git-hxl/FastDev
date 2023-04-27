@@ -4,17 +4,17 @@ namespace FastDev
 {
     public class UILookToCamera : MonoBehaviour
     {
-        private new Camera camera;
+        private Camera cacheCamera;
         // Start is called before the first frame update
         void Start()
         {
-            camera = Camera.main;
+            cacheCamera = Camera.main;
         }
 
         // Update is called once per frame
         void Update()
         {
-            transform.forward = camera.transform.forward;
+            transform.forward = cacheCamera.transform.forward;
         }
     }
 }
