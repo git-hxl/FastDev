@@ -1,0 +1,37 @@
+[
+  {
+    "ID": 1001,
+    "Name": "技能名1",
+    "Damage": [
+      10,
+      20,
+      30
+    ],
+    "Speed": 1.5,
+    "IsTest": true,
+    "TestName": [
+      "asd",
+      "asdaf"
+    ]
+  },
+  {
+    "ID": 1002,
+    "Name": "技能名2",
+    "Damage": [
+      10,
+      20,
+      30
+    ],
+    "Speed": 2.0,
+    "IsTest": false,
+    "TestName": null
+  },
+  {
+    "ID": 1003,
+    "Name": null,
+    "Damage": null,
+    "Speed": null,
+    "IsTest": null,
+    "TestName": null
+  }
+]
