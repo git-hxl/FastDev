@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Framework
+namespace GameFramework
 {
     public static class StringEx
     {

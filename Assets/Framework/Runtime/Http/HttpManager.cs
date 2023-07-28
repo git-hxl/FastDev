@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using System.Text;
 using System.IO;
 
-namespace Framework
+namespace GameFramework
 {
     public class HttpManager : Singleton<HttpManager>
     {

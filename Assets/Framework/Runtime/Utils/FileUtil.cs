@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Framework
+namespace GameFramework
 {
     public static class FileUtil
     {

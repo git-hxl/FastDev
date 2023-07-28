@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Framework
+namespace GameFramework
 {
     public struct MsgData
     {

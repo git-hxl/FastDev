@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-namespace Framework.Editor
+namespace GameFramework.Editor
 {
     public class AssetBundleEditor : EditorWindow
     {
@@ -17,7 +17,7 @@ namespace Framework.Editor
 
         private AssetBundleEditorSetting assetBundleEditorSetting;
 
-        [MenuItem("FastDev/AssetBundle工具")]
+        [MenuItem("Tools/AssetBundle工具")]
         public static void OpenWindow()
         {
             AssetBundleEditor window = (AssetBundleEditor)EditorWindow.GetWindow(typeof(AssetBundleEditor), false, "AssetBundle");

@@ -1,4 +1,4 @@
-using Framework;
+using GameFramework;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

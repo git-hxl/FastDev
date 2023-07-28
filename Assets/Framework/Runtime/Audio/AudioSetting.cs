@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Framework
+namespace GameFramework
 {
     public class AudioSetting
     {

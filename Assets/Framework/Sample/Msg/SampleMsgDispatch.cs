@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using Framework;
+using GameFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,9 +14,9 @@ public class SampleMsgDispatch : MonoBehaviour
             {
                 await UniTask.Delay(1000);
                 //同步线程消息
-                MsgSyncManager.Instance.Enqueue(0, 101, 102);
+                MsgManager.Instance.Enqueue(0, 101, 102);
 
-                MsgManager.Instance.Dispatch(0, 11, 12);
+                MsgManager.Instance.Dispatch(1, 11, 12);
             }
         });
     }

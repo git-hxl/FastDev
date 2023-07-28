@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor
+namespace GameFramework.Editor
 {
     public class AssetBundleEditorSetting
     {
-        public static string SettingPath { get; } = "./abbuildsetting.json";
+        public static string SettingPath { get; } = "./AssetBundleEditorSetting.json";
         //Ab包打包保存目录
         public string BuildPath { get; set; }
         //打包平台

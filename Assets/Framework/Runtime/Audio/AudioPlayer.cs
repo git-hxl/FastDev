@@ -1,16 +1,22 @@
 using System;
 using UnityEngine;
 
-namespace Framework
+namespace GameFramework
 {
     public class AudioPlayer : MonoBehaviour, IAudioPlayer
     {
-        public AudioType AudioType;
-        public AudioSource AudioSource;
+        [SerializeField]
+        private AudioType audioType;
+        public AudioType AudioType { get => audioType; set => audioType = value; }
+        public AudioSource AudioSource { get; private set; }
+
         private void Awake()
         {
+            AudioSource = GetComponent<AudioSource>();
             if (AudioSource == null)
+            {
                 AudioSource = gameObject.AddComponent<AudioSource>();
+            }
             AudioSource.volume = AudioManager.Instance.GetVolume(AudioType);
             AudioManager.Instance.RegisterAudioPlayer(this);
         }

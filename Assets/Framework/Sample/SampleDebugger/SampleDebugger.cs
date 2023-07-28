@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Framework
+namespace GameFramework
 {
     public class SampleDebugger : MonoBehaviour
     {
@@ -24,7 +24,7 @@ namespace Framework
             {
                 Debug.Log(item.ToString());
             }
-            return Framework.SystemInfo.ToString();
+            return GameFramework.SystemInfo.ToString();
         }
 
         private void Update()

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-namespace Framework
+namespace GameFramework
 {
     public class AssetConfig
     {

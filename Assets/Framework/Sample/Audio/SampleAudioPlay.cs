@@ -1,4 +1,4 @@
-using Framework;
+using GameFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,24 +24,24 @@ public class SampleAudioPlay : MonoBehaviour
         btPlayRandom.onClick.AddListener(() =>
         {
             Vector3 pos = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Sound).Play("Assets/Framework/Sample/Audio/SFX_ArrowFly.wav");
+            AudioManager.Instance.GetAudioPlayer(GameFramework.AudioType.Sound).Play("Assets/GameFramework/Sample/Audio/SFX_ArrowFly.wav");
 
         });
 
         btPlayUI.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.UI).PlayOnOnShot("Assets/Framework/Sample/Audio/UIClick.wav");
+            AudioManager.Instance.GetAudioPlayer(GameFramework.AudioType.UI).PlayOnOnShot("Assets/GameFramework/Sample/Audio/UIClick.wav");
         });
 
 
         btPlayMusic.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Music).Play("Assets/Framework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav");
+            AudioManager.Instance.GetAudioPlayer(GameFramework.AudioType.Music).Play("Assets/GameFramework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav");
         });
 
         btStopMusic.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(Framework.AudioType.Music).Stop();
+            AudioManager.Instance.GetAudioPlayer(GameFramework.AudioType.Music).Stop();
         });
 
         sliderTotal.value = AudioManager.Instance.Setting.TotalVolume;
@@ -53,28 +53,28 @@ public class SampleAudioPlay : MonoBehaviour
         });
 
 
-        sliderUI.value = AudioManager.Instance.Setting.AudioTypeVolume[Framework.AudioType.UI];
+        sliderUI.value = AudioManager.Instance.Setting.AudioTypeVolume[GameFramework.AudioType.UI];
 
         sliderUI.onValueChanged.AddListener((value) =>
         {
-            AudioManager.Instance.Setting.AudioTypeVolume[Framework.AudioType.UI] = value;
+            AudioManager.Instance.Setting.AudioTypeVolume[GameFramework.AudioType.UI] = value;
             AudioManager.Instance.UpdateVolume();
         });
 
 
-        sliderSound.value = AudioManager.Instance.Setting.AudioTypeVolume[Framework.AudioType.Sound];
+        sliderSound.value = AudioManager.Instance.Setting.AudioTypeVolume[GameFramework.AudioType.Sound];
 
         sliderSound.onValueChanged.AddListener((value) =>
         {
-            AudioManager.Instance.Setting.AudioTypeVolume[Framework.AudioType.Sound] = value;
+            AudioManager.Instance.Setting.AudioTypeVolume[GameFramework.AudioType.Sound] = value;
             AudioManager.Instance.UpdateVolume();
         });
 
-        sliderMusic.value = AudioManager.Instance.Setting.AudioTypeVolume[Framework.AudioType.Music];
+        sliderMusic.value = AudioManager.Instance.Setting.AudioTypeVolume[GameFramework.AudioType.Music];
 
         sliderMusic.onValueChanged.AddListener((value) =>
         {
-            AudioManager.Instance.Setting.AudioTypeVolume[Framework.AudioType.Music] = value;
+            AudioManager.Instance.Setting.AudioTypeVolume[GameFramework.AudioType.Music] = value;
             AudioManager.Instance.UpdateVolume();
         });
     }

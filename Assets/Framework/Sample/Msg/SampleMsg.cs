@@ -1,4 +1,4 @@
-using Framework;
+using GameFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +13,7 @@ public class SampleMsg : MonoBehaviour
 
         SampleMsg2 sampleMsg2 = new SampleMsg2();
 
-        MsgManager.Instance.Register(0, sampleMsg2.Test_SampleMsg2);
+        MsgManager.Instance.Register(1, sampleMsg2.Test_SampleMsg2);
     }
 
     private void Test(object[] args)

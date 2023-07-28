@@ -1,17 +1,17 @@
 using UnityEngine;
 
-namespace Framework
+namespace GameFramework
 {
     internal interface IAudioManager
     {
         AudioClip LoadAudioClip(string path);
 
-        AudioPlayer CreateAudioPlayer(AudioType audioType);
+        IAudioPlayer CreateAudioPlayer(AudioType audioType);
 
-        AudioPlayer GetAudioPlayer(AudioType audioType);
+        IAudioPlayer GetAudioPlayer(AudioType audioType);
 
-        void RegisterAudioPlayer(AudioPlayer audioPlayer);
+        void RegisterAudioPlayer(IAudioPlayer audioPlayer);
 
-        void UnRegisterAudioPlayer(AudioPlayer audioSoundPlayer);
+        void UnRegisterAudioPlayer(IAudioPlayer audioSoundPlayer);
     }
 }

@@ -1,48 +1,74 @@
-using FastDev;
-using static UnityEngine.GraphicsBuffer;
+using GameFramework;
 using System.Collections.Generic;
 using UnityEngine;
 
 internal class PickupAxe : GoapAction
 {
-    public override HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
+    private float time = 2f;
+    private GameObject target;
 
-    public override HashSet<KeyValuePair<string, object>> Effects { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
-
-    public override int Cost { get; protected set; } = 1;
-
-    public PickupAxe(GoapAgent goapAgent) : base(goapAgent)
-    {
-        Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, true));
-    }
+    private GoapAgent goapAgent;
 
 
-
-    public override bool CheckProceduralPrecondition()
+    public override bool CheckProcondition()
     {
         var target = GameObject.FindGameObjectWithTag("Axe");
 
         return target != null;
     }
 
-    public override bool IsFailed()
+    public override void OnInit(IGoapAgent goapAgent)
     {
-        return Target == null;
+        GoapActionState = GoapActionState.None;
+        Preconditions.Clear();
+        //Preconditions.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, true));
+
+        Effects.Clear();
+        Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, true));
+        Cost = 5;
+
+        this.goapAgent = goapAgent as GoapAgent;
     }
 
-    public override bool IsInRange()
-    {
-        return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
-    }
+
+
 
     public override void OnStart()
     {
-        Target = GameObject.FindGameObjectWithTag("Axe");
+        target = GameObject.FindGameObjectWithTag("Axe");
+
+        time = 2f;
     }
 
-    public override void OnRun()
+
+    public override void OnUpdate()
     {
-        IsDone = true;
-        return;
+        if (target == null)
+        {
+            GoapActionState = GoapActionState.End;
+        }
+
+        if (goapAgent == null)
+        {
+            GoapActionState = GoapActionState.End;
+        }
+
+        if (Vector3.Distance(target.transform.position, goapAgent.transform.position) > 0.01f)
+        {
+
+            goapAgent.transform.position = Vector3.MoveTowards(goapAgent.transform.position, target.transform.position, 5 * Time.deltaTime);
+            return;
+        }
+
+        time -= Time.deltaTime;
+        if (time < 0)
+        {
+            GoapActionState = GoapActionState.End;
+        }
+    }
+
+    public override void OnEnd()
+    {
+        //throw new NotImplementedException();
     }
 }

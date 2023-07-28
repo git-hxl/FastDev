@@ -1,4 +1,4 @@
-using Framework;
+using GameFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +12,7 @@ public class SamplePool : MonoBehaviour
     {
         btAllocate.onClick.AddListener(() =>
         {
-            GameObject obj = PoolManager.Instance.Allocate("Assets/Framework/Sample/Pool/Cube.prefab");
+            GameObject obj = PoolManager.Instance.Allocate("Assets/GameFramework/Sample/Pool/Cube.prefab");
             obj.SetActive(true);
             obj.transform.position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
 

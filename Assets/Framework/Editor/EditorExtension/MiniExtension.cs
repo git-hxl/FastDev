@@ -1,20 +1,20 @@
 using UnityEditor;
 using UnityEngine;
-namespace Framework.Editor
+namespace GameFramework.Editor
 {
     public class MiniExtension
     {
-        [MenuItem("FastDev/Other/Clear PlayerPrefs")]
+        [MenuItem("Tools/Other/Clear PlayerPrefs")]
         static void ClearPlayerPrefs()
         {
             PlayerPrefs.DeleteAll();
         }
-        [MenuItem("FastDev/Other/打开StreamingAssets")]
+        [MenuItem("Tools/Other/打开StreamingAssets")]
         static void OpenStreamingAssetsFinder()
         {
             EditorUtility.RevealInFinder(Application.streamingAssetsPath);
         }
-        [MenuItem("FastDev/Other/打开PersisentData")]
+        [MenuItem("Tools/Other/打开PersisentData")]
         static void OpenPersistentDataFinder()
         {
             EditorUtility.RevealInFinder(Application.persistentDataPath);
@@ -43,7 +43,7 @@ namespace Framework.Editor
             Debug.Log("已复制：" + hash);
         }
 
-        [MenuItem("GameObject/FastDev/Add BoxCollider")]
+        [MenuItem("GameObject/Tools/Add BoxCollider")]
         static void AddBoxCollider()
         {
             if (Selection.activeObject == null) return;

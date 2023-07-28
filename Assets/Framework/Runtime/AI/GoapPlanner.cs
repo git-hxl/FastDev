@@ -1,25 +1,22 @@
+using GameFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FastDev
+namespace GameFramework
 {
     public class GoapPlanner
     {
-        private GoapAgent goapAgent;
-
-        public GoapPlanner(GoapAgent goapAgent)
+        public static Stack<IGoapAction> Plan(IGoapAgent goapAgent, HashSet<KeyValuePair<string, object>> goal)
         {
-            this.goapAgent = goapAgent;
-        }
-
-        public Stack<GoapAction> Plan(HashSet<KeyValuePair<string, object>> goal)
-        {
-            HashSet<GoapAction> usableActions = new HashSet<GoapAction>();
-            foreach (GoapAction a in goapAgent.AllGoapActions)
+            HashSet<IGoapAction> usableActions = new HashSet<IGoapAction>();
+            foreach (IGoapAction a in goapAgent.GoapActions)
             {
-                if (a.CheckProceduralPrecondition())
+                a.OnInit(goapAgent);
+                if (a.CheckProcondition())
+                {
                     usableActions.Add(a);
+                }
             }
 
             List<GoapNode> findNodes = new List<GoapNode>();
@@ -44,7 +41,7 @@ namespace FastDev
                 }
             }
 
-            Stack<GoapAction> stack = new Stack<GoapAction>();
+            Stack<IGoapAction> stack = new Stack<IGoapAction>();
 
             List<string> debugs = new List<string>();
             GoapNode curNode = cheapest;
@@ -53,7 +50,6 @@ namespace FastDev
                 if (curNode.GoapAction != null)
                 {
                     stack.Push(curNode.GoapAction);
-                    curNode.GoapAction.OnInit();
                     debugs.Add("<color=#FFF000>" + curNode.GoapAction.ToString() + "</color>");
                 }
                 curNode = curNode.Parent;
@@ -64,7 +60,7 @@ namespace FastDev
         }
 
 
-        private bool BuildGraph(GoapNode parent, List<GoapNode> findNodes, HashSet<GoapAction> goapActions, HashSet<KeyValuePair<string, object>> goal)
+        private static bool BuildGraph(GoapNode parent, List<GoapNode> findNodes, HashSet<IGoapAction> goapActions, HashSet<KeyValuePair<string, object>> goal)
         {
             bool foundOne = false;
             foreach (var action in goapActions)
@@ -84,7 +80,7 @@ namespace FastDev
                     }
                     else
                     {
-                        HashSet<GoapAction> subset = ActionSubset(goapActions, action);
+                        HashSet<IGoapAction> subset = ActionSubset(goapActions, action);
                         bool found = BuildGraph(goapNode, findNodes, subset, goal);
                         if (found)
                             foundOne = true;
@@ -101,7 +97,7 @@ namespace FastDev
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        private bool Contains(HashSet<KeyValuePair<string, object>> a, HashSet<KeyValuePair<string, object>> b)
+        private static bool Contains(HashSet<KeyValuePair<string, object>> a, HashSet<KeyValuePair<string, object>> b)
         {
             foreach (var v in b)
             {
@@ -125,7 +121,7 @@ namespace FastDev
             return true;
         }
 
-        private HashSet<KeyValuePair<string, object>> Combines(HashSet<KeyValuePair<string, object>> a, HashSet<KeyValuePair<string, object>> b)
+        private static HashSet<KeyValuePair<string, object>> Combines(HashSet<KeyValuePair<string, object>> a, HashSet<KeyValuePair<string, object>> b)
         {
             HashSet<KeyValuePair<string, object>> state = new HashSet<KeyValuePair<string, object>>();
 
@@ -161,10 +157,10 @@ namespace FastDev
             return state;
         }
 
-        private HashSet<GoapAction> ActionSubset(HashSet<GoapAction> actions, GoapAction removeAction)
+        private static HashSet<IGoapAction> ActionSubset(HashSet<IGoapAction> actions, IGoapAction removeAction)
         {
-            HashSet<GoapAction> subset = new HashSet<GoapAction>();
-            foreach (GoapAction a in actions)
+            HashSet<IGoapAction> subset = new HashSet<IGoapAction>();
+            foreach (IGoapAction a in actions)
             {
                 if (!a.Equals(removeAction))
                     subset.Add(a);

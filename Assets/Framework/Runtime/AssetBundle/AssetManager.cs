@@ -5,9 +5,9 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Framework
+namespace GameFramework
 {
-    public class AssetManager : Singleton<AssetManager>, IAssetManager
+    public class AssetManager : MonoSingleton<AssetManager>, IAssetManager
     {
         public Dictionary<string, AssetBundle> AssetBundles { get; private set; }
 

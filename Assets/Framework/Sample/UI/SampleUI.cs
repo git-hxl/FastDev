@@ -1,5 +1,5 @@
-using FastDev;
-using Framework;
+
+using GameFramework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,13 +12,13 @@ public class SampleUI : MonoBehaviour
     {
         btOpen.onClick.AddListener(() =>
         {
-            var uIPanel = UIManager.Instance.GetUIPanel("Assets/Framework/Sample/UI/SampleUIPanel.prefab");
+            var uIPanel = UIManager.Instance.LoadUI("Assets/Framework/Sample/UI/SampleUIPanel.prefab");
             uIPanel.Open();
         });
 
         btOpen2.onClick.AddListener(() =>
         {
-            var uIPanel = UIManager.Instance.GetUIPanel("Assets/Framework/Sample/UI/SampleUIPanel2.prefab");
+            var uIPanel = UIManager.Instance.LoadUI("Assets/Framework/Sample/UI/SampleUIPanel2.prefab");
             uIPanel.Open();
         });
     }

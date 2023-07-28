@@ -1,4 +1,4 @@
-using FastDev;
+using GameFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,36 +7,26 @@ public class SampleAgent : GoapAgent
 {
     public override void OnInit()
     {
-        base.OnInit();
-        AllGoapActions.Add(new CutTree(this));
-        AllGoapActions.Add(new PickupAxe(this));
-        AllGoapActions.Add(new PickupWood(this));
-
+        GoapActions.Clear();
+        GoapActions.Add(new CutTree());
+        GoapActions.Add(new PickupAxe());
+        GoapActions.Add(new PickupWood());
     }
 
     private void Start()
     {
-        StartPlan(new HashSet<KeyValuePair<string, object>> { new KeyValuePair<string, object>(GlobalStateKey.HasWood, true) });
+        RunActions = GoapPlanner.Plan(this, new HashSet<KeyValuePair<string, object>> { new KeyValuePair<string, object>(GlobalStateKey.HasWood, true) });
     }
 
-    public override void OnActionDone(GoapAction goapAction, bool isComplete)
+    public override void OnActionDone(IGoapAction goapAction)
     {
-        base.OnActionDone(goapAction, isComplete);
-        if (isComplete)
-        {
-            StartCoroutine(DelayReStart());
-        }
+        base.OnActionDone(goapAction);
     }
 
-    public override void OnMove()
+    public void Move(Vector3 targetPos)
     {
         float step = 5 * Time.deltaTime;
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, CurGoapAction.Target.transform.position, step);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPos, step);
     }
 
-    private IEnumerator DelayReStart()
-    {
-        yield return new WaitForSeconds(1);
-        StartPlan(new HashSet<KeyValuePair<string, object>> { new KeyValuePair<string, object>(GlobalStateKey.HasWood, true) });
-    }
 }

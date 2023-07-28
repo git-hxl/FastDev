@@ -3,14 +3,12 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.IO;
 
-namespace Framework
+namespace GameFramework
 {
-    public class PoolManager : Singleton<PoolManager>
+    public class PoolManager : MonoSingleton<PoolManager>
     {
         public Dictionary<string, Stack<PoolObject>> PoolObjects { get; private set; }
-        public int MaxStack { get; } = 9;
-
-        public GameObject PoolParent;
+        public int MaxStack { get; } = 99;
 
         protected override void OnInit()
         {
@@ -20,20 +18,17 @@ namespace Framework
 
         private GameObject LoadAsset(string path)
         {
-            if(PoolParent == null)
-                PoolParent = new GameObject("PoolParent");
             var asset = AssetManager.Instance.LoadAsset<GameObject>("prefab", path);
-            GameObject obj = GameObject.Instantiate(asset, PoolParent.transform);
-            obj.name = Path.GetFileNameWithoutExtension(path);
+            GameObject obj = GameObject.Instantiate(asset, transform);
             return obj;
         }
 
         public GameObject Allocate(string path)
         {
-            string name = Path.GetFileNameWithoutExtension(path);
-            if (!PoolObjects.ContainsKey(name))
-                PoolObjects[name] = new Stack<PoolObject>();
-            var stack = PoolObjects[name];
+            string key = Path.GetFileNameWithoutExtension(path);
+            if (!PoolObjects.ContainsKey(key))
+                PoolObjects[key] = new Stack<PoolObject>();
+            var stack = PoolObjects[key];
 
             PoolObject poolObj = null;
             while (stack.Count > 0)
@@ -50,8 +45,10 @@ namespace Framework
                 poolObj = asset.GetComponent<PoolObject>();
                 if (poolObj == null)
                     poolObj = asset.AddComponent<PoolObject>();
+                poolObj.Key = key;
             }
             poolObj.PoolState = PoolState.Allocated;
+            poolObj.OnAllocated();
             return poolObj.gameObject;
         }
 
@@ -64,8 +61,6 @@ namespace Framework
         {
             if (!Application.isPlaying)
                 return;
-            if (PoolParent == null)
-                return;
             if (obj == null)
                 return;
             var poolObj = obj.GetComponent<PoolObject>();
@@ -73,16 +68,17 @@ namespace Framework
                 return;
             if (poolObj.PoolState == PoolState.Allocated || poolObj.PoolState == PoolState.WaitToRecycled)
             {
-                string objName = obj.name;
-                if (!PoolObjects.ContainsKey(objName))
-                    PoolObjects[objName] = new Stack<PoolObject>();
-                var stack = PoolObjects[objName];
+                string key = poolObj.Key;
+                if (!PoolObjects.ContainsKey(key))
+                    PoolObjects[key] = new Stack<PoolObject>();
+                var stack = PoolObjects[key];
                 if (stack.Count < MaxStack && !stack.Contains(poolObj))
                 {
                     stack.Push(poolObj);
                     obj.SetActive(false);
-                    obj.transform.SetParent(PoolParent.transform);
+                    obj.transform.SetParent(transform);
                     poolObj.PoolState = PoolState.Recycled;
+                    poolObj.OnRecycled();
                 }
                 else
                 {

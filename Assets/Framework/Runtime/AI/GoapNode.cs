@@ -1,17 +1,18 @@
 ﻿
+using GameFramework;
 using System.Collections.Generic;
 
-namespace FastDev
+namespace GameFramework
 {
     public class GoapNode
     {
         public GoapNode Parent;
         public int Cost;
-        public GoapAction GoapAction;
+        public IGoapAction GoapAction;
 
         public HashSet<KeyValuePair<string, object>> State;
 
-        public GoapNode(GoapNode parent, int cost, HashSet<KeyValuePair<string, object>> state, GoapAction action)
+        public GoapNode(GoapNode parent, int cost, HashSet<KeyValuePair<string, object>> state, IGoapAction action)
         {
             this.Parent = parent;
             this.Cost = cost;

@@ -1,40 +1,20 @@
+using GameFramework;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FastDev
+namespace GameFramework
 {
-    public abstract class GoapAction
+    public abstract class GoapAction : IGoapAction
     {
-        public abstract HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; }
-        public abstract HashSet<KeyValuePair<string, object>> Effects { get; protected set; }
-        public abstract int Cost { get; protected set; }
-        public GoapAgent GoapAgent { get; protected set; }
-        public GameObject Target { get; protected set; }
-        public bool IsDone { get; protected set; }
-
-        public GoapAction(GoapAgent goapAgent)
-        {
-            GoapAgent = goapAgent;
-        }
-
-        public virtual bool CheckProceduralPrecondition()
-        {
-            return true;
-        }
-
-        public virtual void OnInit()
-        {
-            IsDone = false;
-            Target = null;
-        }
-
-        public virtual bool IsFailed()
-        {
-            return Target == null;
-        }
-
+        public int Cost { get; protected set; }
+        public HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
+        public HashSet<KeyValuePair<string, object>> Effects { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
+        public GoapActionState GoapActionState { get; protected set; }
+        public abstract void OnInit(IGoapAgent goapAgent);
+        public abstract bool CheckProcondition();
         public abstract void OnStart();
-        public abstract bool IsInRange();
-        public abstract void OnRun();
+        public abstract void OnUpdate();
+        public abstract void OnEnd();
+
     }
 }

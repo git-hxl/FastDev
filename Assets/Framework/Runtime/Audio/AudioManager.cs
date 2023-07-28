@@ -4,20 +4,19 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace Framework
+namespace GameFramework
 {
     public class AudioManager : MonoSingleton<AudioManager>, IAudioManager
     {
         public AudioSetting Setting { get; private set; }
         public string SettingPath { get; private set; }
-        public List<AudioPlayer> AudioPlayers { get; private set; }
+        public List<IAudioPlayer> AudioPlayers { get; private set; } = new List<IAudioPlayer>();
 
         protected override void OnInit()
         {
             base.OnInit();
             Setting = new AudioSetting();
             SettingPath = Application.streamingAssetsPath + "/AudioSetting.json";
-            AudioPlayers = new List<AudioPlayer>();
             if (File.Exists(SettingPath))
             {
                 string json = File.ReadAllText(SettingPath);
@@ -30,16 +29,19 @@ namespace Framework
             return AssetManager.Instance.LoadAsset<AudioClip>("audio", path);
         }
 
-        public AudioPlayer CreateAudioPlayer(AudioType audioType)
+        public IAudioPlayer CreateAudioPlayer(AudioType audioType)
         {
-            AudioPlayer audioPlayer = gameObject.AddComponent<AudioPlayer>();
+            IAudioPlayer audioPlayer = gameObject.AddComponent<AudioPlayer>();
             audioPlayer.AudioType = audioType;
+
+            RegisterAudioPlayer(audioPlayer);
+
             return audioPlayer;
         }
 
-        public AudioPlayer GetAudioPlayer(AudioType audioType)
+        public IAudioPlayer GetAudioPlayer(AudioType audioType)
         {
-            AudioPlayer audioPlayer = this.AudioPlayers.FirstOrDefault((a) => a.AudioType == audioType);
+            IAudioPlayer audioPlayer = this.AudioPlayers.FirstOrDefault((a) => a.AudioType == audioType);
             if (audioPlayer == null)
             {
                 audioPlayer = CreateAudioPlayer(audioType);
@@ -63,7 +65,7 @@ namespace Framework
             }
         }
 
-        public void RegisterAudioPlayer(AudioPlayer audioPlayer)
+        public void RegisterAudioPlayer(IAudioPlayer audioPlayer)
         {
             if (!AudioPlayers.Contains(audioPlayer))
             {
@@ -71,7 +73,7 @@ namespace Framework
             }
         }
 
-        public void UnRegisterAudioPlayer(AudioPlayer audioSoundPlayer)
+        public void UnRegisterAudioPlayer(IAudioPlayer audioSoundPlayer)
         {
             if (AudioPlayers.Contains(audioSoundPlayer))
             {
@@ -85,7 +87,8 @@ namespace Framework
             if (Setting == null)
                 Setting = new AudioSetting();
             string json = JsonConvert.SerializeObject(Setting, Formatting.Indented);
-            File.WriteAllText(SettingPath, json);
+            if (!string.IsNullOrEmpty(SettingPath))
+                File.WriteAllText(SettingPath, json);
         }
 
         private void OnDestroy()

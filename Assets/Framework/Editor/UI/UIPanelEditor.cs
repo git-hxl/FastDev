@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.Editor
+namespace GameFramework.Editor
 {
     public class UIPanelEditor
     {

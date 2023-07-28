@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEditor;
-namespace Framework.Editor
+namespace GameFramework.Editor
 {
     [CustomEditor(typeof(LanguageText))]
     public class LanguageTextEditor : UnityEditor.Editor
@@ -15,12 +15,7 @@ namespace Framework.Editor
 
             if (GUILayout.Button("注册多语言"))
             {
-                var languageData = LanguageManager.Instance.RegisterText(languageText.GetText());
-                if(languageData != null )
-                {
-                    languageText.ID = languageData.ID;
-                    AssetDatabase.Refresh();
-                }
+                languageText.ID = LanguageToolEditor.RegisterText(languageText.GetText());
             }
         }
     }

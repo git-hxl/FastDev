@@ -1,9 +1,8 @@
-using FastDev;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Framework
+namespace GameFramework
 {
-    public class UIManager : Singleton<UIManager>, IUIManager
+    public class UIManager : MonoSingleton<UIManager>, IUIManager
     {
         public Dictionary<string, IUIPanel> UIPanels { get; private set; }
 
@@ -13,7 +12,7 @@ namespace Framework
             UIPanels = new Dictionary<string, IUIPanel>();
         }
 
-        public IUIPanel GetUIPanel(string path)
+        public IUIPanel LoadUI(string path, UIOrder uIOrder = UIOrder.Default)
         {
             IUIPanel uIPanel = null;
             if (UIPanels.ContainsKey(path))
@@ -21,16 +20,34 @@ namespace Framework
             if (uIPanel == null)
             {
                 GameObject uiAsset = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
-                GameObject uiObj = GameObject.Instantiate(uiAsset);
+                GameObject uiObj = GameObject.Instantiate(uiAsset, transform);
                 uiObj.SetActive(false);
                 uIPanel = uiObj.GetComponent<IUIPanel>();
+                uIPanel.SetSorder(uIOrder);
                 UIPanels[path] = uIPanel;
             }
             return uIPanel;
         }
 
+        public bool HashUI(string path)
+        {
+            return UIPanels.ContainsKey(path);
+        }
 
-        public T GetUIPanel<T>() where T : IUIPanel
+        public bool HashUI<T>() where T : IUIPanel
+        {
+            foreach (var item in UIPanels)
+            {
+                if (item.Value is T)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public T GetUI<T>() where T : IUIPanel
         {
             foreach (var item in UIPanels)
             {
@@ -40,19 +57,6 @@ namespace Framework
                 }
             }
             return default(T);
-        }
-
-
-        public T GetUI<T>() where T : UIPanel
-        {
-            foreach (var item in UIPanels)
-            {
-                if (item.Value is T)
-                {
-                    return item.Value as T;
-                }
-            }
-            return null;
         }
     }
 }

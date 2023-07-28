@@ -1,6 +1,6 @@
 using UnityEditor;
 using UnityEngine;
-namespace Framework.Editor
+namespace GameFramework.Editor
 {
     public class Sprite2Font
     {

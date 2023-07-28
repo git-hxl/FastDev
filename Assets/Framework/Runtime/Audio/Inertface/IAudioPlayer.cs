@@ -1,11 +1,13 @@
-namespace Framework
+using UnityEngine;
+
+namespace GameFramework
 {
-    internal interface IAudioPlayer
+    public interface IAudioPlayer
     {
+        AudioType AudioType { get; set; }
+        AudioSource AudioSource { get; }
         void PlayOnOnShot(string path);
-
         void Play(string path);
-
         void Stop();
     }
 }

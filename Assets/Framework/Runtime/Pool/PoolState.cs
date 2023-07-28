@@ -1,4 +1,4 @@
-namespace Framework
+namespace GameFramework
 {
     public enum PoolState
     {

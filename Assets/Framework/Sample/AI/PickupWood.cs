@@ -1,42 +1,70 @@
-using FastDev;
+
+using GameFramework;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupWood : GoapAction
 {
-    public override HashSet<KeyValuePair<string, object>> Preconditions { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
+    private float time = 2f;
+    private GameObject target;
 
-    public override HashSet<KeyValuePair<string, object>> Effects { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
+    private GoapAgent goapAgent;
 
-    public override int Cost { get; protected set; } = 10;
-    public PickupWood(GoapAgent goapAgent) : base(goapAgent)
-    {
-        Cost = 10;
-
-        Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasWood, true));
-    }
-
-    public override bool IsInRange()
-    {
-        return Vector3.Distance(Target.transform.position, GoapAgent.transform.position) < 0.01f;
-    }
-
-    public override bool CheckProceduralPrecondition()
+    public override bool CheckProcondition()
     {
         var target = GameObject.FindGameObjectWithTag("Wood");
 
         return target != null;
     }
 
-    public override void OnStart()
+    public override void OnInit(IGoapAgent goapAgent)
     {
-        //throw new System.NotImplementedException();
-        Target = GameObject.FindGameObjectWithTag("Wood");
+        GoapActionState = GoapActionState.None;
+        Preconditions.Clear();
+        //Preconditions.Add(new KeyValuePair<string, object>(GlobalStateKey.HasAxe, true));
+
+        Effects.Clear();
+        Effects.Add(new KeyValuePair<string, object>(GlobalStateKey.HasWood, true));
+        Cost = 5;
+
+        this.goapAgent = goapAgent as GoapAgent;
     }
 
-    public override void OnRun()
+    public override void OnStart()
     {
-        IsDone = true;
-        return;
+        target = GameObject.FindGameObjectWithTag("Wood");
+        time = 2f;
+    }
+
+
+    public override void OnUpdate()
+    {
+        if (target == null)
+        {
+            GoapActionState = GoapActionState.End;
+        }
+
+        if (goapAgent == null)
+        {
+            GoapActionState = GoapActionState.End;
+        }
+
+        if (Vector3.Distance(target.transform.position, goapAgent.transform.position) > 0.01f)
+        {
+
+            goapAgent.transform.position = Vector3.MoveTowards(goapAgent.transform.position, target.transform.position, 5 * Time.deltaTime);
+            return;
+        }
+
+        time -= Time.deltaTime;
+        if (time < 0)
+        {
+            GoapActionState = GoapActionState.End;
+        }
+    }
+
+    public override void OnEnd()
+    {
+        //throw new NotImplementedException();
     }
 }

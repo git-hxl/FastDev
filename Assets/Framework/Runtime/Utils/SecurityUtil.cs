@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 
-namespace Framework
+namespace GameFramework
 {
     public static class SecurityUtil
     {

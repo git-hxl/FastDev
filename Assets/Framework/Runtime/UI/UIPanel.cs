@@ -1,6 +1,5 @@
-using Framework;
 using UnityEngine;
-namespace Framework
+namespace GameFramework
 {
     public abstract class UIPanel : MonoBehaviour, IUIPanel
     {
@@ -19,6 +18,11 @@ namespace Framework
         public virtual void Close()
         {
             gameObject.SetActive(false);
+        }
+
+        public void SetSorder(UIOrder uIOrder)
+        {
+            Canvas.sortingOrder = (int)uIOrder;
         }
     }
 }

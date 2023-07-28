@@ -1,5 +1,5 @@
 using System;
-namespace Framework
+namespace GameFramework
 {
     public static class DateTimeUtil
     {

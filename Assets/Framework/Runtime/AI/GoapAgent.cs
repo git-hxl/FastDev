@@ -1,70 +1,39 @@
 using System.Collections.Generic;
 using UnityEngine;
-namespace FastDev
+namespace GameFramework
 {
-    public abstract class GoapAgent : MonoBehaviour
+    public abstract class GoapAgent : MonoBehaviour, IGoapAgent
     {
-        public HashSet<KeyValuePair<string, object>> WorldState { get; set; }
+        public HashSet<KeyValuePair<string, object>> WorldState { get; protected set; } = new HashSet<KeyValuePair<string, object>>();
 
-        public HashSet<GoapAction> AllGoapActions { get; private set; }
+        public HashSet<IGoapAction> GoapActions { get; protected set; } = new HashSet<IGoapAction> { };
 
-        public Stack<GoapAction> PlanActions { get; private set; }
+        public Stack<IGoapAction> RunActions { get; protected set; }
 
-        public GoapPlanner GoapPlanner { get; private set; }
-
-        public GoapAction CurGoapAction { get; private set; }
+        public IGoapAction CurGoapAction { get; protected set; }
 
         private void Awake()
         {
             OnInit();
         }
 
-        public virtual void OnInit()
-        {
-            WorldState = new HashSet<KeyValuePair<string, object>>();
-            AllGoapActions = new HashSet<GoapAction>();
-            GoapPlanner = new GoapPlanner(this);
-        }
+        public abstract void OnInit();
 
-        public virtual void OnActionFailed(GoapAction goapAction)
+        public virtual void OnActionFailed(IGoapAction goapAction)
         {
             Debug.Log("OnActionFailed:<color=#FF0000>" + goapAction.ToString() + "</color>");
         }
 
-        public virtual void OnActionDone(GoapAction goapAction, bool isComplete)
+        public virtual void OnActionDone(IGoapAction goapAction)
         {
-            Debug.Log("OnActionDone:<color=#00FF00>" + goapAction.ToString() + "</color> plan complete result:" + isComplete);
+            Debug.Log("OnActionDone:<color=#00FF00>" + goapAction.ToString() + "</color>");
         }
 
-        public virtual void OnPrePlanDone(Stack<GoapAction> planActions)
+        public void OnUpdate()
         {
-            if (planActions == null)
+            if (RunActions != null && RunActions.Count > 0)
             {
-                Debug.LogError("Plan Failed!!!");
-                return;
-            }
-            this.PlanActions = planActions;
-        }
-
-        public abstract void OnMove();
-
-        public void StartPlan(HashSet<KeyValuePair<string, object>> goalState)
-        {
-            this.CurGoapAction = null;
-            var result = GoapPlanner.Plan(goalState);
-            OnPrePlanDone(result);
-        }
-
-        public void StopPlanActions()
-        {
-            PlanActions.Clear();
-        }
-
-        private void Update()
-        {
-            if (PlanActions != null && PlanActions.Count > 0)
-            {
-                var goapAction = PlanActions.Peek();
+                var goapAction = RunActions.Peek();
 
                 if (CurGoapAction != goapAction)
                 {
@@ -72,27 +41,21 @@ namespace FastDev
                     CurGoapAction.OnStart();
                 }
 
-                if (CurGoapAction.IsFailed())
-                {
-                    OnActionFailed(CurGoapAction);
-                    return;
-                }
+                CurGoapAction.OnUpdate();
 
-                if (!CurGoapAction.IsInRange())
+                if (CurGoapAction.GoapActionState == GoapActionState.End)
                 {
-                    OnMove();
-                    return;
-                }
-
-                CurGoapAction.OnRun();
-
-                if (CurGoapAction.IsDone)
-                {
-                    PlanActions.Pop();
-                    OnActionDone(CurGoapAction, PlanActions.Count <= 0);
+                    CurGoapAction.OnEnd();
+                    OnActionDone(CurGoapAction);
+                    RunActions.Pop();
                     CurGoapAction = null;
                 }
             }
+        }
+
+        private void Update()
+        {
+            OnUpdate();
         }
     }
 }
