@@ -6,7 +6,6 @@ namespace GameFramework
 {
     public class LogManager : MonoSingleton<LogManager>
     {
-        private FileStream fileStream;
         public string LogPath { get; private set; }
 
         /// <summary>
@@ -22,41 +21,26 @@ namespace GameFramework
         {
             base.OnInit();
             LogPath = "./log.txt";
-        }
-
-
-        private void Start()
-        {
             Application.logMessageReceivedThreaded += Application_logMessageReceivedThreaded;
             EnableLog();
         }
 
+
         private void OnDestroy()
         {
             Application.logMessageReceivedThreaded -= Application_logMessageReceivedThreaded;
-
-            if (fileStream != null)
-            {
-                fileStream.Close();
-                fileStream = null;
-            }
 
             DisableLog();
         }
 
         private void Application_logMessageReceivedThreaded(string condition, string stackTrace, LogType type)
         {
-            if (fileStream == null)
+            using (FileStream fileStream = new FileStream(LogPath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
             {
-                fileStream = new FileStream(LogPath, FileMode.Create, FileAccess.ReadWrite);
+                LogData log = new LogData(condition, stackTrace, type);
+                byte[] data = Encoding.UTF8.GetBytes(log.ToString());
+                fileStream.Write(data, 0, data.Length);
             }
-
-            if (type == LogType.Log)
-                return;
-
-            LogData log = new LogData(condition, stackTrace, type);
-            byte[] data = Encoding.UTF8.GetBytes(log.ToString());
-            fileStream.Write(data, 0, data.Length);
         }
 
         public void EnableLog()
