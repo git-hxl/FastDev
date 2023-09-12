@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2659420918
+CRC: 1668838053
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 371aa34d19607466c55b107af52475c4
+    Hash: 86af319569a6ddaa5b943f40033f7849
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a2ca7bdbd1871f7131daf57de908e0c
@@ -13,7 +13,7 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Framework/Sample/Audio/SFX_ArrowFly.wav
-- Assets/Framework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav
-- Assets/Framework/Sample/Audio/UIClick.wav
+- Assets/GameFramework/Sample/Audio/SFX_ArrowFly.wav
+- Assets/GameFramework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav
+- Assets/GameFramework/Sample/Audio/UIClick.wav
 Dependencies: []

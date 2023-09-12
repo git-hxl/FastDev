@@ -1,3 +1,6 @@
+
+//#define ForceLoadFromAssetBundle //强制从AB包中加载资源
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,10 +8,14 @@ using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
+
 namespace GameFramework
 {
     public class AssetManager : MonoSingleton<AssetManager>, IAssetManager
     {
+
+        public bool ForceLoadFromAssetBundle = false;
+
         public Dictionary<string, AssetBundle> AssetBundles { get; private set; }
 
         protected override void OnInit()
@@ -29,16 +36,20 @@ namespace GameFramework
         public T LoadAsset<T>(string bundleName, string path) where T : UnityEngine.Object
         {
             T asset = default(T);
-#if UNITY_EDITOR
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-#else
-            if (AssetBundles.ContainsKey(bundleName))
+
+            if (PlatformUtil.IsEditor && ForceLoadFromAssetBundle == false)
             {
-                var assetBundle = AssetBundles[bundleName];
-                var assetName = Path.GetFileName(path);
-                asset = assetBundle.LoadAsset<T>(assetName);
+                asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
             }
-#endif
+            else
+            {
+                if (AssetBundles.ContainsKey(bundleName))
+                {
+                    var assetBundle = AssetBundles[bundleName];
+                    var assetName = Path.GetFileName(path);
+                    asset = assetBundle.LoadAsset<T>(assetName);
+                }
+            }
             if (asset == null)
                 Debug.LogError("asset load failed: " + path);
             return asset;
@@ -47,17 +58,22 @@ namespace GameFramework
         public async UniTask<T> LoadAssetAsync<T>(string bundleName, string path) where T : UnityEngine.Object
         {
             T asset = default(T);
-#if UNITY_EDITOR
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-            await UniTask.DelayFrame(1);
-#else
-            if (AssetBundles.ContainsKey(bundleName))
+            if (PlatformUtil.IsEditor && ForceLoadFromAssetBundle == false)
             {
-                var assetBundle = AssetBundles[bundleName];
-                var assetName = Path.GetFileName(path);
-                asset = await assetBundle.LoadAssetAsync<T>(assetName) as T;
+                asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
+                await UniTask.DelayFrame(1);
             }
-#endif
+
+            else
+            {
+                if (AssetBundles.ContainsKey(bundleName))
+                {
+                    var assetBundle = AssetBundles[bundleName];
+                    var assetName = Path.GetFileName(path);
+                    asset = await assetBundle.LoadAssetAsync<T>(assetName) as T;
+                }
+            }
+
             if (asset == null)
                 Debug.LogError("asset load failed: " + path);
             return asset;
@@ -92,7 +108,7 @@ namespace GameFramework
 
         public AssetConfig LoadConfig()
         {
-            string path = Application.streamingAssetsPath + "/" + PlatformUtil.GetPlatformName() + "/AssetBundleConfig.json";
+            string path = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName() + "/AssetConfig.json";
             if (File.Exists(path))
             {
                 AssetConfig config = JsonConvert.DeserializeObject<AssetConfig>(File.ReadAllText(path));

@@ -35,7 +35,8 @@ namespace GameFramework.Editor
             if (File.Exists(AssetBundleEditorSetting.SettingPath))
             {
                 string jsonTxt = File.ReadAllText(AssetBundleEditorSetting.SettingPath);
-                assetBundleEditorSetting = JsonConvert.DeserializeObject<AssetBundleEditorSetting>(jsonTxt);
+                if (!string.IsNullOrEmpty(jsonTxt) && jsonTxt != "null")
+                    assetBundleEditorSetting = JsonConvert.DeserializeObject<AssetBundleEditorSetting>(jsonTxt);
             }
             AssetDatabase.RemoveUnusedAssetBundleNames();
         }
@@ -118,18 +119,18 @@ namespace GameFramework.Editor
 
                 AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(outputPath, builds, (BuildAssetBundleOptions)assetBundleEditorSetting.CompressionType, assetBundleEditorSetting.Platform);
 
-                AssetConfig assetBundleConfig = new AssetConfig();
-                assetBundleConfig.Bundles = new Dictionary<string, string>();
+                AssetConfig assetConfig = new AssetConfig();
+                assetConfig.Bundles = new Dictionary<string, string>();
                 foreach (var bundle in manifest.GetAllAssetBundles())
                 {
-                    assetBundleConfig.Bundles[bundle] = manifest.GetAssetBundleHash(bundle).ToString();
+                    assetConfig.Bundles[bundle] = manifest.GetAssetBundleHash(bundle).ToString();
                 }
-                assetBundleConfig.AssetVersion = assetBundleEditorSetting.AssetVersion;
-                assetBundleConfig.AppVersion = assetBundleEditorSetting.AppVersion;
-                assetBundleConfig.DateTime = DateTime.Now.ToString();
-                string configJson = JsonConvert.SerializeObject(assetBundleConfig, Formatting.Indented);
+                assetConfig.AssetVersion = assetBundleEditorSetting.AssetVersion;
+                assetConfig.AppVersion = assetBundleEditorSetting.AppVersion;
+                assetConfig.DateTime = DateTime.Now.ToString();
+                string configJson = JsonConvert.SerializeObject(assetConfig, Formatting.Indented);
 
-                File.WriteAllText(outputPath + "/AssetBundleConfig.json", configJson);
+                File.WriteAllText(outputPath + "/AssetConfig.json", configJson);
                 AssetDatabase.Refresh();
             }
         }
