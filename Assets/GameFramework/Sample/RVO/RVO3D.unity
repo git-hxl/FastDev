@@ -589,7 +589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TestAgent: {fileID: 5198234718094224346, guid: e853a4a38bb14fa409a58b2c9209cc98, type: 3}
   Radius: 0.5
-  Speed: 0.1
+  Speed: 0.5
   MaxAgents: 10000
   Is3D: 1
 --- !u!1 &1668976049

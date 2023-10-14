@@ -28,7 +28,7 @@ namespace GameFramework
         void Start()
         {
             Simulator.Instance.setTimeStep(0.25f);
-            Simulator.Instance.setAgentDefaults(Radius * 2 + 0.1f, 10000, 5.0f, 5.0f, Radius, Speed, new Vector2(0.0f, 0.0f));
+            Simulator.Instance.setAgentDefaults(Radius * 2 + 0.1f, 10000,5f, 5f, Radius, Speed, new Vector2(0.0f, 0.0f));
 
             // add in awake
             Simulator.Instance.processObstacles();
@@ -122,7 +122,7 @@ namespace GameFramework
                     }
                 }
 
-               
+
             }
 
             if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -133,7 +133,7 @@ namespace GameFramework
                     Ray ray = Camera.main.ScreenPointToRay(inputPos);
                     RaycastHit raycastHit;
                     Vector3 worldpos = Vector3.zero;
-                    if (Physics.Raycast(ray,out raycastHit,100))
+                    if (Physics.Raycast(ray, out raycastHit, 100))
                     {
                         worldpos = raycastHit.point;
                     }
@@ -146,7 +146,7 @@ namespace GameFramework
                     Vector3 worldpos = Camera.main.ScreenToWorldPoint(inputPos);
                     CreatAgent2D(new Vector2(worldpos.x, worldpos.y));
                 }
-              
+
             }
 
             if (Input.GetKeyDown(KeyCode.Delete))

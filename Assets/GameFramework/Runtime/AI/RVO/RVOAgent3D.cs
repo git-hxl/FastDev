@@ -12,6 +12,8 @@ namespace GameFramework
 
         public bool IsStop { get; private set; } = true;
 
+        public float Speed = 0.1f;
+
         [HideInInspector] public int sid = -1;
 
         /** Random number generator. */
@@ -25,8 +27,9 @@ namespace GameFramework
                 Vector2 pos = Simulator.Instance.getAgentPosition(sid);
                 Vector2 vel = Simulator.Instance.getAgentPrefVelocity(sid);
                 transform.position = new Vector3(pos.x(), transform.position.y, pos.y());
-                if (Math.Abs(vel.x()) > 0.01f && Math.Abs(vel.y()) > 0.01f)
-                    transform.forward = new Vector3(vel.x(), 0, vel.y()).normalized;
+                transform.forward = new Vector3(vel.x(), 0, vel.y()).normalized;
+
+                Debug.Log(vel);
             }
 
             if (IsStop)
@@ -44,7 +47,7 @@ namespace GameFramework
                 goalVector = RVOMath.normalize(goalVector);
             }
 
-            Simulator.Instance.setAgentPrefVelocity(sid, goalVector);
+            Simulator.Instance.setAgentPrefVelocity(sid, goalVector * Speed);
 
             /* Perturb a little to avoid deadlocks due to perfect symmetry. */
             float angle = (float)m_random.NextDouble() * 2.0f * (float)Math.PI;
