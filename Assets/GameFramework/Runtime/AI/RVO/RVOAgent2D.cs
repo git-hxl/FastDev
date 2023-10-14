@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using RVO;
 using Random = System.Random;
@@ -8,7 +6,7 @@ using Vector2 = RVO.Vector2;
 
 namespace GameFramework
 {
-    public class RVOAgent : MonoBehaviour
+    public class RVOAgent2D : MonoBehaviour
     {
         public Vector2 TargetPos { get; private set; }
 

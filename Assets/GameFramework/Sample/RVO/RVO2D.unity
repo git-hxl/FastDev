@@ -252,6 +252,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TestAgent: {fileID: 8756869366960032834, guid: 6425b0199820f6f4f94ede23b98475de, type: 3}
+  Radius: 0.5
+  Speed: 0.1
+  MaxAgents: 10000
 --- !u!1 &155874197
 GameObject:
   m_ObjectHideFlags: 0
