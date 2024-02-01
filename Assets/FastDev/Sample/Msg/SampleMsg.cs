@@ -2,24 +2,30 @@ using FastDev;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class SampleMsg : MonoBehaviour
 {
-    //SampleMsg2 sampleMsg2;
+    SampleMsg2 sampleMsg2;
     // Start is called before the first frame update
     void Start()
     {
-        MsgManager<string>.Instance.Register(1, Test);
+        MsgManager<string>.Instance.Register(MsgID.TestID, Test);
 
-        SampleMsg2 sampleMsg2 = new SampleMsg2();
+        sampleMsg2 = new SampleMsg2();
 
-        MsgManager<string[]>.Instance.Register(1, sampleMsg2.Test_SampleMsg2);
+        MsgManager<int[]>.Instance.Register(MsgID.TestID, sampleMsg2.Test_SampleMsg2);
     }
 
     private void Test(string args)
     {
         Debug.Log("SampleMsg: " + args);
+    }
+
+    private void OnDestroy()
+    {
+        MsgManager<string>.Instance.UnRegister(MsgID.TestID, Test);
+
+        MsgManager<int[]>.Instance.UnRegister(MsgID.TestID, sampleMsg2.Test_SampleMsg2);
     }
 
 }
@@ -32,11 +38,11 @@ public class SampleMsg2
         Debug.LogError("SampleMsg2 析构执行");
     }
 
-    public void Test_SampleMsg2(string[] args)
+    public void Test_SampleMsg2(int[] args)
     {
         foreach (var item in args)
         {
-            Debug.Log("SampleMsg2: " + item);
+            Debug.Log("SampleMsg2: " + item + " "+Application.isPlaying);
         }
     }
 }

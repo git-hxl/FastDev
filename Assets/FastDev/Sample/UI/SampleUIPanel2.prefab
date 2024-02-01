@@ -29,6 +29,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5595989221122053378}
   m_Father: {fileID: 5595989221859952201}
@@ -149,6 +150,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5595989220629206642}
   m_RootOrder: 0
@@ -212,7 +214,7 @@ GameObject:
   - component: {fileID: 5595989221859952202}
   - component: {fileID: 5595989221859952203}
   - component: {fileID: 5595989221859952204}
-  - component: {fileID: 4605460042461369833}
+  - component: {fileID: 4787591604368258387}
   m_Layer: 5
   m_Name: SampleUIPanel2
   m_TagString: Untagged
@@ -230,6 +232,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5595989222104548158}
   - {fileID: 5595989220629206642}
@@ -302,7 +305,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4605460042461369833
+--- !u!114 &4787591604368258387
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,6 +345,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5595989221859952201}
   m_RootOrder: 0

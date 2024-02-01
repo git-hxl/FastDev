@@ -1,3 +1,4 @@
+
 using FastDev;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,6 @@ public class SampleUIPanel : UIPanel
 
     private void Start()
     {
-        BtButton.onClick.AddListener(Close);
+        BtButton.onClick.AddListener(CloseSelf);
     }
 }

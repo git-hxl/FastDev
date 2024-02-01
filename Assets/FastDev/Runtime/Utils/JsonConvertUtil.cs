@@ -4,7 +4,6 @@ namespace FastDev
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
-    using UnityEditor;
     using UnityEngine;
     // Solutions to prevent serialization errors. Seen in https://forum.unity.com/threads/jsonserializationexception-self-referencing-loop-detected.1264253/
     // Newtonsoft struggles serializing structs like Vector3 because it has a property .normalized
@@ -14,7 +13,7 @@ namespace FastDev
     public static class JsonConvertUtil
     {
 #if UNITY_EDITOR
-        [InitializeOnLoadMethod]
+        [UnityEditor.InitializeOnLoadMethod]
         public static void ApplyCustomConverters()
         {
             ConfigureJsonInternal();

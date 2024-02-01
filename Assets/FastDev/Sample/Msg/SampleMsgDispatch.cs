@@ -2,24 +2,34 @@ using Cysharp.Threading.Tasks;
 using FastDev;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class SampleMsgDispatch : MonoBehaviour
 {
+    Thread thread;
     private void Start()
     {
-        MsgManager<string>.Instance.Dispatch(1, "11");
-        UniTask.Create(async () =>
+        MsgManager<string>.Instance.Dispatch(MsgID.TestID, "11");
+
+        thread = new Thread(() =>
         {
             while (true)
             {
-                await UniTask.Delay(1000);
-                //同步线程消息
-               // MsgManager<string[]>.Instance.Enqueue(0, new string[] { "111", "2222" });
+                Thread.Sleep(1000);
+                MsgManagerQuene<int[]>.Instance.Enqueue(MsgID.TestID, new int[] { 22, 33, 44 });
 
-                MsgManager<string>.Instance.Dispatch(1, "11");
+                MsgManager<string>.Instance.Dispatch(MsgID.TestID, "22");
             }
-        });
+        })
+        {
+
+        };
+        thread.Start();
     }
 
+    private void OnDestroy()
+    {
+        thread.Abort();
+    }
 }

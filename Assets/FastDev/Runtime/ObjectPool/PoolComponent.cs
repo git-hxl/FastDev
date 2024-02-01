@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class PoolObject : MonoBehaviour
+    public class PoolComponent : MonoBehaviour
     {
-        public int AutoDestroy = 10;
+        public float AutoDestroy = 60f;
         public string Key { get; set; }
         public PoolState PoolState { get; set; }
 
@@ -20,9 +20,9 @@ namespace FastDev
 
         public async void OnRecycled()
         {
-            //³¬¹ýÒ»¶¨Ê±¼ä ×Ô¶¯ÊÍ·Å
+            //è¶…è¿‡ä¸€å®šæ—¶é—´ è‡ªåŠ¨é‡Šæ”¾
             cancellationToken = new CancellationTokenSource();
-            bool isCanceled = await UniTask.Delay(AutoDestroy * 1000, cancellationToken: cancellationToken.Token).SuppressCancellationThrow();
+            bool isCanceled = await UniTask.Delay((int)(AutoDestroy * 1000), cancellationToken: cancellationToken.Token).SuppressCancellationThrow();
             if (!isCanceled)
                 Destroy(gameObject);
         }

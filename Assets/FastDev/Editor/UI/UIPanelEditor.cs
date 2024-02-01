@@ -63,7 +63,7 @@ namespace FastDev.Editor
 
         public static string classStr =
 @"
-using Framework;
+using FastDev;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

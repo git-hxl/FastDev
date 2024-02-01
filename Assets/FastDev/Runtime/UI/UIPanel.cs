@@ -1,28 +1,29 @@
 using UnityEngine;
 namespace FastDev
 {
-    public abstract class UIPanel : MonoBehaviour, IUIPanel
+    public abstract class UIPanel : MonoBehaviour
     {
         public Canvas Canvas { get; protected set; }
-        private void Awake()
+
+        public virtual void OnInit()
         {
             Canvas = GetComponent<Canvas>();
         }
 
-        public virtual IUIPanel Open()
-        {
-            gameObject.SetActive(true);
-            return this;
-        }
-
-        public virtual void Close()
+        public virtual void OnClose()
         {
             gameObject.SetActive(false);
         }
 
-        public void SetSorder(UIOrder uIOrder)
+        public virtual void OnOpen()
         {
-            Canvas.sortingOrder = (int)uIOrder;
+            gameObject.SetActive(true);
+        }
+
+
+        public void CloseSelf()
+        {
+            UIManager.Instance.CloseUI(this);
         }
     }
 }

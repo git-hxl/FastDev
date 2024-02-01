@@ -1,5 +1,5 @@
 
-//#define ForceLoadFromAssetBundle //强制从AB包中加载资源
+//#define ForceLoadFromAssetBundle //寮哄埗浠嶢B鍖呬腑鍔犺浇璧勬簮
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class AssetManager : MonoSingleton<AssetManager>, IAssetManager
+    public class AssetManager : Singleton<AssetManager>, IAssetManager
     {
         public Dictionary<string, AssetBundle> AssetBundles { get; private set; }
 

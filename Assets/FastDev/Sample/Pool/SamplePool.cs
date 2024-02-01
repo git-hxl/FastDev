@@ -12,17 +12,46 @@ public class SamplePool : MonoBehaviour
     {
         btAllocate.onClick.AddListener(() =>
         {
-            GameObject obj = PoolManager.Instance.Allocate("Assets/GameFramework/Sample/Pool/Cube.prefab");
+            GameObject obj = PoolManager.Instance.Allocate("Assets/FastDev/Sample/Pool/Cube.prefab");
             obj.SetActive(true);
             obj.transform.position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
 
             PoolManager.Instance.Recycle(obj, 1000).Forget();
         });
+
+        TestClass testClass = ReferencePool.Acquire<TestClass>();
+        Debug.Log(testClass.name);
+
+        testClass.name = "Test";
+
+        ReferencePool.Release(testClass);
+
+        Debug.Log(testClass.name);
+
+        TestClass testClass2 = ReferencePool.Acquire<TestClass>();
+        Debug.Log(testClass2.name);
+        testClass2.name = "Test2";
+
+        Debug.Log(ReferencePool.GetReferenceCollection(typeof(TestClass)).CurUsingRefCount);
+        Debug.Log(ReferencePool.GetReferenceCollection(typeof(TestClass)).AcquireRefCount);
+        Debug.Log(ReferencePool.GetReferenceCollection(typeof(TestClass)).ReleaseRefCount);
+        Debug.Log(ReferencePool.GetReferenceCollection(typeof(TestClass)).AddRefCount);
+        Debug.Log(ReferencePool.GetReferenceCollection(typeof(TestClass)).RemoveRefCount);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+}
+
+
+public class TestClass : IReference
+{
+    public string name;
+    public void Clear()
+    {
+        name = "";
     }
 }

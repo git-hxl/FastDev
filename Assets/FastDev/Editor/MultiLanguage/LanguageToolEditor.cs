@@ -69,8 +69,6 @@ namespace FastDev.Editor
 
             GUIQueryText();
 
-            RemoveText();
-
             if (!string.IsNullOrEmpty(outputStr))
             {
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
@@ -92,6 +90,7 @@ namespace FastDev.Editor
                     }
                 }
             }
+
             if (GUILayout.Button("模糊查询"))
             {
                 List<object[]> datas = new List<object[]> { };
@@ -104,10 +103,16 @@ namespace FastDev.Editor
                     }
                 }
             }
+
             if (GUILayout.Button("添加"))
             {
                 string id = RegisterText(inputStr);
                 outputStr = id;
+            }
+
+            if (GUILayout.Button("移除"))
+            {
+                outputStr = RemoveLanguageData(inputStr).ToString();
             }
 
             if (GUILayout.Button("生成Json"))
@@ -119,14 +124,6 @@ namespace FastDev.Editor
                     byte[] data = Encoding.UTF8.GetBytes(json);
                     stream.Write(data, 0, data.Length);
                 }
-            }
-        }
-
-        private void RemoveText()
-        {
-            if (GUILayout.Button("移除"))
-            {
-                outputStr = RemoveLanguageData(inputStr).ToString();
             }
         }
 

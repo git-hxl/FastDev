@@ -2,52 +2,60 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace FastDev
 {
-    public class UIManager : MonoSingleton<UIManager>, IUIManager
+    public class UIManager : MonoSingleton<UIManager>
     {
-        public Dictionary<string, IUIPanel> UIPanels { get; private set; }
+        public Dictionary<string, UIPanel> UIPanels { get; private set; } = new Dictionary<string, UIPanel>();
 
         protected override void OnInit()
         {
             base.OnInit();
-            UIPanels = new Dictionary<string, IUIPanel>();
         }
 
-        public IUIPanel LoadUI(string path, UIOrder uIOrder = UIOrder.Default)
+        public UIPanel OpenUI(string path, UIOrder uIOrder = UIOrder.Default)
         {
-            IUIPanel uIPanel = null;
+            UIPanel uiPanel = null;
             if (UIPanels.ContainsKey(path))
-                uIPanel = UIPanels[path];
-            if (uIPanel == null)
+                uiPanel = UIPanels[path];
+
+            if (uiPanel == null)
             {
                 GameObject uiAsset = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
                 GameObject uiObj = GameObject.Instantiate(uiAsset, transform);
-                uiObj.SetActive(false);
-                uIPanel = uiObj.GetComponent<IUIPanel>();
-                uIPanel.SetSorder(uIOrder);
-                UIPanels[path] = uIPanel;
-            }
-            return uIPanel;
-        }
 
-        public bool HashUI(string path)
-        {
-            return UIPanels.ContainsKey(path);
-        }
-
-        public bool HashUI<T>() where T : IUIPanel
-        {
-            foreach (var item in UIPanels)
-            {
-                if (item.Value is T)
+                uiPanel = uiObj.GetComponent<UIPanel>();
+                if (uiPanel == null)
                 {
-                    return true;
+                    throw new System.Exception("打开窗口异常");
                 }
+
+                UIPanels[path] = uiPanel;
+
+                uiPanel.OnInit();
             }
-            return false;
+
+            uiPanel.Canvas.sortingOrder = (int)uIOrder;
+
+            uiPanel.OnOpen();
+
+            return uiPanel;
+        }
+
+        public void CloseUI(string path)
+        {
+            CloseUI(GetUI(path));
+        }
+
+        public void CloseUI(UIPanel uIPanel)
+        {
+            if (uIPanel != null)
+            {
+                uIPanel.Canvas.sortingOrder = (int)UIOrder.Hide;
+                uIPanel.OnClose();
+            }
         }
 
 
-        public T GetUI<T>() where T : IUIPanel
+        public UIPanel GetUI<T>() where T : UIPanel
         {
             foreach (var item in UIPanels)
             {
@@ -56,7 +64,16 @@ namespace FastDev
                     return (T)item.Value;
                 }
             }
-            return default(T);
+            return null;
+        }
+
+        public UIPanel GetUI(string path)
+        {
+            if (UIPanels.ContainsKey(path))
+            {
+                return UIPanels[path];
+            }
+            return null;
         }
     }
 }

@@ -1,3 +1,4 @@
+
 using FastDev;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,10 +11,10 @@ public class SampleUIPanel2 : UIPanel
 	public Image ImgImage { get { if (imgImage == null) { imgImage = transform.Find("_Image").GetComponent<Image>(); } return imgImage; } }
 	private Button btbtClose;
 	public Button BtbtClose { get { if (btbtClose == null) { btbtClose = transform.Find("_btClose").GetComponent<Button>(); } return btbtClose; } }
-	#endregion
+    #endregion
 
     private void Start()
     {
-        BtbtClose.onClick.AddListener(Close);
+        BtbtClose.onClick.AddListener(CloseSelf);
     }
 }
