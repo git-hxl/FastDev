@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace FastDev.Editor
 {
@@ -42,7 +43,7 @@ namespace FastDev.Editor
 
         private void OnGUI()
         {
-            EditorGUILayout.HelpBox("第0行固定为字段名，从Head行开始读数据", MessageType.Info);
+            EditorGUILayout.HelpBox("第1行固定为字段名 第2行为类型，从Head开始读数据", MessageType.Info);
 
             GUILayout.Label("当前Head:" + setting.Head.ToString());
             setting.Head = EditorGUILayout.IntSlider(setting.Head, 1, 10);
@@ -128,16 +129,15 @@ namespace FastDev.Editor
 
         private void ReadAllExcel()
         {
-            string[] patterns = new string[] { "*.xls", "*.xlsx" };
+            string[] fileExtensions = new string[] { ".xls", ".xlsx" };
 
             if (!string.IsNullOrEmpty(setting.InputExcelDir) && Directory.Exists(setting.InputExcelDir))
             {
-                for (int i = 0; i < patterns.Length; i++)
-                {
-                    string[] excelFiles = Directory.GetFiles(setting.InputExcelDir, patterns[i], SearchOption.AllDirectories);
-                    ExcelSheets.AddRange(excelFiles);
-                    ExcelSheetsSelected.AddRange(excelFiles);
-                }
+                string[] excelFiles = Directory.GetFiles(setting.InputExcelDir).Where(file => fileExtensions.Contains(Path.GetExtension(file)))
+                .ToArray();
+
+                ExcelSheets.AddRange(excelFiles);
+                ExcelSheetsSelected.AddRange(excelFiles);
             }
         }
 
@@ -153,14 +153,14 @@ namespace FastDev.Editor
         {
             foreach (var file in ExcelSheetsSelected)
             {
-                var tables = ExcelHelper.ReadExcelAllSheets(file, true, setting.Head);
+                var tables = ExcelHelper.ReadExcelAllSheets(file);
 
                 foreach (DataTable table in tables)
                 {
                     if (table.Rows.Count > 0)
                     {
-                        var newTable = ExcelHelper.ConvertDataTableColumnType(table);
-                        string json = JsonConvert.SerializeObject(newTable, Formatting.Indented);// ExcelHelper.DataTableToJson(table);
+                        var newTable = table.SelectContent(setting.Head - 1);
+                        string json = JsonConvert.SerializeObject(newTable, Formatting.Indented);
                         if (!string.IsNullOrEmpty(json))
                         {
                             string fileName = Path.GetFileNameWithoutExtension(file) + "_" + table.TableName + ".json";

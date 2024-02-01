@@ -1,12 +1,10 @@
 using System;
 namespace FastDev
 {
-    public interface IMsgManager
+    public interface IMsgManager<T> where T : class
     {
-        void Dispatch(int msgID, params object[] parameters);
-        void Enqueue(int msgID, params object[] parameters);
-
-        void Register(int msgID, Action<object[]> action);
-        void UnRegister(int msgID, Action<object[]> action);
+        void Dispatch(int msgID, T parameters);
+        void Register(int msgID, Action<T> action);
+        void UnRegister(int msgID, Action<T> action);
     }
 }

@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.Collections.Generic;
 using System;
+using System.Text;
 
 namespace FastDev.Editor
 {
@@ -17,6 +18,8 @@ namespace FastDev.Editor
         private Vector2 scrollPos;
 
         public static string filePath { private set; get; }
+        public static string filePathJson { private set; get; }
+
         public static DataTable LanguageDataTable { private set; get; }
 
         [MenuItem("Tools/多语言工具")]
@@ -34,6 +37,8 @@ namespace FastDev.Editor
         private static void InitLanguageData()
         {
             filePath = Application.streamingAssetsPath + "/MultiLanguage.xlsx";
+            filePathJson = Application.streamingAssetsPath + "/MultiLanguage.json";
+
             if (!File.Exists(filePath))
             {
                 DataTable initTable = new DataTable();
@@ -53,7 +58,7 @@ namespace FastDev.Editor
                 ExcelHelper.CreateExcel(filePath, "MultiLanguage", initTable);
             }
 
-            LanguageDataTable = ExcelHelper.ReadExcelAllSheets(filePath, true, 2)[0];
+            LanguageDataTable = ExcelHelper.ReadExcelAllSheets(filePath)[0];
             Debug.Log("读取多语言表：" + JsonConvert.SerializeObject(LanguageDataTable, Formatting.Indented));
         }
 
@@ -104,6 +109,17 @@ namespace FastDev.Editor
                 string id = RegisterText(inputStr);
                 outputStr = id;
             }
+
+            if (GUILayout.Button("生成Json"))
+            {
+                string json = JsonConvert.SerializeObject(LanguageDataTable.SelectContentWithoutConvertType(1), Formatting.Indented);
+
+                using (FileStream stream = new FileStream(filePathJson, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    byte[] data = Encoding.UTF8.GetBytes(json);
+                    stream.Write(data, 0, data.Length);
+                }
+            }
         }
 
         private void RemoveText()
@@ -143,14 +159,18 @@ namespace FastDev.Editor
             newRow[0] = id;
             newRow[1] = inputStr;
             dataTable.Rows.Add(newRow);
-            ExcelHelper.WriteToExcel(filePath, 1, dataTable);
 
+            var newRow2 = LanguageDataTable.Rows.Add();
+            newRow2[0] = id;
+            newRow2[1] = inputStr;
+
+            ExcelHelper.WriteToExcel(filePath, 1, dataTable);
             AssetDatabase.Refresh();
             return id;
 
         }
 
-        public static bool RemoveLanguageData(string inputStr)
+        public bool RemoveLanguageData(string inputStr)
         {
             string id = GetID(inputStr);
 
@@ -161,7 +181,10 @@ namespace FastDev.Editor
                 if (row[0].ToString() == id)
                 {
                     //这里需要过滤首两行
-                    ExcelHelper.DeleteExcelRow(filePath, 1, index + 2);
+                    ExcelHelper.DeleteExcelRow(filePath, 1, index);
+
+                    LanguageDataTable.Rows.Remove(row);
+
                     AssetDatabase.Refresh();
                     return true;
                 }

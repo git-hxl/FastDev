@@ -4,10 +4,31 @@ using System.Collections.Generic;
 
 namespace FastDev
 {
-    public class MsgManager<T> : Singleton<MsgManager<T>>, IMsgManager<T>  where T : class
+    public class MsgManagerQuene<T> : MonoSingleton<MsgManagerQuene<T>>, IMsgManager<T> where T : class
     {
         private Dictionary<int, List<MsgData<T>>> actionDicts = new Dictionary<int, List<MsgData<T>>>();
+        //采用线程安全的队列
+        private ConcurrentQueue<MsgData<T>> msgQueue = new ConcurrentQueue<MsgData<T>>();
 
+        private void Update()
+        {
+            while (!msgQueue.IsEmpty)
+            {
+                MsgData<T> msgData;
+                if (msgQueue.TryDequeue(out msgData))
+                {
+                    Dispatch(msgData.msgID, msgData.parameters);
+                }
+            }
+        }
+
+        public void Enqueue(int msgID, T parameters)
+        {
+            MsgData<T> msgData = new MsgData<T>();
+            msgData.msgID = msgID;
+            msgData.parameters = parameters;
+            msgQueue.Enqueue(msgData);
+        }
 
         public void Register(int msgID, Action<T> action)
         {

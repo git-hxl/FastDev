@@ -1,14 +1,19 @@
-﻿using ExcelDataReader;
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
+using UnityEngine;
+using System.Collections.Generic;
 
-public class ExcelHelper
+public static class ExcelHelper
 {
-
+    /// <summary>
+    /// 创建表
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="firstSheetName"></param>
+    /// <param name="dataTable"></param>
     public static void CreateExcel(string filePath, string firstSheetName, DataTable dataTable = null)
     {
         FileInfo fileInfo = new FileInfo(filePath);
@@ -30,42 +35,6 @@ public class ExcelHelper
             package.Save();
         }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="filePath"></param>
-    /// <param name="userHeaderRow"></param>
-    /// <param name="head">默认首行空两行 第一行为字段名 第二行预留注释</param>
-    /// <returns></returns>
-    public static DataTableCollection ReadExcelAllSheets(string filePath, bool userHeaderRow = true, int head = 2)
-    {
-        using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        {
-            using (var reader = ExcelReaderFactory.CreateReader(stream))
-            {
-                ExcelDataSetConfiguration config = new ExcelDataSetConfiguration();
-                config.UseColumnDataType = true;
-                config.ConfigureDataTable = (value) =>
-                {
-                    return new ExcelDataTableConfiguration()
-                    {
-                        UseHeaderRow = userHeaderRow,
-                        //过滤行
-                        FilterRow = (rowReader) =>
-                        {
-                            //depth 默认从0开始
-                            return rowReader.Depth >= head;
-                        },
-                    };
-                };
-                DataSet result = reader.AsDataSet(config);
-                return result.Tables;
-            }
-        }
-    }
-
-
 
     /// <summary>
     /// 写入
@@ -96,6 +65,60 @@ public class ExcelHelper
     }
 
     /// <summary>
+    /// 读取表
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="rowIndex">默认1 读取所有行</param>
+    /// <returns></returns>
+    public static List<DataTable> ReadExcelAllSheets(string filePath)
+    {
+        List<DataTable> tables = new List<DataTable>();
+
+        FileInfo fileInfo = new FileInfo(filePath);
+        using (var package = new ExcelPackage(fileInfo))
+        {
+            ExcelWorksheets worksheets = package.Workbook.Worksheets;
+            foreach (var item in worksheets)
+            {
+                if (item.Dimension != null)
+                {
+                    tables.Add(ExcekWorksheetConvertToDataTable(item));
+                }
+            }
+        }
+        return tables;
+    }
+
+    /// <summary>
+    /// 转换表内容
+    /// </summary>
+    /// <param name="worksheet"></param>
+    /// <returns></returns>
+    private static DataTable ExcekWorksheetConvertToDataTable(ExcelWorksheet worksheet)
+    {
+        int rows = worksheet.Dimension.End.Row;
+        int cols = worksheet.Dimension.End.Column;
+
+        DataTable dataTable = new DataTable(worksheet.Name);
+
+        for (int i = 1; i <= rows; i++)
+        {
+            DataRow row = dataTable.Rows.Add();
+
+            for (int j = 1; j <= cols; j++)
+            {
+                if (i == 1)
+                    dataTable.Columns.Add(worksheet.Cells[i, j].Value.ToString());
+
+                row[j - 1] = worksheet.Cells[i, j].Value;
+            }
+        }
+        return dataTable;
+    }
+
+
+
+    /// <summary>
     /// 删除行
     /// </summary>
     /// <param name="filePath"></param>
@@ -112,72 +135,75 @@ public class ExcelHelper
         }
     }
 
-    public static DataTable ConvertDataTableColumnType(DataTable dataTable)
+    /// <summary>
+    /// 获取表内容 数据类型根据第2行识别
+    /// </summary>
+    /// <param name="dataTable"></param>
+    /// <param name="rowIndex">初始index =0</param>
+    /// <returns></returns>
+    public static DataTable SelectContent(this DataTable dataTable, int rowIndex = 0)
     {
         DataTable newDataTable = new DataTable();
-        for (int i = 0; i < dataTable.Columns.Count; i++)
-        {
-            string columnName = dataTable.Columns[i].ColumnName;
-            string value = dataTable.Rows[0][i].ToString();
 
-            Type type = GetTypeByStringValue(value);
-            DataColumn dataColumn = new DataColumn(columnName, type);
-            newDataTable.Columns.Add(dataColumn);
-        }
-
-        for (int i = 0; i < dataTable.Rows.Count; i++)
+        for (int i = rowIndex; i < dataTable.Rows.Count; i++)
         {
-            DataRow dataRow = newDataTable.NewRow();
+            DataRow dataRow = newDataTable.Rows.Add();
             for (int j = 0; j < dataTable.Columns.Count; j++)
             {
-                if (dataTable.Rows[i][j].ToString() == "")
+                if (i == rowIndex)
                 {
-                    Type targetType = newDataTable.Columns[j].DataType;
-                    dataRow[j] = targetType.IsValueType ? Activator.CreateInstance(targetType) : null;
-                }
-                else if (dataTable.Rows[i][j].ToString().Contains(","))
-                {
-                    dataRow[j] = JsonConvert.DeserializeObject(dataTable.Rows[i][j].ToString());
-                }
-                else
-                {
-                    dataRow[j] = dataTable.Rows[i][j].ToString();
-                }
-            }
-            newDataTable.Rows.Add(dataRow);
-        }
+                    string columnName = dataTable.Rows[0][j].ToString();
+                    string typeStr = dataTable.Rows[1][j].ToString();
 
+                    Type type = GetTypeByString(typeStr);
+
+                    DataColumn dataColumn = new DataColumn(columnName, type);
+
+                    newDataTable.Columns.Add(dataColumn);
+                }
+                dataRow[j] = ConvertDataTableData(dataTable.Rows[i][j].ToString(), newDataTable.Columns[j].DataType);
+            }
+        }
         return newDataTable;
     }
 
-    public static Type GetTypeByStringValue(string value)
+    public static DataTable SelectContentWithoutConvertType(this DataTable dataTable, int rowIndex = 0)
     {
-        long longValue;
-        double doubleValue;
-        bool boolValue;
-        DateTime dateTimeValue;
-        if (long.TryParse(value, out longValue))
+        DataTable newDataTable = new DataTable();
+
+        for (int i = rowIndex; i < dataTable.Rows.Count; i++)
         {
-            return typeof(long);
+            DataRow dataRow = newDataTable.Rows.Add();
+            for (int j = 0; j < dataTable.Columns.Count; j++)
+            {
+                if (i == rowIndex)
+                {
+                    string columnName = dataTable.Rows[0][j].ToString();
+
+                    DataColumn dataColumn = new DataColumn(columnName);
+
+                    newDataTable.Columns.Add(dataColumn);
+                }
+                dataRow[j] = ConvertDataTableData(dataTable.Rows[i][j].ToString(), newDataTable.Columns[j].DataType);
+            }
         }
-        else if (double.TryParse(value, out doubleValue))
+        return newDataTable;
+    }
+
+    public static object ConvertDataTableData(string data, Type type)
+    {
+        if (string.IsNullOrEmpty(data))
         {
-            return typeof(double);
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
-        else if (bool.TryParse(value, out boolValue))
+        else if (data.Contains(","))
         {
-            return typeof(bool);
+            return JsonConvert.DeserializeObject(data, type);
         }
-        else if (DateTime.TryParse(value, out dateTimeValue))
+        else
         {
-            return typeof(DateTime);
+            return data;
         }
-        else if (value.Contains(","))
-        {
-            //借用Json的数据类型 方便序列化
-            return typeof(JArray);
-        }
-        return typeof(string);
     }
 
     public static Type GetTypeByString(string typeName)
@@ -196,6 +222,12 @@ public class ExcelHelper
                 return typeof(bool);
             case "string":
                 return typeof(string);
+            case "vector2":
+                return typeof(Vector2);
+            case "vector3":
+                return typeof(Vector3);
+            case "vector4":
+                return typeof(Vector4);
 
             case "int[]":
                 return typeof(int[]);
@@ -209,6 +241,12 @@ public class ExcelHelper
                 return typeof(bool[]);
             case "string[]":
                 return typeof(string[]);
+            case "vector2[]":
+                return typeof(Vector2[]);
+            case "vector3[]":
+                return typeof(Vector3[]);
+            case "vector4[]":
+                return typeof(Vector4[]);
 
             case "date":
             case "datetime":

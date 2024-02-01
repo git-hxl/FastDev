@@ -1,9 +1,22 @@
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 namespace FastDev.Editor
 {
     public class MiniExtension
     {
+        [MenuItem("Tools/Other/Test")]
+        static void Test()
+        {
+            Vector3 vector3 = new Vector3(1, 1, 1);
+
+            Vector3[] vectors = new Vector3[] { vector3, vector3 };
+
+            string json = JsonConvert.SerializeObject(vectors);
+
+            Debug.Log(json);
+        }
+
         [MenuItem("Tools/Other/Clear PlayerPrefs")]
         static void ClearPlayerPrefs()
         {

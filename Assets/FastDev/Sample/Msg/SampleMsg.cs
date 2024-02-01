@@ -2,6 +2,7 @@ using FastDev;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class SampleMsg : MonoBehaviour
 {
@@ -9,20 +10,16 @@ public class SampleMsg : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MsgManager.Instance.Register(0, Test);
+        MsgManager<string>.Instance.Register(1, Test);
 
         SampleMsg2 sampleMsg2 = new SampleMsg2();
 
-        MsgManager.Instance.Register(1, sampleMsg2.Test_SampleMsg2);
+        MsgManager<string[]>.Instance.Register(1, sampleMsg2.Test_SampleMsg2);
     }
 
-    private void Test(object[] args)
+    private void Test(string args)
     {
-        foreach (var item in args)
-        {
-            Debug.Log("SampleMsg: " + item.ToString());
-        }
-
+        Debug.Log("SampleMsg: " + args);
     }
 
 }
@@ -35,11 +32,11 @@ public class SampleMsg2
         Debug.LogError("SampleMsg2 析构执行");
     }
 
-    public void Test_SampleMsg2(object[] args)
+    public void Test_SampleMsg2(string[] args)
     {
         foreach (var item in args)
         {
-            Debug.Log("SampleMsg2: " + item.ToString());
+            Debug.Log("SampleMsg2: " + item);
         }
     }
 }
