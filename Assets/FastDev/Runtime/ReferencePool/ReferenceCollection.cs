@@ -49,7 +49,7 @@ namespace FastDev
 
         public void Release(IReference reference)
         {
-            reference.Clear();
+            reference.OnClear();
             lock (references)
             {
                 if (references.Contains(reference))

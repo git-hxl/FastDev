@@ -50,7 +50,7 @@ public class SamplePool : MonoBehaviour
 public class TestClass : IReference
 {
     public string name;
-    public void Clear()
+    public void OnClear()
     {
         name = "";
     }

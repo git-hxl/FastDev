@@ -80,6 +80,8 @@ namespace FastDev.Editor
                 SelectAll();
             if (GUILayout.Button("导出成Json"))
                 ExportSelectedExcelToJsonFile();
+            if (GUILayout.Button("导出成CS"))
+                ExportSelectedExcelToCSFile();
         }
 
         private void DrawExcelFiles()
@@ -170,6 +172,24 @@ namespace FastDev.Editor
                                 stream.Write(data, 0, data.Length);
                             }
                         }
+                    }
+                }
+            }
+            Debug.Log("导出成功");
+            AssetDatabase.Refresh();
+        }
+
+        private void ExportSelectedExcelToCSFile()
+        {
+            foreach (var file in ExcelSheetsSelected)
+            {
+                var tables = ExcelHelper.ReadExcelAllSheets(file);
+
+                foreach (DataTable table in tables)
+                {
+                    if (table.Rows.Count > 0)
+                    {
+                        ExcelToCS.Generate(table);
                     }
                 }
             }
