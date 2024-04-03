@@ -24,11 +24,11 @@ namespace FastDev
         // Start is called before the first frame update
         void Awake()
         {
-            RemoteAssetUrl = RemoteAssetUrl + "/" + PlatformUtil.GetPlatformName();
+            RemoteAssetUrl = RemoteAssetUrl + "/" + Utility.Platform.GetPlatformName();
 
             RemoteAssetConfigUrl = RemoteAssetUrl + "/AssetConfig.json";
 
-            LocalAssetPath = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName();
+            LocalAssetPath = Application.persistentDataPath + "/" + Utility.Platform.GetPlatformName();
 
             LocalAssetConfigPath = LocalAssetPath + "/AssetConfig.json";
         }
@@ -54,7 +54,7 @@ namespace FastDev
 
                 if (string.IsNullOrEmpty(remoteConfig))
                 {
-                    throw new Exception("»ñÈ¡ÅäÖÃÎÄ¼şÊ§°Ü!");
+                    throw new Exception("è·å–é…ç½®æ–‡ä»¶å¤±è´¥!");
                 }
 
                 AssetConfig remoteAssetConfig = JsonConvert.DeserializeObject<AssetConfig>(remoteConfig);
@@ -68,7 +68,7 @@ namespace FastDev
 
                 if (!string.IsNullOrEmpty(localAssetConfig.AppVersion) && localAssetConfig.AppVersion != remoteAssetConfig.AppVersion)
                 {
-                    Debug.LogError("ĞèÒª¸üĞÂAPP");
+                    Debug.LogError("éœ€è¦æ›´æ–°APP");
 
                     return false;
                 }
@@ -85,7 +85,7 @@ namespace FastDev
             catch (Exception ex)
             {
                 Debug.LogError(ex);
-                Debug.LogError("ÅäÖÃÎÄ¼ş¶ÁÈ¡Ê§°Ü£¡");
+                Debug.LogError("é…ç½®æ–‡ä»¶è¯»å–å¤±è´¥ï¼");
 
                 return false;
             }
@@ -98,11 +98,11 @@ namespace FastDev
 
             if (updateFiles == null || updateFiles.Count == 0)
             {
-                Debug.Log("Ã»ÓĞĞèÒª¸üĞÂµÄ×ÊÔ´");
+                Debug.Log("æ²¡æœ‰éœ€è¦æ›´æ–°çš„èµ„æº");
                 return true;
             }
 
-            Debug.Log("¿ªÊ¼¸üĞÂ×ÊÔ´");
+            Debug.Log("å¼€å§‹æ›´æ–°èµ„æº");
 
             for (int i = 0; i < updateFiles.Count; i++)
             {
@@ -110,7 +110,7 @@ namespace FastDev
 
                 if (result == false)
                 {
-                    Debug.LogError("ÏÂÔØÊ§°Ü£¬Çë¼ì²éÍøÂç");
+                    Debug.LogError("ä¸‹è½½å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç½‘ç»œ");
 
                     return false;
                 }
@@ -118,7 +118,7 @@ namespace FastDev
 
             File.WriteAllText(LocalAssetConfigPath, remoteConfig);
 
-            Debug.Log("¸üĞÂÍê³É");
+            Debug.Log("æ›´æ–°å®Œæˆ");
 
             return true;
         }
@@ -126,7 +126,7 @@ namespace FastDev
 
         private void DownloadCallback(string fileName, float progress)
         {
-            Debug.Log($"{fileName} ¸üĞÂ½ø¶È {progress}");
+            Debug.Log($"{fileName} æ›´æ–°è¿›åº¦ {progress}");
         }
 
 
@@ -147,13 +147,13 @@ namespace FastDev
 
                 return false;
             }
-            Debug.Log("¼ÓÔØÍê³É");
+            Debug.Log("åŠ è½½å®Œæˆ");
             return true;
         }
 
         private void LoadAssetBundleCallback(string fileName, float progress)
         {
-            Debug.Log($"{fileName} ¼ÓÔØ½ø¶È {progress}");
+            Debug.Log($"{fileName} åŠ è½½è¿›åº¦ {progress}");
         }
     }
 }

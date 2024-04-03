@@ -7,8 +7,8 @@ namespace FastDev
         public new static string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("内存：" + UnitConvertUtil.ByteConvert((long)UnityEngine.SystemInfo.systemMemorySize * 1024 * 1024));
-            stringBuilder.AppendLine("显存：" + UnitConvertUtil.ByteConvert((long)UnityEngine.SystemInfo.graphicsMemorySize * 1024 * 1024));
+            stringBuilder.AppendLine("内存：" + Utility.Converter.ByteConvert((long)UnityEngine.SystemInfo.systemMemorySize * 1024 * 1024));
+            stringBuilder.AppendLine("显存：" + Utility.Converter.ByteConvert((long)UnityEngine.SystemInfo.graphicsMemorySize * 1024 * 1024));
             stringBuilder.AppendLine("分辨率：" + Screen.currentResolution.ToString());
             stringBuilder.AppendLine("设备名称：" + UnityEngine.SystemInfo.deviceName);
             stringBuilder.AppendLine("操作系统：" + UnityEngine.SystemInfo.operatingSystem);

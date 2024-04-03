@@ -144,9 +144,9 @@ public class $类名 : UIPanel
                         string attrStr = "public $typeName $attrName { get { if ($varName == null) { $varName = transform.Find(\"$path\").GetComponent<$typeName>(); } return $varName; } }\r\n\t";
                         string typeName = component.GetType().Name;
 
-                        string attrName = $"{GetVarName((UIElementType)Enum.Parse(typeof(UIElementType), type))}{component.gameObject.name}".ToAlphaNumber();
+                        string attrName = Utility.Text.ToAlphaNumber($"{GetVarName((UIElementType)Enum.Parse(typeof(UIElementType), type))}{component.gameObject.name}");
                         string varName = char.ToLower(attrName[0]) + attrName.Substring(1);
-                        string path = component.transform.GetRouteNoRoot();
+                        string path = Utility.Transform.GetRouteNoRoot(component.transform);
 
                         varStr = varStr.Replace("$typeName", typeName).Replace("$varName", varName);
                         attrStr = attrStr.Replace("$typeName", typeName).Replace("$varName", varName).Replace("$attrName", attrName).Replace("$path", path);

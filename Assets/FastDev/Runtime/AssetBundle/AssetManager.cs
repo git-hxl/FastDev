@@ -97,7 +97,7 @@ namespace FastDev
 
         public AssetConfig LoadConfig()
         {
-            string path = Application.persistentDataPath + "/" + PlatformUtil.GetPlatformName() + "/AssetConfig.json";
+            string path = Application.persistentDataPath + "/" + Utility.Platform.GetPlatformName() + "/AssetConfig.json";
             if (File.Exists(path))
             {
                 AssetConfig config = JsonConvert.DeserializeObject<AssetConfig>(File.ReadAllText(path));

@@ -12,8 +12,8 @@ namespace FastDev
         void Start()
         {
             Console.Instance.RegisterCommand(ConsoleCommand.SystemInfo, Test);
-            Console.Instance.RegisterCommand(ConsoleCommand.EnableLog, (args) => { LogManager.Instance.EnableLog(int.Parse(args[0].ToString())); return "ok"; });
-            Console.Instance.RegisterCommand(ConsoleCommand.DisableLog, (args) => { LogManager.Instance.DisableLog(); return "ok"; });
+            Console.Instance.RegisterCommand(ConsoleCommand.EnableLog, (args) => { Debugger.Instance.EnableLog(int.Parse(args[0].ToString())); return "ok"; });
+            Console.Instance.RegisterCommand(ConsoleCommand.DisableLog, (args) => { Debugger.Instance.DisableLog(); return "ok"; });
 
             Console.Instance.RegisterCommand("Test", (args) => throw new System.Exception());
         }
@@ -29,9 +29,9 @@ namespace FastDev
 
         private void Update()
         {
-            Debug.LogError(Time.frameCount + ":" + DateTimeUtil.TimeStamp);
-            Debug.LogWarning(Time.frameCount + ":" + DateTimeUtil.TimeStamp);
-            Debug.Log(Time.frameCount + ":" + DateTimeUtil.TimeStamp);
+            Debug.LogError(Time.frameCount + ":" + Utility.DateTime.TimeStamp);
+            Debug.LogWarning(Time.frameCount + ":" + Utility.DateTime.TimeStamp);
+            Debug.Log(Time.frameCount + ":" + Utility.DateTime.TimeStamp);
         }
     }
 }

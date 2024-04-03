@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class LogManager : MonoSingleton<LogManager>
+    public class Debugger : MonoSingleton<Debugger>
     {
         public string LogPath { get; private set; }
 
@@ -24,7 +24,6 @@ namespace FastDev
             Application.logMessageReceivedThreaded += Application_logMessageReceivedThreaded;
             EnableLog();
         }
-
 
         private void OnDestroy()
         {

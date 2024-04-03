@@ -48,7 +48,7 @@ namespace FastDev.Editor
         {
             if (Selection.activeObject == null) return;
             string assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string hash = FileUtil.GetFileMD5(assetPath);
+            string hash = Utility.File.GetFileMD5(assetPath);
             TextEditor textEditor = new TextEditor();
             textEditor.text = hash;
             textEditor.OnFocus();

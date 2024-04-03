@@ -12,12 +12,12 @@ public class SampleUI : MonoBehaviour
     {
         btOpen.onClick.AddListener(() =>
         {
-            var uIPanel = UIManager.Instance.OpenUI("Assets/FastDev/Sample/UI/SampleUIPanel.prefab");
+            var uIPanel = UIManager.Instance.OpenUI<UIPanel>("Assets/FastDev/Sample/UI/SampleUIPanel.prefab");
         });
 
         btOpen2.onClick.AddListener(() =>
         {
-            var uIPanel = UIManager.Instance.OpenUI("Assets/FastDev/Sample/UI/SampleUIPanel2.prefab");
+            var uIPanel = UIManager.Instance.OpenUI<UIPanel>("Assets/FastDev/Sample/UI/SampleUIPanel2.prefab");
         });
     }
 

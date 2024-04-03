@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using static UnityEditor.Progress;
 
 namespace FastDev
 {
-    public class MsgManager<T> : Singleton<MsgManager<T>>, IMsgManager<T>  where T : class
+    public class MsgManager<T> : Singleton<MsgManager<T>>, IMsgManager<T> where T : class
     {
         private Dictionary<int, List<MsgData<T>>> actionDicts = new Dictionary<int, List<MsgData<T>>>();
 
@@ -23,7 +24,7 @@ namespace FastDev
                         return;
                 }
             }
-            MsgData<T> msgData = new MsgData<T>();
+            MsgData<T> msgData = ReferencePool.Acquire<MsgData<T>>();
             msgData.target = new WeakReference(action.Target);
             msgData.msgID = msgID;
             msgData.methodInfo = action.Method;
@@ -39,6 +40,8 @@ namespace FastDev
                     if (item.methodInfo == action.Method && item.target.Target == action.Target)
                     {
                         actionDicts[msgID].Remove(item);
+
+                        ReferencePool.Release(item);
                         break;
                     }
                 }
@@ -51,13 +54,17 @@ namespace FastDev
             {
                 for (int i = actionDicts[msgID].Count - 1; i >= 0; i--)
                 {
-                    if (actionDicts[msgID][i].target.IsAlive && !actionDicts[msgID][i].target.Target.Equals(null))
+                    MsgData<T> msgData = actionDicts[msgID][i];
+
+                    if (msgData.target.IsAlive && !msgData.target.Target.Equals(null))
                     {
-                        actionDicts[msgID][i].methodInfo.Invoke(actionDicts[msgID][i].target.Target, new object[] { parameters });
+                        msgData.methodInfo.Invoke(msgData.target.Target, new object[] { parameters });
                     }
                     else
                     {
                         actionDicts[msgID].RemoveAt(i);
+
+                        ReferencePool.Release(msgData);
                     }
                 }
             }

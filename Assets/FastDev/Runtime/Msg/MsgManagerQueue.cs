@@ -27,7 +27,8 @@ namespace FastDev
                     MsgData<T> msgData;
                     if (msgQueue.TryDequeue(out msgData))
                     {
-                       MsgManager<T>.Instance.Dispatch(msgData.msgID, msgData.parameters);
+                        MsgManager<T>.Instance.Dispatch(msgData.msgID, msgData.parameters);
+                        ReferencePool.Release(msgData);
                     }
                 }
             }
@@ -35,7 +36,7 @@ namespace FastDev
 
         public void Enqueue(int msgID, T parameters)
         {
-            MsgData<T> msgData = new MsgData<T>();
+            MsgData<T> msgData = ReferencePool.Acquire<MsgData<T>>();
             msgData.msgID = msgID;
             msgData.parameters = parameters;
             msgQueue.Enqueue(msgData);

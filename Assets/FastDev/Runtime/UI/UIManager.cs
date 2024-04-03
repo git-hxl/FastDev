@@ -4,40 +4,43 @@ namespace FastDev
 {
     public class UIManager : MonoSingleton<UIManager>
     {
-        public Dictionary<string, UIPanel> UIPanels { get; private set; } = new Dictionary<string, UIPanel>();
+        public Dictionary<string, UIPanel> UIPanels { get; private set; }
 
         protected override void OnInit()
         {
             base.OnInit();
+
+            UIPanels = new Dictionary<string, UIPanel>();
         }
 
-        public UIPanel OpenUI(string path, UIOrder uIOrder = UIOrder.Default)
+        public T OpenUI<T>(string path, UIOrder uIOrder = UIOrder.Default) where T : UIPanel
         {
-            UIPanel uiPanel = null;
-            if (UIPanels.ContainsKey(path))
-                uiPanel = UIPanels[path];
+            UIPanel panel;
 
-            if (uiPanel == null)
+            if (!UIPanels.TryGetValue(path, out panel))
             {
                 GameObject uiAsset = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
                 GameObject uiObj = GameObject.Instantiate(uiAsset, transform);
 
-                uiPanel = uiObj.GetComponent<UIPanel>();
-                if (uiPanel == null)
+                panel = uiObj.GetComponent<T>();
+
+                if (panel == null)
                 {
-                    throw new System.Exception("打开窗口异常");
+                    Debug.LogError("UI Error:" + path);
+
+                    return null;
                 }
 
-                UIPanels[path] = uiPanel;
+                UIPanels[path] = panel;
 
-                uiPanel.OnInit();
+                panel.OnInit();
             }
 
-            uiPanel.Canvas.sortingOrder = (int)uIOrder;
+            panel.Canvas.sortingOrder = (int)uIOrder;
 
-            uiPanel.OnOpen();
+            panel.OnOpen();
 
-            return uiPanel;
+            return panel as T;
         }
 
         public void CloseUI(string path)
@@ -53,7 +56,6 @@ namespace FastDev
                 uIPanel.OnClose();
             }
         }
-
 
         public UIPanel GetUI<T>() where T : UIPanel
         {

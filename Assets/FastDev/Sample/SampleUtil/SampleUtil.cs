@@ -15,34 +15,34 @@ public class SampleUtil : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 120;
-        string md5txt = SecurityUtil.MD5Encrypt(text);
+        string md5txt = Utility.Encryption.MD5Encrypt(text);
         Debug.Log("MD5：" + md5txt);
 
         string privateKey;
         string publicKey;
-        SecurityUtil.GenerateRsaKey(out privateKey, out publicKey);
+        Utility.Encryption.GenerateRsaKey(out privateKey, out publicKey);
 
-        string encryptData = SecurityUtil.RsaEncrypt(text, publicKey);
+        string encryptData = Utility.Encryption.RsaEncrypt(text, publicKey);
 
         Debug.Log("RSA加密数据：" + encryptData);
 
-        string decryptData = SecurityUtil.RsaDecrypt(encryptData, privateKey);
+        string decryptData = Utility.Encryption.RsaDecrypt(encryptData, privateKey);
 
         Debug.Log("RSA解密数据：" + decryptData);
 
-        string signText = SecurityUtil.SignatureFormatter(privateKey, text);
+        string signText = Utility.Encryption.SignatureFormatter(privateKey, text);
 
         Debug.Log("RSA签名数据：" + signText);
 
-        bool value = SecurityUtil.SignatureDeformatter(publicKey, text, signText);
+        bool value = Utility.Encryption.SignatureDeformatter(publicKey, text, signText);
 
         Debug.Log("RSA验签结果：" + value);
 
-        string aesEncryptTxt = SecurityUtil.AESEncrypt(text, "123456789xxxxxxxxxxxxxxxxx");
+        string aesEncryptTxt = Utility.Encryption.AESEncrypt(text, "123456789xxxxxxxxxxxxxxxxx");
 
         Debug.Log("Aes加密数据：" + aesEncryptTxt);
 
-        string aesTxt = SecurityUtil.AESDecrypt(aesEncryptTxt, "123456789");
+        string aesTxt = Utility.Encryption.AESDecrypt(aesEncryptTxt, "123456789");
 
         Debug.Log("Aes解密数据：" + aesTxt);
     }
