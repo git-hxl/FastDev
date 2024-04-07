@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class PoolComponent : MonoBehaviour
+    public class ObjectPoolComponent : MonoBehaviour
     {
         public float AutoDestroy = 60f;
         public string Key { get; set; }

@@ -12,11 +12,11 @@ public class SamplePool : MonoBehaviour
     {
         btAllocate.onClick.AddListener(() =>
         {
-            GameObject obj = PoolManager.Instance.Allocate("Assets/FastDev/Sample/Pool/Cube.prefab");
+            GameObject obj = ObjectPool.Instance.Allocate("Assets/FastDev/Sample/Pool/Cube.prefab");
             obj.SetActive(true);
             obj.transform.position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
 
-            PoolManager.Instance.Recycle(obj, 1000).Forget();
+            ObjectPool.Instance.Recycle(obj, 1000).Forget();
         });
 
         TestClass testClass = ReferencePool.Acquire<TestClass>();

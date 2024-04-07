@@ -5,15 +5,15 @@ using System.IO;
 
 namespace FastDev
 {
-    public class PoolManager : Singleton<PoolManager>
+    public class ObjectPool : Singleton<ObjectPool>
     {
-        public Dictionary<string, Stack<PoolComponent>> PoolObjects { get; private set; }
+        public Dictionary<string, Stack<ObjectPoolComponent>> PoolObjects { get; private set; }
         public int MaxStack { get; } = 99;
 
         protected override void OnInit()
         {
             base.OnInit();
-            PoolObjects = new Dictionary<string, Stack<PoolComponent>>();
+            PoolObjects = new Dictionary<string, Stack<ObjectPoolComponent>>();
         }
 
         private GameObject LoadAsset(string path)
@@ -27,10 +27,10 @@ namespace FastDev
         {
             string key = Path.GetFileNameWithoutExtension(path);
             if (!PoolObjects.ContainsKey(key))
-                PoolObjects[key] = new Stack<PoolComponent>();
+                PoolObjects[key] = new Stack<ObjectPoolComponent>();
             var stack = PoolObjects[key];
 
-            PoolComponent poolObj = null;
+            ObjectPoolComponent poolObj = null;
             while (stack.Count > 0)
             {
                 poolObj = stack.Pop();
@@ -42,9 +42,9 @@ namespace FastDev
             if (poolObj == null)
             {
                 var asset = LoadAsset(path);
-                poolObj = asset.GetComponent<PoolComponent>();
+                poolObj = asset.GetComponent<ObjectPoolComponent>();
                 if (poolObj == null)
-                    poolObj = asset.AddComponent<PoolComponent>();
+                    poolObj = asset.AddComponent<ObjectPoolComponent>();
                 poolObj.Key = key;
             }
             poolObj.PoolState = PoolState.Allocated;
@@ -63,14 +63,14 @@ namespace FastDev
                 return;
             if (obj == null)
                 return;
-            var poolObj = obj.GetComponent<PoolComponent>();
+            var poolObj = obj.GetComponent<ObjectPoolComponent>();
             if (poolObj == null)
                 return;
             if (poolObj.PoolState == PoolState.Allocated || poolObj.PoolState == PoolState.WaitToRecycled)
             {
                 string key = poolObj.Key;
                 if (!PoolObjects.ContainsKey(key))
-                    PoolObjects[key] = new Stack<PoolComponent>();
+                    PoolObjects[key] = new Stack<ObjectPoolComponent>();
                 var stack = PoolObjects[key];
                 if (stack.Count < MaxStack && !stack.Contains(poolObj))
                 {
@@ -97,7 +97,7 @@ namespace FastDev
             if (obj == null)
                 return;
 
-            var poolObj = obj.GetComponent<PoolComponent>();
+            var poolObj = obj.GetComponent<ObjectPoolComponent>();
 
             if (poolObj == null) return;
 
