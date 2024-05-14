@@ -95,12 +95,12 @@ namespace FastDev
             }
         }
 
-        public AssetConfig LoadConfig()
+        public ABConfig LoadConfig()
         {
             string path = Application.persistentDataPath + "/" + Utility.Platform.GetPlatformName() + "/AssetConfig.json";
             if (File.Exists(path))
             {
-                AssetConfig config = JsonConvert.DeserializeObject<AssetConfig>(File.ReadAllText(path));
+                ABConfig config = JsonConvert.DeserializeObject<ABConfig>(File.ReadAllText(path));
                 return config;
             }
             return null;

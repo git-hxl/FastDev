@@ -57,13 +57,13 @@ namespace FastDev
                     throw new Exception("获取配置文件失败!");
                 }
 
-                AssetConfig remoteAssetConfig = JsonConvert.DeserializeObject<AssetConfig>(remoteConfig);
+                ABConfig remoteAssetConfig = JsonConvert.DeserializeObject<ABConfig>(remoteConfig);
 
-                AssetConfig localAssetConfig = new AssetConfig();
+                ABConfig localAssetConfig = new ABConfig();
 
                 if (File.Exists(LocalAssetConfigPath))
                 {
-                    localAssetConfig = JsonConvert.DeserializeObject<AssetConfig>(File.ReadAllText(LocalAssetConfigPath));
+                    localAssetConfig = JsonConvert.DeserializeObject<ABConfig>(File.ReadAllText(LocalAssetConfigPath));
                 }
 
                 if (!string.IsNullOrEmpty(localAssetConfig.AppVersion) && localAssetConfig.AppVersion != remoteAssetConfig.AppVersion)
@@ -134,7 +134,7 @@ namespace FastDev
         {
             try
             {
-                AssetConfig remoteAssetConfig = JsonConvert.DeserializeObject<AssetConfig>(remoteConfig);
+                ABConfig remoteAssetConfig = JsonConvert.DeserializeObject<ABConfig>(remoteConfig);
 
                 foreach (var bundle in remoteAssetConfig.Bundles)
                 {
