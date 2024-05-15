@@ -9,11 +9,11 @@ public class SampleMsg : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MsgManager<string>.Instance.Register(MsgID.TestID, Test);
+        MessageManager<string>.Instance.Register(MsgID.TestID, Test);
 
         sampleMsg2 = new SampleMsg2();
 
-        MsgManager<int[]>.Instance.Register(MsgID.TestID, sampleMsg2.Test_SampleMsg2);
+        MessageManager<int[]>.Instance.Register(MsgID.TestID, sampleMsg2.Test_SampleMsg2);
     }
 
     private void Test(string args)
@@ -23,9 +23,9 @@ public class SampleMsg : MonoBehaviour
 
     private void OnDestroy()
     {
-        MsgManager<string>.Instance.UnRegister(MsgID.TestID, Test);
+        MessageManager<string>.Instance.UnRegister(MsgID.TestID, Test);
 
-        MsgManager<int[]>.Instance.UnRegister(MsgID.TestID, sampleMsg2.Test_SampleMsg2);
+        MessageManager<int[]>.Instance.UnRegister(MsgID.TestID, sampleMsg2.Test_SampleMsg2);
     }
 
 }

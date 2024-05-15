@@ -1,55 +1,85 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 namespace FastDev
 {
-    public class UIManager : MonoSingleton<UIManager>
+    public sealed partial class UIManager : GameModule
     {
-        public Dictionary<string, UIPanel> UIPanels { get; private set; }
+        private Dictionary<string, UIPanel> panels;
 
-        protected override void OnInit()
+
+        public UIManager()
         {
-            base.OnInit();
-
-            UIPanels = new Dictionary<string, UIPanel>();
+            panels = new Dictionary<string, UIPanel>();
         }
 
+        /// <summary>
+        /// 加载UI
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private GameObject LoadPanel(string path)
+        {
+            GameObject uiAsset = GameEntry.Resource.LoadAsset<GameObject>("ui", path);
+            GameObject uiObj = GameObject.Instantiate(uiAsset);
+            return uiObj;
+        }
+
+        /// <summary>
+        /// 获取UI
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public UIPanel GetUI(string path)
+        {
+            string key = Path.GetFileNameWithoutExtension(path);
+            if (panels.ContainsKey(key))
+            {
+                return panels[key];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 打开UI
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <param name="uIOrder"></param>
+        /// <returns></returns>
         public T OpenUI<T>(string path, UIOrder uIOrder = UIOrder.Default) where T : UIPanel
         {
-            UIPanel panel;
+            UIPanel panel = null;
+            string key = Path.GetFileNameWithoutExtension(path);
 
-            if (!UIPanels.TryGetValue(path, out panel))
+            if (!panels.ContainsKey(key))
             {
-                GameObject uiAsset = AssetManager.Instance.LoadAsset<GameObject>("ui", path);
-                GameObject uiObj = GameObject.Instantiate(uiAsset, transform);
-
+                GameObject uiObj = LoadPanel(path);
                 panel = uiObj.GetComponent<T>();
-
                 if (panel == null)
                 {
                     Debug.LogError("UI Error:" + path);
-
                     return null;
                 }
-
-                UIPanels[path] = panel;
-
-                panel.OnInit();
+                panel.OnInit(key);
+                panels.Add(key, panel);
             }
 
+            panel = panels[key];
             panel.Canvas.sortingOrder = (int)uIOrder;
-
             panel.OnOpen();
-
             return panel as T;
         }
 
+        /// <summary>
+        /// 关闭UI
+        /// </summary>
+        /// <param name="path"></param>
         public void CloseUI(string path)
         {
-            CloseUI(GetUI(path));
-        }
+            string key = Path.GetFileNameWithoutExtension(path);
+            UIPanel uIPanel = GetUI(key);
 
-        public void CloseUI(UIPanel uIPanel)
-        {
             if (uIPanel != null)
             {
                 uIPanel.Canvas.sortingOrder = (int)UIOrder.Hide;
@@ -57,25 +87,21 @@ namespace FastDev
             }
         }
 
-        public UIPanel GetUI<T>() where T : UIPanel
+        internal override void Update(float elapseSeconds, float realElapseSeconds)
         {
-            foreach (var item in UIPanels)
-            {
-                if (item.Value is T)
-                {
-                    return (T)item.Value;
-                }
-            }
-            return null;
+            //throw new System.NotImplementedException();
         }
 
-        public UIPanel GetUI(string path)
+        internal override void Shutdown()
         {
-            if (UIPanels.ContainsKey(path))
+            // throw new System.NotImplementedException();
+
+            foreach (var item in panels)
             {
-                return UIPanels[path];
+                GameEntry.Destroy(item.Value.gameObject);
             }
-            return null;
+
+            panels.Clear();
         }
     }
 }

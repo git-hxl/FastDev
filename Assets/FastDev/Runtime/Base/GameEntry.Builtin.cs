@@ -1,5 +1,5 @@
 
-namespace FastDev.Game
+namespace FastDev
 {
     public partial class GameEntry
     {
@@ -15,13 +15,13 @@ namespace FastDev.Game
             private set;
         }
 
-        public static UIComponent UI
+        public static UIManager UI
         {
             get;
             private set;
         }
 
-        public static GameComponent Game
+        public static MessageManager Message
         {
             get;
             private set;

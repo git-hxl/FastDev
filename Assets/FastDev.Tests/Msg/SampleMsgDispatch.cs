@@ -10,7 +10,7 @@ public class SampleMsgDispatch : MonoBehaviour
     Thread thread;
     private void Start()
     {
-        MsgManager<string>.Instance.Dispatch(MsgID.TestID, "11");
+        MessageManager<string>.Instance.Dispatch(MsgID.TestID, "11");
 
         thread = new Thread(() =>
         {
@@ -19,7 +19,7 @@ public class SampleMsgDispatch : MonoBehaviour
                 Thread.Sleep(1000);
                 MsgManagerQuene<int[]>.Instance.Enqueue(MsgID.TestID, new int[] { 22, 33, 44 });
 
-                MsgManager<string>.Instance.Dispatch(MsgID.TestID, "22");
+                MessageManager<string>.Instance.Dispatch(MsgID.TestID, "22");
             }
         })
         {

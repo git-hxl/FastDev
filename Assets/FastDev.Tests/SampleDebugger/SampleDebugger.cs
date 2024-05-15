@@ -12,8 +12,8 @@ namespace FastDev
         void Start()
         {
             Console.Instance.RegisterCommand(ConsoleCommand.SystemInfo, Test);
-            Console.Instance.RegisterCommand(ConsoleCommand.EnableLog, (args) => { Debugger.Instance.EnableLog(int.Parse(args[0].ToString())); return "ok"; });
-            Console.Instance.RegisterCommand(ConsoleCommand.DisableLog, (args) => { Debugger.Instance.DisableLog(); return "ok"; });
+            Console.Instance.RegisterCommand(ConsoleCommand.EnableLog, (Func<object[], string>)((args) => { Debugger.Instance.EnableLog(int.Parse(args[0].ToString())); return "ok"; }));
+            Console.Instance.RegisterCommand(ConsoleCommand.DisableLog, (Func<object[], string>)((args) => { Debugger.Instance.DisableLog(); return "ok"; }));
 
             Console.Instance.RegisterCommand("Test", (args) => throw new System.Exception());
         }

@@ -124,7 +124,7 @@ namespace FastDev.Editor
 
             AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(outputPath, builds, (BuildAssetBundleOptions)abToolConfig.CompressionType, abToolConfig.Platform);
 
-            ABConfig abConfig = new ABConfig();
+            ResourceConfig abConfig = new ResourceConfig();
             abConfig.Bundles = new Dictionary<string, string>();
             foreach (var bundle in manifest.GetAllAssetBundles())
             {

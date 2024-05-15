@@ -3,10 +3,12 @@ namespace FastDev
 {
     public abstract class UIPanel : MonoBehaviour
     {
+        public string PanelName { get; protected set; }
         public Canvas Canvas { get; protected set; }
 
-        public virtual void OnInit()
+        public virtual void OnInit(string panelName)
         {
+            PanelName = panelName;
             Canvas = GetComponent<Canvas>();
         }
 
@@ -23,7 +25,7 @@ namespace FastDev
 
         public void CloseSelf()
         {
-            UIManager.Instance.CloseUI(this);
+            GameEntry.UI.CloseUI(PanelName);
         }
     }
 }

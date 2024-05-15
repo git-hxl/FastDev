@@ -10,7 +10,7 @@ public class SampleLoadAsset : MonoBehaviour
     {
         //await AssetManager.Instance.LoadAssetBundleAsync("Assets/StreamingAssets/StandaloneWindows/prefab", (progress) => { Debug.Log(progress); });
 
-        ABConfig config = AssetManager.Instance.LoadConfig();
+        ResourceConfig config = AssetManager.Instance.LoadConfig();
 
         Debug.Log(config.DateTime);
 

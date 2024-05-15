@@ -24,24 +24,24 @@ public class SampleAudioPlay : MonoBehaviour
         btPlayRandom.onClick.AddListener(() =>
         {
             Vector3 pos = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), Random.Range(-10, 10));
-            AudioManager.Instance.GetAudioPlayer(FastDev.AudioType.Sound).Play("Assets/GameFramework/Sample/Audio/SFX_ArrowFly.wav");
+            AudioManager.Instance.GetAudioPlayer(FastDev.SoundType.Sound).Play("Assets/GameFramework/Sample/Audio/SFX_ArrowFly.wav");
 
         });
 
         btPlayUI.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(FastDev.AudioType.UI).PlayOnOnShot("Assets/GameFramework/Sample/Audio/UIClick.wav");
+            AudioManager.Instance.GetAudioPlayer(FastDev.SoundType.UI).PlayOnOnShot("Assets/GameFramework/Sample/Audio/UIClick.wav");
         });
 
 
         btPlayMusic.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(FastDev.AudioType.Music).Play("Assets/GameFramework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav");
+            AudioManager.Instance.GetAudioPlayer(FastDev.SoundType.Music).Play("Assets/GameFramework/Sample/Audio/SFX_FireThrower_Fire_Loop.wav");
         });
 
         btStopMusic.onClick.AddListener(() =>
         {
-            AudioManager.Instance.GetAudioPlayer(FastDev.AudioType.Music).Stop();
+            AudioManager.Instance.GetAudioPlayer(FastDev.SoundType.Music).Stop();
         });
 
         sliderTotal.value = AudioManager.Instance.Setting.TotalVolume;
@@ -53,28 +53,28 @@ public class SampleAudioPlay : MonoBehaviour
         });
 
 
-        sliderUI.value = AudioManager.Instance.Setting.AudioTypeVolume[FastDev.AudioType.UI];
+        sliderUI.value = AudioManager.Instance.Setting.AudioTypeVolume[FastDev.SoundType.UI];
 
         sliderUI.onValueChanged.AddListener((value) =>
         {
-            AudioManager.Instance.Setting.AudioTypeVolume[FastDev.AudioType.UI] = value;
+            AudioManager.Instance.Setting.AudioTypeVolume[FastDev.SoundType.UI] = value;
             AudioManager.Instance.UpdateVolume();
         });
 
 
-        sliderSound.value = AudioManager.Instance.Setting.AudioTypeVolume[FastDev.AudioType.Sound];
+        sliderSound.value = AudioManager.Instance.Setting.AudioTypeVolume[FastDev.SoundType.Sound];
 
         sliderSound.onValueChanged.AddListener((value) =>
         {
-            AudioManager.Instance.Setting.AudioTypeVolume[FastDev.AudioType.Sound] = value;
+            AudioManager.Instance.Setting.AudioTypeVolume[FastDev.SoundType.Sound] = value;
             AudioManager.Instance.UpdateVolume();
         });
 
-        sliderMusic.value = AudioManager.Instance.Setting.AudioTypeVolume[FastDev.AudioType.Music];
+        sliderMusic.value = AudioManager.Instance.Setting.AudioTypeVolume[FastDev.SoundType.Music];
 
         sliderMusic.onValueChanged.AddListener((value) =>
         {
-            AudioManager.Instance.Setting.AudioTypeVolume[FastDev.AudioType.Music] = value;
+            AudioManager.Instance.Setting.AudioTypeVolume[FastDev.SoundType.Music] = value;
             AudioManager.Instance.UpdateVolume();
         });
     }
