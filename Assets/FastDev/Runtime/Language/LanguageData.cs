@@ -14,7 +14,7 @@ namespace FastDev
 
         public string GetText()
         {
-            switch (LanguageManager.Instance.LanguageType)
+            switch (GameEntry.Language.LanguageType)
             {
                 case LanguageType.Chinese: return Chinese;
                 case LanguageType.English: return English;

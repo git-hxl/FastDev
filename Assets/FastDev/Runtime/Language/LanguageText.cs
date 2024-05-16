@@ -13,19 +13,23 @@ namespace FastDev
         {
             text = GetComponent<Text>();
             textMeshPro = GetComponent<TextMeshProUGUI>();
+
+
         }
 
         private void OnEnable()
         {
             UpdateText();
+            GameEntry.Message.Register(MsgID.UpdateLanguage, UpdateText);
+
         }
 
         public void UpdateText()
         {
             if (text != null)
-                text.text = LanguageManager.Instance.GetText(ID);
+                text.text = GameEntry.Language.GetText(ID);
             else
-                textMeshPro.text = LanguageManager.Instance.GetText(ID);
+                textMeshPro.text = GameEntry.Language.GetText(ID);
         }
 
         public string GetText()
@@ -33,6 +37,11 @@ namespace FastDev
             text = GetComponent<Text>();
             textMeshPro = GetComponent<TextMeshProUGUI>();
             return text != null ? text.text : textMeshPro.text;
+        }
+
+        private void OnDisable()
+        {
+            GameEntry.Message.UnRegister(MsgID.UpdateLanguage, UpdateText);
         }
     }
 }

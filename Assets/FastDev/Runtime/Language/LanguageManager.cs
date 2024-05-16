@@ -1,23 +1,25 @@
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+
 namespace FastDev
 {
-    public class LanguageManager : MonoSingleton<LanguageManager>, ILanguageManager
+    public class LanguageManager : GameModule, ILanguageManager
     {
         public LanguageType LanguageType { get; private set; }
 
         private List<LanguageData> LanguageDatas;
 
-        protected override void OnInit()
+        public LanguageManager()
         {
-            base.OnInit();
             InitLanguageData();
         }
 
+        /// <summary>
+        /// 初始化多语言
+        /// </summary>
         public void InitLanguageData()
         {
             LanguageDatas = new List<LanguageData>();
@@ -31,6 +33,11 @@ namespace FastDev
             Debug.Log("curlanguage:" + LanguageType);
         }
 
+        /// <summary>
+        /// 获取多语言文本
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string GetText(string id)
         {
             var languageData = LanguageDatas.FirstOrDefault((a) => a.ID == id);
@@ -41,17 +48,28 @@ namespace FastDev
             return "Null Language ID";
         }
 
+        /// <summary>
+        /// 设置当前语言
+        /// </summary>
+        /// <param name="languageType"></param>
         public void SetLanguageType(LanguageType languageType)
         {
             LanguageType = languageType;
             PlayerPrefs.SetInt("Language", (int)languageType);
 
-            LanguageText[] languageTexts = GameObject.FindObjectsOfType<LanguageText>();
+            GameEntry.Message.Dispatch(MsgID.UpdateLanguage);
+        }
 
-            foreach (var item in languageTexts)
-            {
-                item.UpdateText();
-            }
+        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        {
+            //throw new NotImplementedException();
+        }
+
+        internal override void Shutdown()
+        {
+            //throw new NotImplementedException();
+
+            LanguageDatas.Clear();
         }
     }
 }

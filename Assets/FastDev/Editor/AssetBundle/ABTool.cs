@@ -26,7 +26,7 @@ namespace FastDev.Editor
             AssetDatabase.RemoveUnusedAssetBundleNames();
         }
 
-        private void Awake()
+        private void OnEnable()
         {
             InitConfig();
         }
@@ -135,7 +135,7 @@ namespace FastDev.Editor
             abConfig.DateTime = DateTime.Now.ToString();
             string configJson = JsonConvert.SerializeObject(abConfig, Formatting.Indented);
 
-            File.WriteAllText(outputPath + "/AssetConfig.json", configJson);
+            File.WriteAllText(outputPath + "/ResourceConfig.json", configJson);
             AssetDatabase.Refresh();
         }
 
@@ -147,7 +147,7 @@ namespace FastDev.Editor
             string outPath = abToolConfig.BuildOutPath + "/" + abToolConfig.Platform;
             if (!string.IsNullOrEmpty(outPath))
             {
-                Directory.Delete(outPath,true);
+                Directory.Delete(outPath, true);
                 AssetDatabase.Refresh();
             }
         }

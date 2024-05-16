@@ -29,7 +29,7 @@ namespace FastDev.Editor
             window.Show();
         }
 
-        private void Awake()
+        private void OnEnable()
         {
             ReadLocalExcel();
         }

@@ -1,19 +1,17 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 namespace FastDev
 {
     public sealed partial class MessageManager : GameModule
     {
-        private Dictionary<int, List<Action<MessageArgs>>> actions;
-
-        private readonly Queue<MessageArgs> queueArgs;
+        private Dictionary<int, List<Delegate>> callBacks;
 
         public MessageManager()
         {
-            actions = new Dictionary<int, List<Action<MessageArgs>>>();
-
-            queueArgs = new Queue<MessageArgs>();
+            callBacks = new Dictionary<int, List<Delegate>>();
         }
 
         /// <summary>
@@ -21,14 +19,44 @@ namespace FastDev
         /// </summary>
         /// <param name="msgID"></param>
         /// <param name="action"></param>
-        public void Register(int msgID, Action<MessageArgs> action)
+        public void Register(int msgID, Action action)
         {
-            if (!actions.ContainsKey(msgID))
+            if (!callBacks.ContainsKey(msgID))
             {
-                List<Action<MessageArgs>> msgDatas = new List<Action<MessageArgs>>();
-                actions.Add(msgID, msgDatas);
+                List<Delegate> msgDatas = new List<Delegate>();
+                callBacks.Add(msgID, msgDatas);
             }
-            actions[msgID].Add(action);
+            callBacks[msgID].Add(action);
+        }
+
+        public void Register<T1>(int msgID, Action<T1> action)
+        {
+            if (!callBacks.ContainsKey(msgID))
+            {
+                List<Delegate> msgDatas = new List<Delegate>();
+                callBacks.Add(msgID, msgDatas);
+            }
+            callBacks[msgID].Add(action);
+        }
+
+        public void Register<T1, T2>(int msgID, Action<T1, T2> action)
+        {
+            if (!callBacks.ContainsKey(msgID))
+            {
+                List<Delegate> msgDatas = new List<Delegate>();
+                callBacks.Add(msgID, msgDatas);
+            }
+            callBacks[msgID].Add(action);
+        }
+
+        public void Register<T1, T2, T3>(int msgID, Action<T1, T2, T3> action)
+        {
+            if (!callBacks.ContainsKey(msgID))
+            {
+                List<Delegate> msgDatas = new List<Delegate>();
+                callBacks.Add(msgID, msgDatas);
+            }
+            callBacks[msgID].Add(action);
         }
 
         /// <summary>
@@ -36,15 +64,58 @@ namespace FastDev
         /// </summary>
         /// <param name="msgID"></param>
         /// <param name="action"></param>
-        public void UnRegister(int msgID, Action<MessageArgs> action)
+        public void UnRegister(int msgID, Action action)
         {
-            if (actions.ContainsKey(msgID))
+            if (callBacks.ContainsKey(msgID))
             {
-                foreach (var item in actions[msgID])
+                foreach (var item in callBacks[msgID])
                 {
-                    if (item == action)
+                    if ((Action)item == action)
                     {
-                        actions[msgID].Remove(item);
+                        callBacks[msgID].Remove(item);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void UnRegister<T1>(int msgID, Action<T1> action)
+        {
+            if (callBacks.ContainsKey(msgID))
+            {
+                foreach (var item in callBacks[msgID])
+                {
+                    if ((Action<T1>)item == action)
+                    {
+                        callBacks[msgID].Remove(item);
+                        break;
+                    }
+                }
+            }
+        }
+        public void UnRegister<T1, T2>(int msgID, Action<T1, T2> action)
+        {
+            if (callBacks.ContainsKey(msgID))
+            {
+                foreach (var item in callBacks[msgID])
+                {
+                    if ((Action<T1, T2>)item == action)
+                    {
+                        callBacks[msgID].Remove(item);
+                        break;
+                    }
+                }
+            }
+        }
+        public void UnRegister<T1, T2, T3>(int msgID, Action<T1, T2, T3> action)
+        {
+            if (callBacks.ContainsKey(msgID))
+            {
+                foreach (var item in callBacks[msgID])
+                {
+                    if ((Action<T1, T2, T3>)item == action)
+                    {
+                        callBacks[msgID].Remove(item);
                         break;
                     }
                 }
@@ -56,55 +127,58 @@ namespace FastDev
         /// </summary>
         /// <param name="msgID"></param>
         /// <param name="args"></param>
-        public void Dispatch(int msgID, MessageArgs args)
+        public void Dispatch(int msgID)
         {
-            if (actions.ContainsKey(msgID))
+            if (callBacks.ContainsKey(msgID))
             {
-                for (int i = actions[msgID].Count - 1; i >= 0; i--)
+                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
                 {
-                    actions[msgID][i].Invoke(args);
-                    ReferencePool.Release(args);
+                    ((Action)callBacks[msgID][i]).Invoke();
                 }
             }
         }
 
-        /// <summary>
-        /// 分发消息 支持多线程
-        /// </summary>
-        /// <param name="msgID"></param>
-        /// <param name="args"></param>
-        public void EnqueueMsg(int msgID, MessageArgs args)
+        public void Dispatch<T1>(int msgID, T1 arg1)
         {
-            lock (queueArgs)
+            if (callBacks.ContainsKey(msgID))
             {
-                args.MsgID = msgID;
-                queueArgs.Enqueue(args);
+                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                {
+                    ((Action<T1>)callBacks[msgID][i]).Invoke(arg1);
+                }
+            }
+        }
+        public void Dispatch<T1, T2>(int msgID, T1 arg1, T2 arg2)
+        {
+            if (callBacks.ContainsKey(msgID))
+            {
+                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                {
+                    ((Action<T1, T2>)callBacks[msgID][i]).Invoke(arg1, arg2);
+                }
+            }
+        }
+        public void Dispatch<T1, T2, T3>(int msgID, T1 arg1, T2 arg2, T3 arg3)
+        {
+            if (callBacks.ContainsKey(msgID))
+            {
+                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                {
+                    ((Action<T1, T2, T3>)callBacks[msgID][i]).Invoke(arg1, arg2, arg3);
+                }
             }
         }
 
 
-        /// <summary>
-        /// 轮询消息队列
-        /// </summary>
-        /// <param name="elapseSeconds"></param>
-        /// <param name="realElapseSeconds"></param>
         internal override void Update(float elapseSeconds, float realElapseSeconds)
         {
-            lock (queueArgs)
-            {
-                while (queueArgs.Count > 0)
-                {
-                    MessageArgs args = queueArgs.Dequeue();
-                    Dispatch(args.MsgID, args);
-                }
-            }
+
         }
 
         internal override void Shutdown()
         {
             //throw new NotImplementedException();
-            actions.Clear();
-            queueArgs.Clear();
+            callBacks.Clear();
         }
     }
 }

@@ -42,16 +42,20 @@ namespace FastDev
         {
             T asset = default(T);
 
-#if UNITY_EDITOR
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-#else
-            if (AssetBundles.ContainsKey(bundleName))
+            if (Application.isEditor)
             {
-                var assetBundle = AssetBundles[bundleName];
-                var assetName = Path.GetFileName(path);
-                asset = assetBundle.LoadAsset<T>(assetName);
+                asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
             }
-#endif
+            else
+            {
+                if (bundles.ContainsKey(bundleName))
+                {
+                    var assetBundle = bundles[bundleName];
+                    var assetName = Path.GetFileName(path);
+                    asset = assetBundle.LoadAsset<T>(assetName);
+                }
+            }
+
             if (asset == null)
                 Debug.LogError("asset load failed: " + path);
             return asset;
@@ -67,44 +71,45 @@ namespace FastDev
         public async UniTask<T> LoadAssetAsync<T>(string bundleName, string path) where T : UnityEngine.Object
         {
             T asset = default(T);
-#if UNITY_EDITOR
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
-            await UniTask.DelayFrame(1);
-#else
-            if (AssetBundles.ContainsKey(bundleName))
+
+            if (Application.isEditor)
             {
-                var assetBundle = AssetBundles[bundleName];
-                var assetName = Path.GetFileName(path);
-                asset = await assetBundle.LoadAssetAsync<T>(assetName) as T;
+                asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);
+                await UniTask.DelayFrame(1);
             }
-#endif
+            else
+            {
+                if (bundles.ContainsKey(bundleName))
+                {
+                    var assetBundle = bundles[bundleName];
+                    var assetName = Path.GetFileName(path);
+                    asset = await assetBundle.LoadAssetAsync<T>(assetName) as T;
+                }
+            }
             if (asset == null)
                 Debug.LogError("asset load failed: " + path);
             return asset;
         }
 
-        public AssetBundle LoadAssetBundle(string path)
-        {
-            AssetBundle assetBundle = AssetBundle.LoadFromFile(path);
-            AddAssetBundle(Path.GetFileName(path), assetBundle);
-            return assetBundle;
-        }
-
-        public async UniTask<bool> LoadAllAssetBundle(Action<string, float> onProgress)
+        /// <summary>
+        /// 加载所有资源
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="onProgress"></param>
+        /// <returns></returns>
+        public async UniTask<bool> LoadAllAssetBundle(string path, Action<string, float> onProgress)
         {
             try
             {
-                string localAssetPath = Application.persistentDataPath + "/" + Utility.Platform.GetPlatformName();
+                string localAssetPath = path;
 
                 string localAssetConfigPath = localAssetPath + "/ResourceConfig.json";
 
-                ResourceConfig resourceConfig = JsonConvert.DeserializeObject<ResourceConfig>(localAssetConfigPath);
+                ResourceConfig resourceConfig = JsonConvert.DeserializeObject<ResourceConfig>(File.ReadAllText(localAssetConfigPath));
 
                 foreach (var bundle in resourceConfig.Bundles)
                 {
-                    AssetBundle assetBundle = await LoadAssetBundleAsync(localAssetPath + "/" + bundle.Key, (progress) => onProgress(bundle.Key, progress));
-
-                    AddAssetBundle(bundle.Key, assetBundle);
+                    await LoadAssetBundleAsync(localAssetPath + "/" + bundle.Key, (progress) => onProgress(bundle.Key, progress));
                 }
             }
             catch (Exception e)
@@ -119,6 +124,18 @@ namespace FastDev
 
         /// <summary>
         /// 加载AssetBundle
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public AssetBundle LoadAssetBundle(string path)
+        {
+            AssetBundle assetBundle = AssetBundle.LoadFromFile(path);
+            AddAssetBundle(Path.GetFileName(path), assetBundle);
+            return assetBundle;
+        }
+
+        /// <summary>
+        /// 异步加载AssetBundle
         /// </summary>
         /// <param name="path"></param>
         /// <param name="onLoading"></param>
