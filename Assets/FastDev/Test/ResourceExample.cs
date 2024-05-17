@@ -1,7 +1,7 @@
 using FastDev;
 using UnityEngine;
 
-public class ResourceSample : MonoBehaviour
+public class ResourceExample : MonoBehaviour
 {
     // Start is called before the first frame update
     async void Start()

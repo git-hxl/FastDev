@@ -1,4 +1,3 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,7 +66,7 @@ namespace FastDev
                 var entity = m_Entities[entityID];
                 entity.OnHide();
 
-                var objectPool = GameEntry.ObjectPool.GetObjectPool<T>(entity.Name);
+                var objectPool = GameEntry.ObjectPool.GetObjectPool<T>(entity.AssetName);
                 objectPool.Unspawn(entity as T);
 
                 m_Entities.Remove(entityID);

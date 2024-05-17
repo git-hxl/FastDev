@@ -13,6 +13,7 @@ namespace FastDev
         public SoundManager()
         {
             soundAgents = new Dictionary<SoundType, SoundAgent>();
+            soundSetting= new SoundSetting();
         }
 
         /// <summary>

@@ -43,5 +43,13 @@ namespace FastDev
         /// </summary>
         /// <param name="obj">要回收的对象。</param>
         void Unspawn(T obj);
+
+        /// <summary>
+        /// 回收所有对象
+        /// </summary>
+        void UnspawnAll();
+
+        void Release();
+        void ReleaseAllUnused();
     }
 }

@@ -4,23 +4,23 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class ObjectBase : IReference
+    public abstract class ObjectBase : IReference
     {
-        private string objectName;
-        private object target;
+        protected string assetName;
+        protected object target;
 
-        protected void Init(string name, object target)
+        public virtual void Init(string assetName, object target)
         {
             if (target == null)
             {
-                Debug.LogError($"Target '{name}' is invalid.");
+                Debug.LogError($"Target '{assetName}' is invalid.");
                 return;
             }
-            objectName = name;
+            this.assetName = assetName;
             this.target = target;
         }
 
-        public string Name { get { return objectName; } }
+        public string AssetName { get { return assetName; } }
 
         public object Target { get { return target; } }
 
@@ -31,23 +31,22 @@ namespace FastDev
         /// </summary>
         public DateTime LastUseTime { get; set; }
 
-
         /// <summary>
         /// 获取对象时的事件。
         /// </summary>
-        protected internal virtual void OnSpawn() { }
+        public abstract void OnSpawn();
         /// <summary>
         /// 回收对象时的事件。
         /// </summary>
-        protected internal virtual void OnUnspawn() { }
+        public abstract void OnUnspawn();
 
         /// <summary>
         /// 引用回收的事件
         /// </summary>
         public virtual void OnClear()
         {
-            objectName = null;
             target = null;
+            assetName = null;
         }
 
     }

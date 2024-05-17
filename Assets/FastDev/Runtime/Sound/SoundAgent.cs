@@ -20,32 +20,63 @@ namespace FastDev
         public void Init(SoundType soundType, SoundManager soundManager)
         {
             SoundType = soundType;
-            GameObject gameObject = new GameObject(soundType.ToString());
-            AudioSource = gameObject.AddComponent<AudioSource>();
             this.soundManager = soundManager;
+
+            CheckAudioSource();
         }
 
+        private void CheckAudioSource()
+        {
+            if (AudioSource == null)
+            {
+                GameObject gameObject = new GameObject($"{SoundType} AudioSource");
+                AudioSource = gameObject.AddComponent<AudioSource>();
+                AudioSource.loop = SoundType == SoundType.Music;
+
+                AudioSource.volume = soundManager.GetVolume(SoundType);
+            }
+        }
 
         public void Play(string path)
         {
-            AudioClip audioClip = GameEntry.Resource.LoadAsset<AudioClip>("audio", path);
-            AudioSource.clip = audioClip;
-            AudioSource.volume = soundManager.GetVolume(SoundType);
+            CheckAudioSource();
+
+            string soundName = Path.GetFileNameWithoutExtension(path);
+
+            if (AudioSource.clip == null || AudioSource.clip.name != soundName)
+            {
+                AudioClip audioClip = GameEntry.Resource.LoadAsset<AudioClip>("audio", path);
+                AudioSource.clip = audioClip;
+            }
             AudioSource.Play();
+        }
+
+        public void PlayOneShot(string path)
+        {
+            CheckAudioSource();
+            AudioClip audioClip = GameEntry.Resource.LoadAsset<AudioClip>("audio", path);
+            AudioSource.PlayOneShot(audioClip);
         }
 
         public void Stop()
         {
+            if (AudioSource == null)
+                return;
+
             AudioSource.Stop();
         }
 
         public void Pause()
         {
+            if (AudioSource == null)
+                return;
             AudioSource.Pause();
         }
 
         public void Resume()
         {
+            if (AudioSource == null)
+                return;
             AudioSource.UnPause();
         }
 

@@ -23,7 +23,7 @@ namespace FastDev
         public void InitLanguageData()
         {
             LanguageDatas = new List<LanguageData>();
-            string languagePath = Application.streamingAssetsPath + "/MultiLanguage_MultiLanguage.json";
+            string languagePath = Application.streamingAssetsPath + "/MultiLanguage.json";
             if (File.Exists(languagePath))
             {
                 string json = File.ReadAllText(languagePath);
@@ -45,7 +45,24 @@ namespace FastDev
             {
                 return languageData.GetText();
             }
-            return "Null Language ID";
+            Debug.LogError($"多语言ID：{id} 不存在");
+            return "";
+        }
+
+        /// <summary>
+        /// 获取多语言文本
+        /// </summary>
+        /// <param name="txt">中文文本</param>
+        /// <returns></returns>
+        public string GetDynamicText(string txt)
+        {
+            string id = GetID(txt);
+            string languageTxt = GetText(id);
+            if (languageTxt == "")
+            {
+                Debug.LogError($"多语言缺失：{txt}");
+            }
+            return languageTxt;
         }
 
         /// <summary>
@@ -58,6 +75,11 @@ namespace FastDev
             PlayerPrefs.SetInt("Language", (int)languageType);
 
             GameEntry.Message.Dispatch(MsgID.UpdateLanguage);
+        }
+
+        public static string GetID(string text)
+        {
+            return string.Format("{0:X}", text.GetHashCode());
         }
 
         internal override void Update(float elapseSeconds, float realElapseSeconds)

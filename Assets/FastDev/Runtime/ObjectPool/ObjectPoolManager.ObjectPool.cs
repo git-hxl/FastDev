@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static UnityEditor.Progress;
 
 namespace FastDev
 {
@@ -159,10 +160,20 @@ namespace FastDev
                 obj.OnUnspawn();
                 obj.LastUseTime = DateTime.UtcNow;
                 obj.IsInUse = false;
+            }
 
-                if (m_Objects.Count > m_Capacity)
+            /// <summary>
+            /// 回收所有对象
+            /// </summary>
+            public void UnspawnAll()
+            {
+                for (int i = 0; i < m_Objects.Count; i++)
                 {
-                    Release();
+                    if (m_Objects[i].IsInUse)
+                    {
+                        var obj = m_Objects[i];
+                        Unspawn(obj);
+                    }
                 }
             }
 
@@ -171,6 +182,8 @@ namespace FastDev
             /// </summary>
             public override void Release()
             {
+                m_AutoReleaseTime = 0f;
+
                 int releaseCount = m_Objects.Count - m_Capacity;
 
                 if (releaseCount <= 0)
@@ -178,17 +191,7 @@ namespace FastDev
                     return;
                 }
 
-                m_CachedCanReleaseObjects.Clear();
-
-                foreach (T item in m_Objects)
-                {
-                    if (item.IsInUse)
-                    {
-                        continue;
-                    }
-
-                    m_CachedCanReleaseObjects.Add(item);
-                }
+                GetCanReleaseObjects(m_CachedCanReleaseObjects);
 
                 releaseCount = Math.Min(releaseCount, m_CachedCanReleaseObjects.Count);
 
@@ -221,6 +224,19 @@ namespace FastDev
             }
 
             /// <summary>
+            /// 释放对象池中的所有未使用对象。
+            /// </summary>
+            public override void ReleaseAllUnused()
+            {
+                GetCanReleaseObjects(m_CachedCanReleaseObjects);
+                foreach (T toReleaseObject in m_CachedCanReleaseObjects)
+                {
+                    ReleaseObject(toReleaseObject);
+                }
+                m_AutoReleaseTime = 0f;
+            }
+
+            /// <summary>
             /// 释放对象。
             /// </summary>
             /// <param name="obj">要释放的对象。</param>
@@ -250,6 +266,25 @@ namespace FastDev
                 return true;
             }
 
+            private void GetCanReleaseObjects(List<T> results)
+            {
+                if (results == null)
+                {
+                    throw new Exception("Results is invalid.");
+                }
+
+                results.Clear();
+
+                foreach (T item in m_Objects)
+                {
+                    if (item.IsInUse)
+                    {
+                        continue;
+                    }
+
+                    results.Add(item);
+                }
+            }
 
             internal override void Update(float elapseSeconds, float realElapseSeconds)
             {
@@ -259,7 +294,6 @@ namespace FastDev
                 {
                     return;
                 }
-
                 Release();
             }
 

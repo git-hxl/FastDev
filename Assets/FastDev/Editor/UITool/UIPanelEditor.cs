@@ -28,12 +28,14 @@ namespace FastDev.Editor
         private const string EditorToolName = "Assets/UI 生成UIPanel.cs";
         private const string tag = "_";
 
-        private static string GetVarName(UIElementType uIElementType)
+        private static string GetVarName(string typeName)
         {
+            UIElementType uIElementType = Enum.Parse<UIElementType>(typeName);
+
             switch (uIElementType)
             {
                 case UIElementType.TextMeshProUGUI:
-                    return "TxtPro";
+                    return "Txt";
                 case UIElementType.Text:
                     return "Txt";
                 case UIElementType.RawImage:
@@ -43,11 +45,11 @@ namespace FastDev.Editor
                 case UIElementType.Toggle:
                     return "Tg";
                 case UIElementType.Scrollbar:
-                    return "Scrbar";
+                    return "Scr";
                 case UIElementType.ScrollRect:
-                    return "ScrRect";
+                    return "ScrR";
                 case UIElementType.Dropdown:
-                    return "Dd";
+                    return "Drop";
                 case UIElementType.InputField:
                     return "Input";
                 case UIElementType.Image:
@@ -87,16 +89,8 @@ public class $类名 : UIPanel
             string className = obj.name.Replace(" ", "");
             string objPath = AssetDatabase.GetAssetPath(obj);
 
-
             string objDir = objPath.Substring(0, objPath.LastIndexOf('/'));
-            string filePath = $"{objDir}/{className}.cs";
-
-
-            string[] files = AssetDatabase.FindAssets($"t:Script {className}");
-            if (files.Length > 0)
-            {
-                filePath = AssetDatabase.GUIDToAssetPath(files[0]);
-            }
+            string filePath = $"./{objDir}/{className}.cs";
 
             if (File.Exists(filePath))
             {
@@ -144,8 +138,10 @@ public class $类名 : UIPanel
                         string attrStr = "public $typeName $attrName { get { if ($varName == null) { $varName = transform.Find(\"$path\").GetComponent<$typeName>(); } return $varName; } }\r\n\t";
                         string typeName = component.GetType().Name;
 
-                        string attrName = Utility.Text.ToAlphaNumber($"{GetVarName((UIElementType)Enum.Parse(typeof(UIElementType), type))}{component.gameObject.name}");
+                        string attrName = $"{GetVarName(type)}{tag}{component.gameObject.name.Split(tag)[1]}";
+
                         string varName = char.ToLower(attrName[0]) + attrName.Substring(1);
+
                         string path = Utility.Transform.GetRouteNoRoot(component.transform);
 
                         varStr = varStr.Replace("$typeName", typeName).Replace("$varName", varName);

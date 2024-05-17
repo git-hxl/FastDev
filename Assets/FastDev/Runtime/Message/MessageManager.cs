@@ -1,7 +1,5 @@
-
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace FastDev
 {
@@ -26,7 +24,8 @@ namespace FastDev
                 List<Delegate> msgDatas = new List<Delegate>();
                 callBacks.Add(msgID, msgDatas);
             }
-            callBacks[msgID].Add(action);
+            if (!callBacks[msgID].Contains(action))
+                callBacks[msgID].Add(action);
         }
 
         public void Register<T1>(int msgID, Action<T1> action)
@@ -36,7 +35,8 @@ namespace FastDev
                 List<Delegate> msgDatas = new List<Delegate>();
                 callBacks.Add(msgID, msgDatas);
             }
-            callBacks[msgID].Add(action);
+            if (!callBacks[msgID].Contains(action))
+                callBacks[msgID].Add(action);
         }
 
         public void Register<T1, T2>(int msgID, Action<T1, T2> action)
@@ -46,7 +46,8 @@ namespace FastDev
                 List<Delegate> msgDatas = new List<Delegate>();
                 callBacks.Add(msgID, msgDatas);
             }
-            callBacks[msgID].Add(action);
+            if (!callBacks[msgID].Contains(action))
+                callBacks[msgID].Add(action);
         }
 
         public void Register<T1, T2, T3>(int msgID, Action<T1, T2, T3> action)
@@ -56,7 +57,8 @@ namespace FastDev
                 List<Delegate> msgDatas = new List<Delegate>();
                 callBacks.Add(msgID, msgDatas);
             }
-            callBacks[msgID].Add(action);
+            if (!callBacks[msgID].Contains(action))
+                callBacks[msgID].Add(action);
         }
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace FastDev
             {
                 foreach (var item in callBacks[msgID])
                 {
-                    if ((Action)item == action)
+                    if (item.Equals(action))
                     {
                         callBacks[msgID].Remove(item);
                         break;
@@ -85,7 +87,7 @@ namespace FastDev
             {
                 foreach (var item in callBacks[msgID])
                 {
-                    if ((Action<T1>)item == action)
+                    if (item.Equals(action))
                     {
                         callBacks[msgID].Remove(item);
                         break;
@@ -99,7 +101,7 @@ namespace FastDev
             {
                 foreach (var item in callBacks[msgID])
                 {
-                    if ((Action<T1, T2>)item == action)
+                    if (item.Equals(action))
                     {
                         callBacks[msgID].Remove(item);
                         break;
@@ -113,7 +115,7 @@ namespace FastDev
             {
                 foreach (var item in callBacks[msgID])
                 {
-                    if ((Action<T1, T2, T3>)item == action)
+                    if (item.Equals(action))
                     {
                         callBacks[msgID].Remove(item);
                         break;
@@ -131,9 +133,12 @@ namespace FastDev
         {
             if (callBacks.ContainsKey(msgID))
             {
-                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                for (int i = 0; i < callBacks[msgID].Count; i++)
                 {
-                    ((Action)callBacks[msgID][i]).Invoke();
+                    if (callBacks[msgID][i] is Action)
+                    {
+                        ((Action)callBacks[msgID][i]).Invoke();
+                    }
                 }
             }
         }
@@ -142,9 +147,12 @@ namespace FastDev
         {
             if (callBacks.ContainsKey(msgID))
             {
-                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                for (int i = 0; i < callBacks[msgID].Count; i++)
                 {
-                    ((Action<T1>)callBacks[msgID][i]).Invoke(arg1);
+                    if (callBacks[msgID][i] is Action<T1>)
+                    {
+                        ((Action<T1>)callBacks[msgID][i]).Invoke(arg1);
+                    }
                 }
             }
         }
@@ -152,9 +160,12 @@ namespace FastDev
         {
             if (callBacks.ContainsKey(msgID))
             {
-                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                for (int i = 0; i < callBacks[msgID].Count; i++)
                 {
-                    ((Action<T1, T2>)callBacks[msgID][i]).Invoke(arg1, arg2);
+                    if (callBacks[msgID][i] is Action<T1, T2>)
+                    {
+                        ((Action<T1, T2>)callBacks[msgID][i]).Invoke(arg1, arg2);
+                    }
                 }
             }
         }
@@ -162,9 +173,12 @@ namespace FastDev
         {
             if (callBacks.ContainsKey(msgID))
             {
-                for (int i = callBacks[msgID].Count - 1; i >= 0; i--)
+                for (int i = 0; i < callBacks[msgID].Count; i++)
                 {
-                    ((Action<T1, T2, T3>)callBacks[msgID][i]).Invoke(arg1, arg2, arg3);
+                    if (callBacks[msgID][i] is Action<T1, T2, T3>)
+                    {
+                        ((Action<T1, T2, T3>)callBacks[msgID][i]).Invoke(arg1, arg2, arg3);
+                    }
                 }
             }
         }

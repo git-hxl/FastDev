@@ -24,12 +24,12 @@ namespace FastDev
             Object.name = $"{EntityID}";
         }
 
-        protected internal override void OnSpawn()
+        public override void OnSpawn()
         {
             Debug.Log($"{EntityID} OnSpawn");
         }
 
-        protected internal override void OnUnspawn()
+        public override void OnUnspawn()
         {
             Debug.Log($"{EntityID} OnUnspawn");
         }
@@ -58,12 +58,15 @@ namespace FastDev
 
         public override void OnClear()
         {
+            base.OnClear();
+
             if (Object != null)
             {
                 GameObject.Destroy(Object);
             }
 
-            base.OnClear();
+            Object = null;
+
             ReferencePool.Release(EntityData);
 
             EntityData = null;

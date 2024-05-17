@@ -114,7 +114,7 @@ namespace FastDev.Editor
         /// <returns></returns>
         private string QueryText()
         {
-            string id = GetID(inputStr);
+            string id = LanguageManager.GetID(inputStr);
             foreach (DataRow row in LanguageDataTable.Rows)
             {
                 if (row[0].ToString() == id)
@@ -154,7 +154,7 @@ namespace FastDev.Editor
             if (string.IsNullOrEmpty(inputStr))
                 return null;
 
-            string id = GetID(inputStr);
+            string id = LanguageManager.GetID(inputStr);
 
             if (LanguageDataTable == null)
             {
@@ -196,7 +196,7 @@ namespace FastDev.Editor
         /// <returns></returns>
         private bool RemoveText(string inputStr)
         {
-            string id = GetID(inputStr);
+            string id = LanguageManager.GetID(inputStr);
 
             int index = 0;
             foreach (DataRow row in LanguageDataTable.Rows)
@@ -232,12 +232,11 @@ namespace FastDev.Editor
                 stream.Write(data, 0, data.Length);
 
                 Debug.Log("生成成功");
+
+                AssetDatabase.Refresh();
             }
         }
 
-        public static string GetID(string text)
-        {
-            return string.Format("{0:X}", text.GetHashCode());
-        }
+
     }
 }

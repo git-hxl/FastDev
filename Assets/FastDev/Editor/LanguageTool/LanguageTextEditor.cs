@@ -11,11 +11,11 @@ namespace FastDev.Editor
     {
         public override void OnInspectorGUI()
         {
-            //base.OnInspectorGUI();
+            base.OnInspectorGUI();
 
             LanguageText languageText = (LanguageText)target;
 
-            EditorGUILayout.LabelField(languageText.ID.ToString());
+            //EditorGUILayout.LabelField(languageText.ID.ToString());
 
             if (GUILayout.Button("注册多语言"))
             {
@@ -34,7 +34,7 @@ namespace FastDev.Editor
             if (string.IsNullOrEmpty(inputStr))
                 return null;
 
-            string id = LanguageTool.GetID(inputStr);
+            string id = LanguageManager.GetID(inputStr);
 
             string filePath = Application.streamingAssetsPath + "/MultiLanguage.xlsx";
 
