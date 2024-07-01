@@ -19,7 +19,7 @@ namespace Excel2Json
             writer.WriteLine("// This code was automatically generated");
             writer.WriteLine();
 
-            writer.WriteLine($"public class {csName}:ConfigBase");
+            writer.WriteLine($"public class {csName}:IConfig");
 
             writer.WriteLine("{");
 
