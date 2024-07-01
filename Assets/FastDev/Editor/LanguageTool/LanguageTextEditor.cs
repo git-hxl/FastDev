@@ -44,7 +44,7 @@ namespace FastDev.Editor
                 return "";
             }
 
-            DataTable dataTable = Utility.Excel.ReadExcelSheet(filePath);
+            DataTable dataTable = Excel2Json.ExcelHelper.ReadExcelSheet(filePath);
 
             foreach (DataRow row in dataTable.Rows)
             {
@@ -64,7 +64,7 @@ namespace FastDev.Editor
             newRow[1] = inputStr;
             addContent.Rows.Add(newRow);
 
-            Utility.Excel.WriteToExcel(filePath, 1, addContent);
+            Excel2Json.ExcelHelper.WriteToExcel(filePath, 1, addContent);
             AssetDatabase.Refresh();
             return id;
 

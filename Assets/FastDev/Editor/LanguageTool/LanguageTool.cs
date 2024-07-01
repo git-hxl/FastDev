@@ -7,6 +7,8 @@ using System.IO;
 using System.Collections.Generic;
 using System;
 using System.Text;
+using Excel2Json;
+using Vector2 = UnityEngine.Vector2;
 
 namespace FastDev.Editor
 {
@@ -55,10 +57,10 @@ namespace FastDev.Editor
                     initTable.Columns.Add(language, typeof(string));
                     dataRow[i + 1] = language;
                 }
-                Utility.Excel.CreateExcel(filePath, "MultiLanguage", initTable);
+                ExcelHelper.CreateExcel(filePath, "MultiLanguage", initTable);
             }
 
-            LanguageDataTable = Utility.Excel.ReadExcelAllSheets(filePath)[0];
+            LanguageDataTable = ExcelHelper.ReadExcelAllSheets(filePath)[0];
 
             Debug.Log("读取多语言表：" + JsonConvert.SerializeObject(LanguageDataTable, Formatting.Indented));
         }
@@ -183,7 +185,7 @@ namespace FastDev.Editor
             newRow2[0] = id;
             newRow2[1] = inputStr;
 
-            Utility.Excel.WriteToExcel(filePath, 1, dataTable);
+            Excel2Json.ExcelHelper.WriteToExcel(filePath, 1, dataTable);
             AssetDatabase.Refresh();
             return id;
 
@@ -203,7 +205,7 @@ namespace FastDev.Editor
             {
                 if (row[0].ToString() == id)
                 {
-                    Utility.Excel.DeleteExcelRow(filePath, 1, index + 1);
+                    Excel2Json.ExcelHelper.DeleteExcelRow(filePath, 1, index + 1);
 
                     LanguageDataTable.Rows.Remove(row);
 
@@ -224,7 +226,7 @@ namespace FastDev.Editor
         /// </summary>
         private void SaveToJson()
         {
-            string json = JsonConvert.SerializeObject(Utility.Excel.SelectContentWithoutConvertType(LanguageDataTable, 1), Formatting.Indented);
+            string json = JsonConvert.SerializeObject(ExcelHelper.SelectContent(LanguageDataTable, 4), Formatting.Indented);
 
             using (FileStream stream = new FileStream(filePathJson, FileMode.Create, FileAccess.ReadWrite))
             {

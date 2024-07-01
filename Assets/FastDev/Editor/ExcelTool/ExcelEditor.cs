@@ -6,21 +6,26 @@ using System.Text;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Excel2Json;
+using Vector2 = UnityEngine.Vector2;
+
 
 namespace FastDev.Editor
 {
-    public class ExcelTool : EditorWindow
+    public class ExcelEditor : EditorWindow
     {
-        private ExcelToolConfig config;
+        private ExcelEditorConfig config;
 
         private Vector2 scrollPos;
         private List<string> ExcelSheets;
         private List<string> ExcelSheetsSelected;
 
+
+        private ExcelTool excelTool;
         [MenuItem("Tools/ExcelTool")]
         public static void OpenWindow()
         {
-            ExcelTool window = (ExcelTool)EditorWindow.GetWindow(typeof(ExcelTool), false, "ExcelTool");
+            ExcelEditor window = (ExcelEditor)EditorWindow.GetWindow(typeof(ExcelEditor), false, "ExcelTool");
             window.Show();
         }
 
@@ -41,22 +46,31 @@ namespace FastDev.Editor
         /// </summary>
         private void InitConfig()
         {
-            config = new ExcelToolConfig();
-            if (File.Exists(ExcelToolConfig.ConfigPath))
+            config = new ExcelEditorConfig();
+            if (File.Exists(ExcelEditorConfig.ConfigPath))
             {
-                string configTxt = File.ReadAllText(ExcelToolConfig.ConfigPath);
+                string configTxt = File.ReadAllText(ExcelEditorConfig.ConfigPath);
                 if (!string.IsNullOrEmpty(configTxt) && configTxt != "null")
-                    config = JsonConvert.DeserializeObject<ExcelToolConfig>(configTxt);
+                    config = JsonConvert.DeserializeObject<ExcelEditorConfig>(configTxt);
             }
+
+            ExcelToolConfig toolConfig = new ExcelToolConfig();
+
+            toolConfig.StartHead = config.StartHead;
+            toolConfig.InputExcelDir = config.InputExcelDir;
+            toolConfig.OutputJsonDir = config.OutputJsonDir;
+            toolConfig.OutputCSDir = config.OutputCSDir;
+
+            excelTool = new ExcelTool(toolConfig);
         }
 
         private void DrawWindow()
         {
-            EditorGUILayout.HelpBox($"从第{config.ContentRow}行开始读数据", MessageType.Info);
+            EditorGUILayout.HelpBox($"从第{config.StartHead}行开始读数据", MessageType.Info);
 
-            GUILayout.Label("当前ContentRow:" + config.ContentRow.ToString());
+            GUILayout.Label("当前ContentRow:" + config.StartHead.ToString());
 
-            config.ContentRow = EditorGUILayout.IntSlider(config.ContentRow, 2, 10);
+            config.StartHead = EditorGUILayout.IntSlider(config.StartHead, 2, 10);
 
             GUILayout.Label("Excel路径");
             config.InputExcelDir = GUILayout.TextField(config.InputExcelDir);
@@ -91,7 +105,7 @@ namespace FastDev.Editor
                 }
             }
 
-            DrawExcelFiles();
+            //DrawExcelFiles();
 
             //刷新
             if (GUILayout.Button("刷新"))
@@ -192,29 +206,7 @@ namespace FastDev.Editor
         /// </summary>
         private void ExportToJsonFile()
         {
-            foreach (var file in ExcelSheetsSelected)
-            {
-                var tables = Utility.Excel.ReadExcelAllSheets(file);
-
-                foreach (DataTable table in tables)
-                {
-                    if (table.Rows.Count > 0)
-                    {
-                        var newTable = Utility.Excel.SelectContent(table, config.ContentRow);
-
-                        string json = JsonConvert.SerializeObject(newTable, Formatting.Indented);
-                        if (!string.IsNullOrEmpty(json))
-                        {
-                            string fileName = Path.GetFileNameWithoutExtension(file) + "_" + table.TableName + ".json";
-                            using (FileStream stream = new FileStream(config.OutputJsonDir + "/" + fileName, FileMode.Create, FileAccess.ReadWrite))
-                            {
-                                byte[] data = Encoding.UTF8.GetBytes(json);
-                                stream.Write(data, 0, data.Length);
-                            }
-                        }
-                    }
-                }
-            }
+            excelTool.ExportToJsonFile();
             Debug.Log("导出成功");
             AssetDatabase.Refresh();
         }
@@ -224,18 +216,7 @@ namespace FastDev.Editor
         /// </summary>
         private void ExportToCSFile()
         {
-            foreach (var file in ExcelSheetsSelected)
-            {
-                var tables = Utility.Excel.ReadExcelAllSheets(file);
-
-                foreach (DataTable table in tables)
-                {
-                    if (table.Rows.Count > 0)
-                    {
-                        ExcelToCS.Generate(table, config.OutputCSDir);
-                    }
-                }
-            }
+            excelTool.ExportToCSFile();
             Debug.Log("导出成功");
             AssetDatabase.Refresh();
         }
@@ -247,7 +228,7 @@ namespace FastDev.Editor
         {
             string jsonTxt = JsonConvert.SerializeObject(config);
 
-            File.WriteAllText(ExcelToolConfig.ConfigPath, jsonTxt);
+            File.WriteAllText(ExcelEditorConfig.ConfigPath, jsonTxt);
         }
 
         private void OnDisable()

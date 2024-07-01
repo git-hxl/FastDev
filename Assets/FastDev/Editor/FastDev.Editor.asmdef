@@ -2,7 +2,8 @@
     "name": "FastDev.Editor",
     "rootNamespace": "FastDev.Editor",
     "references": [
-        "GUID:31d6d5b02ef638c42bd14d995919e543"
+        "GUID:31d6d5b02ef638c42bd14d995919e543",
+        "GUID:bbb263e2fbf196748be0bb1a3e68ed8a"
     ],
     "includePlatforms": [
         "Editor"
