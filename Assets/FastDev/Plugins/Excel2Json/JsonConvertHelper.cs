@@ -4,7 +4,7 @@ namespace Excel2Json
     using Newtonsoft.Json.Linq;
     using System;
 #if UNITY_5_3_OR_NEWER
-    using UnityEngine; 
+    using UnityEngine;
 #endif
 
     // Solutions to prevent serialization errors. Seen in https://forum.unity.com/threads/jsonserializationexception-self-referencing-loop-detected.1264253/
@@ -14,6 +14,15 @@ namespace Excel2Json
 
     public static class JsonConvertHelper
     {
+
+#if UNITY_5_3_OR_NEWER
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void ApplyCustomConverters()
+        {
+            ConfigureJsonInternal();
+        }
+#endif
+
         public static void ConfigureJsonInternal()
         {
             JsonConvert.DefaultSettings = () =>
