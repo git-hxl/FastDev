@@ -25,7 +25,7 @@ namespace FastDev
 
         public void CloseSelf()
         {
-            GameEntry.UI.CloseUI(PanelName);
+            UIManager.Instance.CloseUI(PanelName);
         }
     }
 }

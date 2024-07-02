@@ -8,14 +8,9 @@ using Newtonsoft.Json;
 
 namespace FastDev
 {
-    public sealed partial class ResourceManager : GameModule
+    public sealed partial class ResourceManager : MonoSingleton<ResourceManager>
     {
-        private Dictionary<string, AssetBundle> bundles;
-
-        public ResourceManager()
-        {
-            bundles = new Dictionary<string, AssetBundle>();
-        }
+        private Dictionary<string, AssetBundle> bundles = new Dictionary<string, AssetBundle>();
 
         /// <summary>
         /// 添加AssetBundle
@@ -180,15 +175,8 @@ namespace FastDev
             return null;
         }
 
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        private void OnDestroy()
         {
-            //throw new NotImplementedException();
-        }
-
-        internal override void Shutdown()
-        {
-            //throw new NotImplementedException();
-
             foreach (var item in bundles)
             {
                 UnloadAssetBundle(item.Key, true);

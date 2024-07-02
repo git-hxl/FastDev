@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FastDev
 {
-    public sealed partial class SoundManager : GameModule
+    public sealed partial class SoundManager : MonoSingleton<SoundManager>
     {
         private Dictionary<SoundType, SoundAgent> soundAgents;
 
@@ -13,7 +13,7 @@ namespace FastDev
         public SoundManager()
         {
             soundAgents = new Dictionary<SoundType, SoundAgent>();
-            soundSetting= new SoundSetting();
+            soundSetting = new SoundSetting();
         }
 
         /// <summary>
@@ -63,20 +63,15 @@ namespace FastDev
         }
 
 
-        internal override void Shutdown()
+        protected override void OnDispose()
         {
-
+            base.OnDispose();
             foreach (var item in soundAgents)
             {
                 ReferencePool.Release(item.Value);
             }
 
             soundAgents.Clear();
-        }
-
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
-        {
-            //throw new System.NotImplementedException();
         }
     }
 }

@@ -22,20 +22,15 @@ namespace FastDev
 
         private void Start()
         {
-            GameEntry.Message.Register(MsgID.UpdateLanguage, UpdateText);
+            MessageManager.Instance.Register(MsgID.UpdateLanguage, UpdateText);
         }
 
         public void UpdateText()
         {
-            if (GameEntry.Language == null)
-            {
-                return;
-            }
-
             if (text != null)
-                text.text = GameEntry.Language.GetText(ID);
+                text.text = LanguageManager.Instance.GetText(ID);
             else
-                textMeshPro.text = GameEntry.Language.GetText(ID);
+                textMeshPro.text = LanguageManager.Instance.GetText(ID);
         }
 
         public string GetText()
@@ -47,7 +42,7 @@ namespace FastDev
 
         private void OnDestroy()
         {
-            GameEntry.Message.UnRegister(MsgID.UpdateLanguage, UpdateText);
+            MessageManager.Instance.UnRegister(MsgID.UpdateLanguage, UpdateText);
         }
     }
 }

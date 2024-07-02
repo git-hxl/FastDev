@@ -57,7 +57,7 @@ namespace FastDev
                 {
                     updateFiles.Clear();
 
-                    remoteConfig = await GameEntry.WebRequest.GetTxt(remoteAssetConfigUrl).Timeout(TimeSpan.FromSeconds(5));
+                    remoteConfig = await WebRequestManager.Instance.GetTxt(remoteAssetConfigUrl).Timeout(TimeSpan.FromSeconds(5));
 
                     if (string.IsNullOrEmpty(remoteConfig))
                     {
@@ -117,7 +117,7 @@ namespace FastDev
 
                 for (int i = 0; i < updateFiles.Count; i++)
                 {
-                    bool result = await GameEntry.WebRequest.Download(remoteAssetUrl + "/" + updateFiles[i], localAssetPath, DownloadCallback);
+                    bool result = await WebRequestManager.Instance.Download(remoteAssetUrl + "/" + updateFiles[i], localAssetPath, DownloadCallback);
 
                     if (result == false)
                     {

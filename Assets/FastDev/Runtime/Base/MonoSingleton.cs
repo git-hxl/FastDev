@@ -50,7 +50,10 @@ namespace FastDev
         public void Dispose()
         {
             instance = null;
+            OnDispose();
             Destroy(gameObject);
         }
+
+        protected virtual void OnDispose() { }
     }
 }

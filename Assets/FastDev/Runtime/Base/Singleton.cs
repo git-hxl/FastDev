@@ -28,6 +28,9 @@ namespace FastDev
         public void Dispose()
         {
             instance = null;
+            OnDispose();
         }
+
+        protected virtual void OnDispose() { }
     }
 }

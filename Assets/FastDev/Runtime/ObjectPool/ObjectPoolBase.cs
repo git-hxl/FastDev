@@ -6,7 +6,7 @@ namespace FastDev
         public abstract void Release();
         public abstract void ReleaseAllUnused();
 
-        internal abstract void Update(float elapseSeconds, float realElapseSeconds);
+        internal abstract void Update();
 
         internal abstract void Shutdown();
     }

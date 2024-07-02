@@ -12,49 +12,52 @@ namespace FastDev
 
         public EntityBase() { }
 
-        public virtual void Init(int id, string name, object target, EntityData entityData)
+        public virtual void Init(int id, string name, object target)
         {
             base.Init(name, target);
 
             EntityID = id;
-            EntityData = entityData;
-
+           
             Object = (GameObject)target;
 
-            Object.name = $"{EntityID}";
+            Object.name = $"{Object.name}_{EntityID}";
+        }
+
+        public virtual void InitData(EntityData entityData)
+        {
+            EntityData = entityData;
         }
 
         public override void OnSpawn()
         {
             Debug.Log($"{EntityID} OnSpawn");
+
         }
 
         public override void OnUnspawn()
         {
             Debug.Log($"{EntityID} OnUnspawn");
+
+            ReferencePool.Release(EntityData);
+
+            EntityData = null;
+
         }
 
-        public virtual void OnUpdate(float elapseSeconds, float realElapseSeconds)
+        public virtual void OnUpdate()
         {
 
         }
 
-
-        public virtual void OnShow()
+        public virtual void OnLateUpdate()
         {
-            Object.SetActive(true);
-            Debug.Log($"{EntityID} OnShow");
 
         }
 
-        public virtual void OnHide()
+        public virtual void OnFixedUpdate()
         {
-            Object.SetActive(false);
-            Debug.Log($"{EntityID} OnHide");
+
         }
-
-
-
 
         public override void OnClear()
         {
@@ -67,12 +70,8 @@ namespace FastDev
 
             Object = null;
 
-            ReferencePool.Release(EntityData);
-
-            EntityData = null;
 
             Debug.Log($"{EntityID} OnClear");
         }
-
     }
 }

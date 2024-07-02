@@ -4,14 +4,9 @@ using System.Collections.Generic;
 
 namespace FastDev
 {
-    public sealed partial class ObjectPoolManager : GameModule
+    public sealed partial class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
     {
-        private readonly Dictionary<string, ObjectPoolBase> m_ObjectPools;
-
-        public ObjectPoolManager()
-        {
-            m_ObjectPools = new Dictionary<string, ObjectPoolBase>();
-        }
+        private readonly Dictionary<string, ObjectPoolBase> m_ObjectPools = new Dictionary<string, ObjectPoolBase>();
 
         /// <summary>
         /// 获取对象池数量。
@@ -94,22 +89,24 @@ namespace FastDev
             return false;
         }
 
-        internal override void Shutdown()
+
+        private void Update()
         {
+            foreach (var item in m_ObjectPools)
+            {
+                item.Value.Update();
+            }
+        }
+
+        protected override void OnDispose()
+        {
+            base.OnDispose();
             foreach (var item in m_ObjectPools)
             {
                 item.Value.Shutdown();
             }
 
             m_ObjectPools.Clear();
-        }
-
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
-        {
-            foreach (var item in m_ObjectPools)
-            {
-                item.Value.Update(elapseSeconds, realElapseSeconds);
-            }
         }
     }
 }

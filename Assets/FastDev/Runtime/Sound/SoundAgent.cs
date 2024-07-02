@@ -45,7 +45,7 @@ namespace FastDev
 
             if (AudioSource.clip == null || AudioSource.clip.name != soundName)
             {
-                AudioClip audioClip = GameEntry.Resource.LoadAsset<AudioClip>("audio", path);
+                AudioClip audioClip = ResourceManager.Instance.LoadAsset<AudioClip>("audio", path);
                 AudioSource.clip = audioClip;
             }
             AudioSource.Play();
@@ -54,7 +54,7 @@ namespace FastDev
         public void PlayOneShot(string path)
         {
             CheckAudioSource();
-            AudioClip audioClip = GameEntry.Resource.LoadAsset<AudioClip>("audio", path);
+            AudioClip audioClip = ResourceManager.Instance.LoadAsset<AudioClip>("audio", path);
             AudioSource.PlayOneShot(audioClip);
         }
 

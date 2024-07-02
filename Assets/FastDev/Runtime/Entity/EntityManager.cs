@@ -6,24 +6,27 @@ namespace FastDev
     /// <summary>
     /// 实体管理器
     /// </summary>
-    public sealed partial class EntityManager : GameModule
+    public sealed partial class EntityManager : MonoSingleton<EntityManager>
     {
         private readonly Dictionary<int, EntityBase> m_Entities;
+
+        private readonly List<EntityBase> m_EntitiesList;
         private int serialId;
 
         public EntityManager()
         {
             m_Entities = new Dictionary<int, EntityBase>();
+            m_EntitiesList = new List<EntityBase>();
             serialId = 0;
         }
 
         public T ShowEntity<T>(string entityAssetName, EntityData entityData) where T : EntityBase, new()
         {
-            var objectPool = GameEntry.ObjectPool.GetObjectPool<T>(entityAssetName);
+            var objectPool = ObjectPoolManager.Instance.GetObjectPool<T>(entityAssetName);
 
             if (objectPool == null)
             {
-                objectPool = GameEntry.ObjectPool.CreateSpawnObjectPool<T>(entityAssetName, 15, 50, 60);
+                objectPool = ObjectPoolManager.Instance.CreateSpawnObjectPool<T>(entityAssetName, 15, 50, 60);
             }
 
             T t = objectPool.Spawn();
@@ -32,18 +35,20 @@ namespace FastDev
             {
                 t = ReferencePool.Acquire<T>();
 
-                var objectAsset = GameEntry.Resource.LoadAsset<GameObject>("prefab", entityAssetName);
+                var objectAsset = ResourceManager.Instance.LoadAsset<GameObject>("prefab", entityAssetName);
 
                 var gameObject = GameObject.Instantiate(objectAsset);
 
                 serialId++;
-                t.Init(serialId, entityAssetName, gameObject, entityData);
-                m_Entities.Add(serialId, t);
-
+                t.Init(serialId, entityAssetName, gameObject);
                 objectPool.Register(t, true);
 
-                t.OnShow();
+                m_Entities.Add(serialId, t);
             }
+
+            t.InitData(entityData);
+
+            m_EntitiesList.Add(t);
 
             return t;
         }
@@ -59,31 +64,58 @@ namespace FastDev
             return null;
         }
 
-        public void HideEntity<T>(int entityID) where T: EntityBase
+        public void RemoveEntity(int entityID)
+        {
+            if (m_Entities.ContainsKey(entityID))
+            {
+                m_Entities.Remove(entityID);
+            }
+
+        }
+
+        public void HideEntity<T>(int entityID) where T : EntityBase
         {
             if (m_Entities.ContainsKey(entityID))
             {
                 var entity = m_Entities[entityID];
-                entity.OnHide();
-
-                var objectPool = GameEntry.ObjectPool.GetObjectPool<T>(entity.AssetName);
+                var objectPool = ObjectPoolManager.Instance.GetObjectPool<T>(entity.AssetName);
                 objectPool.Unspawn(entity as T);
-
-                m_Entities.Remove(entityID);
+                m_EntitiesList.Remove(entity);
             }
         }
 
-        internal override void Shutdown()
+
+        private void Update()
+        {
+            for (int i = m_EntitiesList.Count - 1; i >= 0; i--)
+            {
+                m_EntitiesList[i].OnUpdate();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            for (int i = m_EntitiesList.Count - 1; i >= 0; i--)
+            {
+                m_EntitiesList[i].OnLateUpdate();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            for (int i = m_EntitiesList.Count - 1; i >= 0; i--)
+            {
+                m_EntitiesList[i].OnFixedUpdate();
+            }
+        }
+
+        private void OnDestroy()
         {
             m_Entities.Clear();
+
+            m_EntitiesList.Clear();
         }
 
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
-        {
-            foreach (var item in m_Entities)
-            {
-                item.Value.OnUpdate(elapseSeconds, realElapseSeconds);
-            }
-        }
+
     }
 }

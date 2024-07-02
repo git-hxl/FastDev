@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static UnityEditor.Progress;
+using UnityEngine;
 
 namespace FastDev
 {
@@ -184,27 +184,27 @@ namespace FastDev
             {
                 m_AutoReleaseTime = 0f;
 
-                int releaseCount = m_Objects.Count - m_Capacity;
+                //int releaseCount = m_Objects.Count - m_Capacity;
 
-                if (releaseCount <= 0)
-                {
-                    return;
-                }
+                //if (releaseCount <= 0)
+                //{
+                //    return;
+                //}
 
                 GetCanReleaseObjects(m_CachedCanReleaseObjects);
 
-                releaseCount = Math.Min(releaseCount, m_CachedCanReleaseObjects.Count);
+                //releaseCount = Math.Min(releaseCount, m_CachedCanReleaseObjects.Count);
 
-                if (releaseCount <= 0)
-                {
-                    return;
-                }
+                //if (releaseCount <= 0)
+                //{
+                //    return;
+                //}
 
                 DateTime expireTime = DateTime.UtcNow.AddSeconds(-m_ExpireTime);
 
                 m_CachedToReleaseObjects.Clear();
 
-                for (int i = 0; i < releaseCount; i++)
+                for (int i = 0; i < m_CachedCanReleaseObjects.Count; i++)
                 {
                     if (m_CachedCanReleaseObjects[i].LastUseTime <= expireTime)
                     {
@@ -286,9 +286,9 @@ namespace FastDev
                 }
             }
 
-            internal override void Update(float elapseSeconds, float realElapseSeconds)
+            internal override void Update()
             {
-                m_AutoReleaseTime += realElapseSeconds;
+                m_AutoReleaseTime += Time.unscaledDeltaTime;
 
                 if (m_AutoReleaseTime < m_AutoReleaseInterval)
                 {

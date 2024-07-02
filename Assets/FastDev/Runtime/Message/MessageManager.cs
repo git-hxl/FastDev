@@ -3,15 +3,9 @@ using System.Collections.Generic;
 
 namespace FastDev
 {
-    public sealed partial class MessageManager : GameModule
+    public sealed partial class MessageManager : Singleton<MessageManager>
     {
-        private Dictionary<int, List<Delegate>> callBacks;
-
-        public MessageManager()
-        {
-            callBacks = new Dictionary<int, List<Delegate>>();
-        }
-
+        private Dictionary<int, List<Delegate>> callBacks = new Dictionary<int, List<Delegate>>();
         /// <summary>
         /// 注册消息
         /// </summary>
@@ -184,15 +178,11 @@ namespace FastDev
         }
 
 
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        protected override void OnDispose()
         {
-
-        }
-
-        internal override void Shutdown()
-        {
-            //throw new NotImplementedException();
+            base.OnDispose();
             callBacks.Clear();
         }
+
     }
 }

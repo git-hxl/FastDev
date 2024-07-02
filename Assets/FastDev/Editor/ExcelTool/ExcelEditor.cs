@@ -68,7 +68,7 @@ namespace FastDev.Editor
         {
             EditorGUILayout.HelpBox($"从第{config.StartHead}行开始读数据", MessageType.Info);
 
-            GUILayout.Label("当前ContentRow:" + config.StartHead.ToString());
+            GUILayout.Label("当前StartHead:" + config.StartHead.ToString());
 
             config.StartHead = EditorGUILayout.IntSlider(config.StartHead, 2, 10);
 

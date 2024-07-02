@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class LanguageManager : GameModule, ILanguageManager
+    public class LanguageManager : Singleton<LanguageManager>, ILanguageManager
     {
         public LanguageType LanguageType { get; private set; }
 
@@ -74,7 +74,7 @@ namespace FastDev
             LanguageType = languageType;
             PlayerPrefs.SetInt("Language", (int)languageType);
 
-            GameEntry.Message.Dispatch(MsgID.UpdateLanguage);
+            MessageManager.Instance.Dispatch(MsgID.UpdateLanguage);
         }
 
         public static string GetID(string text)
@@ -82,15 +82,9 @@ namespace FastDev
             return string.Format("{0:X}", text.GetHashCode());
         }
 
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        protected override void OnDispose()
         {
-            //throw new NotImplementedException();
-        }
-
-        internal override void Shutdown()
-        {
-            //throw new NotImplementedException();
-
+            base.OnDispose();
             LanguageDatas.Clear();
         }
     }

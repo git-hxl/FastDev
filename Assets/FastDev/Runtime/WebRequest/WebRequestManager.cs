@@ -7,7 +7,7 @@ using System.IO;
 
 namespace FastDev
 {
-    public class WebRequestManager : GameModule
+    public class WebRequestManager : Singleton<WebRequestManager>
     {
 
         public async UniTask<string> GetTxt(string url)
@@ -96,16 +96,6 @@ namespace FastDev
             }
 
             return true;
-        }
-
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
-        {
-            //throw new NotImplementedException();
-        }
-
-        internal override void Shutdown()
-        {
-            //throw new NotImplementedException();
         }
     }
 }

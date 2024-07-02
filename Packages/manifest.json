@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.code-philosophy.hybridclr": "https://gitee.com/focus-creative-games/hybridclr_unity.git",
     "com.unity.2d.animation": "9.0.4",
     "com.unity.2d.pixel-perfect": "5.0.3",
     "com.unity.2d.psdimporter": "8.0.5",

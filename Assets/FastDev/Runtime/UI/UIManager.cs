@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 namespace FastDev
 {
-    public sealed partial class UIManager : GameModule
+    public sealed partial class UIManager : MonoSingleton<UIManager>
     {
         private Dictionary<string, UIPanel> panels;
 
@@ -20,7 +20,7 @@ namespace FastDev
         /// <returns></returns>
         private GameObject LoadPanel(string path)
         {
-            GameObject uiAsset = GameEntry.Resource.LoadAsset<GameObject>("ui", path);
+            GameObject uiAsset = ResourceManager.Instance.LoadAsset<GameObject>("ui", path);
             GameObject uiObj = GameObject.Instantiate(uiAsset);
             return uiObj;
         }
@@ -87,18 +87,11 @@ namespace FastDev
             }
         }
 
-        internal override void Update(float elapseSeconds, float realElapseSeconds)
+        protected override void OnDispose()
         {
-            //throw new System.NotImplementedException();
-        }
-
-        internal override void Shutdown()
-        {
-            // throw new System.NotImplementedException();
-
             foreach (var item in panels)
             {
-                GameEntry.Destroy(item.Value.gameObject);
+                Destroy(item.Value.gameObject);
             }
 
             panels.Clear();
