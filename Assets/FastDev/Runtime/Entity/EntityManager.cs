@@ -42,11 +42,10 @@ namespace FastDev
                 serialId++;
                 t.Init(serialId, entityAssetName, gameObject);
                 objectPool.Register(t, true);
-
                 m_Entities.Add(serialId, t);
             }
 
-            t.InitData(entityData);
+            t.OnShow(entityData);
 
             m_EntitiesList.Add(t);
 

@@ -17,31 +17,34 @@ namespace FastDev
             base.Init(name, target);
 
             EntityID = id;
-           
+
             Object = (GameObject)target;
 
             Object.name = $"{Object.name}_{EntityID}";
         }
 
-        public virtual void InitData(EntityData entityData)
-        {
-            EntityData = entityData;
-        }
-
         public override void OnSpawn()
         {
             Debug.Log($"{EntityID} OnSpawn");
-
         }
+
+        public virtual void OnShow(EntityData entityData)
+        {
+            EntityData = entityData;
+            Debug.Log($"{EntityID} OnShow");
+        }
+
 
         public override void OnUnspawn()
         {
             Debug.Log($"{EntityID} OnUnspawn");
 
-            ReferencePool.Release(EntityData);
+            if (EntityData != null)
+            {
+                ReferencePool.Release(EntityData);
 
-            EntityData = null;
-
+                EntityData = null;
+            }
         }
 
         public virtual void OnUpdate()
