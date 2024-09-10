@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace FastDev
@@ -25,14 +26,14 @@ namespace FastDev
             /// <param name="autoReleaseInterval">对象池自动释放可释放对象的间隔秒数</param>
             /// <param name="capacity">对象池的容量</param>
             /// <param name="expireTime">对象池对象过期秒数</param>
-            public ObjectPool(string name, float autoReleaseInterval, int capacity, float expireTime)
+            public ObjectPool(float autoReleaseInterval, int capacity, float expireTime)
             {
                 m_Objects = new List<T>();
 
                 m_CachedCanReleaseObjects = new List<T>();
                 m_CachedToReleaseObjects = new List<T>();
 
-                m_Name = name;
+                m_Name = typeof(T).Name;
                 m_AutoReleaseInterval = autoReleaseInterval;
                 m_ExpireTime = expireTime;
                 m_Capacity = capacity;
@@ -84,11 +85,6 @@ namespace FastDev
                     throw new Exception("Object is invalid.");
                 }
 
-                if (obj.Target == null)
-                {
-                    throw new Exception("Target is invalid.");
-                }
-
                 m_Objects.Add(obj);
 
                 if (spawned)
@@ -125,20 +121,30 @@ namespace FastDev
             /// 获取对象。
             /// </summary>
             /// <returns>要获取的对象。</returns>
-            public T Spawn()
+            public T Spawn(string assetPath)
             {
+                T obj = null;
+                string name = Path.GetFileNameWithoutExtension(assetPath);
                 foreach (T item in m_Objects)
                 {
-                    if (item.IsInUse == false)
+                    if (item.IsInUse == false && item.name == name)
                     {
                         item.IsInUse = true;
                         item.LastUseTime = DateTime.UtcNow;
                         item.OnSpawn();
-                        return item;
+                        obj = item;
+
+                        break;
                     }
                 }
-
-                return null;
+                if (obj == null)
+                {
+                    var asset = ResourceManager.Instance.LoadAsset<GameObject>("prefab", assetPath);
+                    obj = GameObject.Instantiate(asset).GetComponent<T>();
+                    obj.name = name;
+                    Register(obj, true);
+                }
+                return obj;
             }
 
             /// <summary>
@@ -150,11 +156,6 @@ namespace FastDev
                 if (obj == null)
                 {
                     throw new Exception("Object is invalid.");
-                }
-
-                if (obj.Target == null)
-                {
-                    throw new Exception("Target is invalid.");
                 }
 
                 obj.OnUnspawn();
@@ -248,12 +249,6 @@ namespace FastDev
                     throw new Exception("Object is invalid.");
                 }
 
-                if (obj.Target == null)
-                {
-                    throw new Exception("Target is invalid.");
-                }
-
-
                 if (obj.IsInUse)
                 {
                     return false;
@@ -261,7 +256,7 @@ namespace FastDev
 
                 m_Objects.Remove(obj);
 
-                ReferencePool.Release(obj);
+                GameObject.Destroy(obj.gameObject);
 
                 return true;
             }

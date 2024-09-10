@@ -26,7 +26,7 @@ namespace FastDev.Editor
         }
 
         private const string EditorToolName = "Assets/UI 生成UIPanel.cs";
-        private const string tag = "_";
+        private const char tag = '_';
 
         private static string GetVarName(string typeName)
         {
@@ -92,9 +92,16 @@ public class $类名 : UIPanel
             string objDir = objPath.Substring(0, objPath.LastIndexOf('/'));
             string filePath = $"./{objDir}/{className}.cs";
 
+            string[] filesGUIDs = AssetDatabase.FindAssets($"{className} t:Script");
+
+            if (filesGUIDs != null && filesGUIDs.Length > 0)
+            {
+                filePath = AssetDatabase.GUIDToAssetPath(filesGUIDs[0]);
+            }
+
             if (File.Exists(filePath))
             {
-                if (EditorUtility.DisplayDialog("CreateUIPanel", "已存在同名类,是否覆盖自动生成部分？", "是", "否"))
+                if (EditorUtility.DisplayDialog("CreateUIPanel", "已存在同名类,是否覆盖自动生成部分？", "确定", "取消"))
                 {
                     classStr = File.ReadAllText(filePath);
                 }
@@ -127,7 +134,7 @@ public class $类名 : UIPanel
             Transform[] transforms = obj.GetComponentsInChildren<Transform>(true);
             foreach (var item in transforms)
             {
-                if (!item.name.Contains(tag))
+                if (item.name[0] != tag)
                     continue;
                 foreach (var type in Enum.GetNames(typeof(UIElementType)))
                 {
@@ -140,7 +147,10 @@ public class $类名 : UIPanel
 
                         string attrName = $"{GetVarName(type)}{tag}{component.gameObject.name.Split(tag)[1]}";
 
-                        string varName = char.ToLower(attrName[0]) + attrName.Substring(1);
+                        //移除空格
+                        attrName = attrName.Replace(" ", "");
+
+                        string varName = component.gameObject.name.ToLower();
 
                         string path = Utility.Transform.GetRouteNoRoot(component.transform);
 

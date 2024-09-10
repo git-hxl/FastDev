@@ -15,10 +15,10 @@ namespace FastDev.Editor
 
         public ExcelEditorConfig()
         {
-            InputExcelDir = Application.streamingAssetsPath + "";
-            OutputJsonDir = Application.streamingAssetsPath + "";
+            InputExcelDir = Application.streamingAssetsPath;
+            OutputJsonDir = Application.streamingAssetsPath;
 
-            OutputCSDir = Application.dataPath + "/FastDev.Game/GeneratedCode";
+            OutputCSDir = Application.dataPath;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace FastDev
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (instance == null)
             {

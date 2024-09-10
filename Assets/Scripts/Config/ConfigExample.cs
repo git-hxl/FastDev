@@ -12,7 +12,7 @@ public class ConfigExample : MonoBehaviour
     {
         string[] files = Directory.GetFiles(Application.streamingAssetsPath + "/JsonConfig").Where((a)=>a.EndsWith("json")).ToArray();
 
-        ConfigManager.Instance.Init(files);
+        ConfigManager.Instance.Init();
 
         Test1 test1 = ConfigManager.Instance.GetConfig<Test1>(1001);
         Debug.Log(test1.Name);

@@ -9,102 +9,108 @@ namespace Excel2Json
 {
     public class ExcelTool
     {
-        private ExcelToolConfig _config;
+        public int StartHead { get; private set; }
+        public string OutputJsonDir { get; private set; }
+        public string OutputCSDir { get; private set; }
 
-        public ExcelTool(string configJson)
+        public ExcelTool(int startHead, string outJsonDir, string outCSDir)
         {
-            _config = JsonConvert.DeserializeObject<ExcelToolConfig>(configJson);
-
-            InitDirectory();
-        }
-
-        public ExcelTool(ExcelToolConfig config)
-        {
-            _config = config;
-
+            StartHead = startHead;
+            OutputJsonDir = outJsonDir;
+            OutputCSDir = outCSDir;
             InitDirectory();
         }
 
 
         private void InitDirectory()
         {
-            if (!Directory.Exists(_config.OutputCSDir))
+            if (!Directory.Exists(OutputJsonDir))
             {
-                Directory.CreateDirectory(_config.OutputCSDir);
+                Directory.CreateDirectory(OutputJsonDir);
             }
 
-            if (!Directory.Exists(_config.OutputJsonDir))
+            if (!Directory.Exists(OutputCSDir))
             {
-                Directory.CreateDirectory(_config.OutputJsonDir);
+                Directory.CreateDirectory(OutputCSDir);
             }
         }
 
         /// <summary>
-        /// 读取所有的Excel
+        /// 读取目录下所有Excel
         /// </summary>
-        public string[] ReadAllExcel()
+        /// <param name="directory"></param>
+        /// <returns></returns>
+        public string[] ReadExcelFiles(string directory)
         {
-            string[] fileExtensions = new string[] { ".xls", ".xlsx" };
-
-            string[] excelFiles = null;
-
-            if (!string.IsNullOrEmpty(_config.InputExcelDir) && Directory.Exists(_config.InputExcelDir))
+            if (Directory.Exists(directory))
             {
-                excelFiles = Directory.GetFiles(_config.InputExcelDir).Where(file => fileExtensions.Contains(Path.GetExtension(file)) && !file.Contains("~$"))
+                string[] fileExtensions = new string[] { ".xls", ".xlsx" };
+
+                string[] excelFiles = Directory.GetFiles(directory).Where(file => fileExtensions.Contains(Path.GetExtension(file)) && !file.Contains("~$"))
                .ToArray();
+
+                return excelFiles;
             }
 
-            return excelFiles;
+            return null;
         }
 
         /// <summary>
         /// 导出成Json
         /// </summary>
-        public void ExportToJsonFile()
+        public void ExportToJson(string[] excelFiles)
         {
-            string[] excelFiles = ReadAllExcel();
-
             foreach (var file in excelFiles)
             {
-                var tables = ExcelHelper.ReadExcelAllSheets(file);
+                ExportToJson(file);
+            }
+        }
+            
+        public void ExportToJson(string file)
+        {
+            var tables = ExcelHelper.ReadExcelAllSheets(file);
 
-                foreach (DataTable table in tables)
+            foreach (DataTable table in tables)
+            {
+                if (table.Rows.Count > 0)
                 {
-                    if (table.Rows.Count > 0)
-                    {
-                        var newTable = ExcelHelper.SelectContent(table, _config.StartHead);
+                    var newTable = ExcelHelper.SelectContent(table, StartHead);
 
-                        string json = JsonConvert.SerializeObject(newTable, Formatting.Indented);
-                        if (!string.IsNullOrEmpty(json))
+                    string json = JsonConvert.SerializeObject(newTable, Formatting.Indented);
+                    if (!string.IsNullOrEmpty(json))
+                    {
+                        string fileName = table.TableName + ".json";
+                        using (FileStream stream = new FileStream(OutputJsonDir + "/" + fileName, FileMode.Create, FileAccess.ReadWrite))
                         {
-                            string fileName = table.TableName + ".json";
-                            using (FileStream stream = new FileStream(_config.OutputJsonDir + "/" + fileName, FileMode.Create, FileAccess.ReadWrite))
-                            {
-                                byte[] data = Encoding.UTF8.GetBytes(json);
-                                stream.Write(data, 0, data.Length);
-                            }
+                            byte[] data = Encoding.UTF8.GetBytes(json);
+                            stream.Write(data, 0, data.Length);
                         }
                     }
                 }
             }
         }
 
+
         /// <summary>
         /// 导出成CS
         /// </summary>
-        public void ExportToCSFile()
+        public void ExportToCS(string[] excelFiles)
         {
-            string[] excelFiles = ReadAllExcel();
             foreach (var file in excelFiles)
             {
-                var tables = ExcelHelper.ReadExcelAllSheets(file);
+                ExportToCS(file);
+            }
+        }
 
-                foreach (DataTable table in tables)
+        public void ExportToCS(string file)
+        {
+            var tables = ExcelHelper.ReadExcelAllSheets(file);
+
+            foreach (DataTable table in tables)
+            {
+                if (table.Rows.Count > 0)
                 {
-                    if (table.Rows.Count > 0)
-                    {
-                        ExcelToCS.Generate(table, _config.OutputCSDir);
-                    }
+                    ExcelToCS.Generate(table, OutputCSDir);
                 }
             }
         }

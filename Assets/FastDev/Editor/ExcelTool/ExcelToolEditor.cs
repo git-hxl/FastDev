@@ -12,7 +12,7 @@ using Vector2 = UnityEngine.Vector2;
 
 namespace FastDev.Editor
 {
-    public class ExcelEditor : EditorWindow
+    public class ExcelToolEditor : EditorWindow
     {
         private ExcelEditorConfig config;
 
@@ -20,12 +20,10 @@ namespace FastDev.Editor
         private List<string> ExcelSheets;
         private List<string> ExcelSheetsSelected;
 
-
-        private ExcelTool excelTool;
         [MenuItem("Tools/ExcelTool")]
         public static void OpenWindow()
         {
-            ExcelEditor window = (ExcelEditor)EditorWindow.GetWindow(typeof(ExcelEditor), false, "ExcelTool");
+            ExcelToolEditor window = (ExcelToolEditor)EditorWindow.GetWindow(typeof(ExcelToolEditor), false, "ExcelTool");
             window.Show();
         }
 
@@ -53,22 +51,13 @@ namespace FastDev.Editor
                 if (!string.IsNullOrEmpty(configTxt) && configTxt != "null")
                     config = JsonConvert.DeserializeObject<ExcelEditorConfig>(configTxt);
             }
-
-            ExcelToolConfig toolConfig = new ExcelToolConfig();
-
-            toolConfig.StartHead = config.StartHead;
-            toolConfig.InputExcelDir = config.InputExcelDir;
-            toolConfig.OutputJsonDir = config.OutputJsonDir;
-            toolConfig.OutputCSDir = config.OutputCSDir;
-
-            excelTool = new ExcelTool(toolConfig);
         }
 
         private void DrawWindow()
         {
-            EditorGUILayout.HelpBox($"从第{config.StartHead}行开始读数据", MessageType.Info);
+            EditorGUILayout.HelpBox($"设置Excel内容开始的Index，从0开始", MessageType.Info);
 
-            GUILayout.Label("当前StartHead:" + config.StartHead.ToString());
+            GUILayout.Label("StartHead:" + config.StartHead.ToString());
 
             config.StartHead = EditorGUILayout.IntSlider(config.StartHead, 2, 10);
 
@@ -105,7 +94,7 @@ namespace FastDev.Editor
                 }
             }
 
-            //DrawExcelFiles();
+            DrawExcelFiles();
 
             //刷新
             if (GUILayout.Button("刷新"))
@@ -182,7 +171,7 @@ namespace FastDev.Editor
 
             if (!string.IsNullOrEmpty(config.InputExcelDir) && Directory.Exists(config.InputExcelDir))
             {
-                string[] excelFiles = Directory.GetFiles(config.InputExcelDir).Where(file => fileExtensions.Contains(Path.GetExtension(file)))
+                string[] excelFiles = Directory.GetFiles(config.InputExcelDir).Where(file => fileExtensions.Contains(Path.GetExtension(file)) && !file.Contains("~$"))
                 .ToArray();
 
                 ExcelSheets.AddRange(excelFiles);
@@ -206,7 +195,16 @@ namespace FastDev.Editor
         /// </summary>
         private void ExportToJsonFile()
         {
-            excelTool.ExportToJsonFile();
+
+            ExcelTool excelTool = new ExcelTool(config.StartHead, config.OutputJsonDir, config.OutputCSDir);
+
+            //string[] files = excelTool.ReadExcelFiles(config.InputExcelDir);
+
+            foreach (string file in ExcelSheetsSelected)
+            {
+                excelTool.ExportToJson(file);
+            }
+
             Debug.Log("导出成功");
             AssetDatabase.Refresh();
         }
@@ -216,7 +214,14 @@ namespace FastDev.Editor
         /// </summary>
         private void ExportToCSFile()
         {
-            excelTool.ExportToCSFile();
+            ExcelTool excelTool = new ExcelTool(config.StartHead, config.OutputJsonDir, config.OutputCSDir);
+
+            //string[] files = excelTool.ReadExcelFiles(config.InputExcelDir);
+
+            foreach (string file in ExcelSheetsSelected)
+            {
+                excelTool.ExportToCS(file);
+            }
             Debug.Log("导出成功");
             AssetDatabase.Refresh();
         }

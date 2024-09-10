@@ -12,7 +12,7 @@ using Vector2 = UnityEngine.Vector2;
 
 namespace FastDev.Editor
 {
-    public class LanguageTool : EditorWindow
+    public class LanguageToolEditor : EditorWindow
     {
         private string inputStr = "";
         private string outputStr = "";
@@ -27,7 +27,7 @@ namespace FastDev.Editor
         [MenuItem("Tools/多语言工具")]
         public static void OpenWindow()
         {
-            LanguageTool window = (LanguageTool)EditorWindow.GetWindow(typeof(LanguageTool), false, "Language");
+            LanguageToolEditor window = (LanguageToolEditor)EditorWindow.GetWindow(typeof(LanguageToolEditor), false, "Language");
             window.Show();
         }
 

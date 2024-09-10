@@ -22,7 +22,7 @@ namespace FastDev
 
         private void Start()
         {
-            MessageManager.Instance.Register(MsgID.UpdateLanguage, UpdateText);
+            MessageManager.Instance.Register(-1, UpdateText);
         }
 
         public void UpdateText()
@@ -42,7 +42,7 @@ namespace FastDev
 
         private void OnDestroy()
         {
-            MessageManager.Instance.UnRegister(MsgID.UpdateLanguage, UpdateText);
+            MessageManager.Instance.UnRegister(-1, UpdateText);
         }
     }
 }

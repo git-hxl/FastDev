@@ -24,8 +24,9 @@ namespace FastDev
         /// </summary>
         /// <typeparam name="T">对象类型。</typeparam>
         /// <returns>要获取的对象池。</returns>
-        public IObjectPool<T> GetObjectPool<T>(string poolName) where T : ObjectBase
+        public IObjectPool<T> GetObjectPool<T>() where T : ObjectBase
         {
+            string poolName = typeof(T).Name;
             return (IObjectPool<T>)InternalGetObjectPool(poolName);
         }
 
@@ -33,14 +34,14 @@ namespace FastDev
         /// 创建对象池
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="name"></param>
-        /// <param name="autoReleaseInterval"></param>
-        /// <param name="capacity"></param>
-        /// <param name="expireTime"></param>
+        /// <param name="name">名称</param>
+        /// <param name="autoReleaseInterval">回收间隔</param>
+        /// <param name="capacity">容量</param>
+        /// <param name="expireTime">过期时间</param>
         /// <returns></returns>
-        public IObjectPool<T> CreateSpawnObjectPool<T>(string name, float autoReleaseInterval, int capacity, float expireTime) where T : ObjectBase
+        public IObjectPool<T> CreateSpawnObjectPool<T>(float autoReleaseInterval, int capacity, float expireTime) where T : ObjectBase
         {
-            return InternalCreateObjectPool<T>(name, autoReleaseInterval, capacity, expireTime);
+            return InternalCreateObjectPool<T>(autoReleaseInterval, capacity, expireTime);
         }
 
         /// <summary>
@@ -49,9 +50,10 @@ namespace FastDev
         /// <typeparam name="T">对象类型。</typeparam>
         /// <param name="name">要销毁的对象池名称。</param>
         /// <returns>是否销毁对象池成功。</returns>
-        public bool DestroyObjectPool<T>(string name) where T : ObjectBase
+        public bool DestroyObjectPool<T>() where T : ObjectBase
         {
-            return InternalDestroyObjectPool(name);
+            string poolName = typeof(T).Name;
+            return InternalDestroyObjectPool(poolName);
         }
 
         private ObjectPoolBase InternalGetObjectPool(string poolName)
@@ -64,14 +66,15 @@ namespace FastDev
             return null;
         }
 
-        private IObjectPool<T> InternalCreateObjectPool<T>(string poolName, float autoReleaseInterval, int capacity, float expireTime) where T : ObjectBase
+        private IObjectPool<T> InternalCreateObjectPool<T>(float autoReleaseInterval, int capacity, float expireTime) where T : ObjectBase
         {
+            string poolName = typeof(T).Name;
             if (InternalGetObjectPool(poolName) != null)
             {
                 throw new Exception(string.Format("Already exist object pool '{0}'.", poolName));
             }
 
-            ObjectPool<T> objectPool = new ObjectPool<T>(poolName, autoReleaseInterval, capacity, expireTime);
+            ObjectPool<T> objectPool = new ObjectPool<T>(autoReleaseInterval, capacity, expireTime);
             m_ObjectPools.Add(poolName, objectPool);
 
             return objectPool;

@@ -74,7 +74,7 @@ namespace FastDev
             LanguageType = languageType;
             PlayerPrefs.SetInt("Language", (int)languageType);
 
-            MessageManager.Instance.Dispatch(MsgID.UpdateLanguage);
+            MessageManager.Instance.Dispatch(-1);
         }
 
         public static string GetID(string text)

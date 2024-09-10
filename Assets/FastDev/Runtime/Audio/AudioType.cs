@@ -1,6 +1,6 @@
 namespace FastDev
 {
-    public enum SoundType
+    public enum AudioType
     {
         UI,
         Voice,//人声

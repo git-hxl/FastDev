@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public abstract class ObjectBase : IReference
+    public abstract class ObjectBase : MonoBehaviour, IReference
     {
         protected string assetName;
-        protected object target;
+        protected GameObject target;
 
-        public virtual void Init(string assetName, object target)
+        public virtual void Init(string assetName, GameObject target)
         {
             if (target == null)
             {
@@ -21,8 +21,6 @@ namespace FastDev
         }
 
         public string AssetName { get { return assetName; } }
-
-        public object Target { get { return target; } }
 
         public bool IsInUse { get; set; }
 

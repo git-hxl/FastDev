@@ -7,10 +7,14 @@ namespace FastDev
     {
         private Dictionary<string, UIPanel> panels;
 
+        public Camera UICamera { get; private set; }
 
-        public UIManager()
+        protected override void OnInit()
         {
+            base.OnInit();
             panels = new Dictionary<string, UIPanel>();
+
+            //UICamera = GetComponent<Canvas>().worldCamera;
         }
 
         /// <summary>
@@ -21,7 +25,7 @@ namespace FastDev
         private GameObject LoadPanel(string path)
         {
             GameObject uiAsset = ResourceManager.Instance.LoadAsset<GameObject>("ui", path);
-            GameObject uiObj = GameObject.Instantiate(uiAsset);
+            GameObject uiObj = GameObject.Instantiate(uiAsset, transform);
             return uiObj;
         }
 
@@ -36,6 +40,16 @@ namespace FastDev
             if (panels.ContainsKey(key))
             {
                 return panels[key];
+            }
+            return null;
+        }
+
+        public T GetUI<T>(string path) where T : UIPanel
+        {
+            string key = Path.GetFileNameWithoutExtension(path);
+            if (panels.ContainsKey(key))
+            {
+                return panels[key] as T;
             }
             return null;
         }
@@ -66,8 +80,13 @@ namespace FastDev
             }
 
             panel = panels[key];
-            panel.Canvas.sortingOrder = (int)uIOrder;
-            panel.OnOpen();
+
+            if (panel.Canvas.sortingOrder != (int)uIOrder)
+            {
+                panel.Canvas.sortingOrder = (int)uIOrder;
+                panel.OnOpen();
+            }
+
             return panel as T;
         }
 
@@ -80,7 +99,7 @@ namespace FastDev
             string key = Path.GetFileNameWithoutExtension(path);
             UIPanel uIPanel = GetUI(key);
 
-            if (uIPanel != null)
+            if (uIPanel != null && uIPanel.Canvas.sortingOrder != (int)UIOrder.Hide)
             {
                 uIPanel.Canvas.sortingOrder = (int)UIOrder.Hide;
                 uIPanel.OnClose();

@@ -36,7 +36,7 @@ namespace FastDev
         /// 获取对象。
         /// </summary>
         /// <returns>要获取的对象。</returns>
-        T Spawn();
+        T Spawn(string assetPath);
 
         /// <summary>
         /// 回收对象。

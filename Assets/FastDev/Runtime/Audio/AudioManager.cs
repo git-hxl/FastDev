@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace FastDev
 {
-    public sealed partial class SoundManager : MonoSingleton<SoundManager>
+    public sealed partial class AudioManager : MonoSingleton<AudioManager>
     {
-        private Dictionary<SoundType, SoundAgent> soundAgents;
+        private Dictionary<AudioType, AudioAgent> audioAgents;
 
-        private SoundSetting soundSetting;
+        private AudioSetting audioSetting;
 
 
-        public SoundManager()
+        public AudioManager()
         {
-            soundAgents = new Dictionary<SoundType, SoundAgent>();
-            soundSetting = new SoundSetting();
+            audioAgents = new Dictionary<AudioType, AudioAgent>();
+            audioSetting = new AudioSetting();
         }
 
         /// <summary>
@@ -21,17 +21,17 @@ namespace FastDev
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public SoundAgent GetSoundAgent(SoundType type)
+        public AudioAgent GetAudioAgent(AudioType type)
         {
-            if (!soundAgents.ContainsKey(type))
+            if (!audioAgents.ContainsKey(type))
             {
-                SoundAgent soundAgent = ReferencePool.Acquire<SoundAgent>();
-                soundAgent.Init(type, this);
+                AudioAgent audioAgent = ReferencePool.Acquire<AudioAgent>();
+                audioAgent.Init(type);
 
-                soundAgents.Add(type, soundAgent);
+                audioAgents.Add(type, audioAgent);
             }
 
-            return soundAgents[type];
+            return audioAgents[type];
         }
 
         /// <summary>
@@ -39,9 +39,9 @@ namespace FastDev
         /// </summary>
         /// <param name="soundType"></param>
         /// <returns></returns>
-        public float GetVolume(SoundType soundType)
+        public float GetVolume(AudioType soundType)
         {
-            return soundSetting.GetVolume(soundType);
+            return audioSetting.GetVolume(soundType);
         }
 
         /// <summary>
@@ -49,11 +49,11 @@ namespace FastDev
         /// </summary>
         /// <param name="soundType"></param>
         /// <param name="value"></param>
-        public void SetVolume(SoundType soundType, float value)
+        public void SetVolume(AudioType soundType, float value)
         {
-            soundSetting.SetVolume(soundType, value);
+            audioSetting.SetVolume(soundType, value);
 
-            foreach (var item in soundAgents)
+            foreach (var item in audioAgents)
             {
                 if (item.Value.AudioSource.isPlaying)
                 {
@@ -66,12 +66,12 @@ namespace FastDev
         protected override void OnDispose()
         {
             base.OnDispose();
-            foreach (var item in soundAgents)
+            foreach (var item in audioAgents)
             {
                 ReferencePool.Release(item.Value);
             }
 
-            soundAgents.Clear();
+            audioAgents.Clear();
         }
     }
 }

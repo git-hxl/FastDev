@@ -1,4 +1,4 @@
-﻿
+
 
 using Newtonsoft.Json;
 using System;
@@ -15,23 +15,15 @@ namespace FastDev
         private Dictionary<string, string> _configs = new Dictionary<string, string>();
         private Dictionary<Type, List<IConfig>> _configValues = new Dictionary<Type, List<IConfig>>();
 
-        public void Init(string[] files)
+        public void Init()
         {
-            if (files == null || files.Length == 0)
-            {
-                return;
-            }
-            for (int i = 0; i < files.Length; i++)
-            {
-                string fileName = Path.GetFileNameWithoutExtension(files[i]);
-                string json = File.ReadAllText(files[i]);
-                AddConfig(fileName, json); 
-            }
+           
         }
 
 
-        public void AddConfig(string key, string value)
+        public void AddConfig<T>(string value) where T : IConfig
         {
+            string key = typeof(T).Name;
             if (_configs.ContainsKey(key))
             {
                 _configs[key] = value;
@@ -49,32 +41,52 @@ namespace FastDev
             string fileName = typeof(T).Name;
             if (_configs.ContainsKey(fileName))
             {
-                List<IConfig> values = null;
+                List<T> values = null;
                 if (_configValues.ContainsKey(typeof(T)))
                 {
-                    values = _configValues[typeof(T)];
+                    values = _configValues[typeof(T)] as List<T>;
                 }
 
                 if (values != null)
                 {
-                    return (T)values.FirstOrDefault((a) => a.ID == id);
+                    return values.FirstOrDefault((a) => a.ID == id);
                 }
-
-                if (values == null)
+                else
                 {
-                    var values2 = JsonConvert.DeserializeObject<List<T>>(_configs[fileName]);
+                    values = JsonConvert.DeserializeObject<List<T>>(_configs[fileName]);
 
-                    _configValues[typeof(T)] = new List<IConfig>();
-
-                    foreach (var item in values2)
-                    {
-                        _configValues[typeof(T)].Add(item);
-                    }
-                    return values2.FirstOrDefault((a) => a.ID == id);
+                    _configValues[typeof(T)] = values as List<IConfig>;
+                    return values.FirstOrDefault((a) => a.ID == id);
                 }
 
             }
             return default(T);
+        }
+
+        public List<T> GetAllConfig<T>() where T : IConfig
+        {
+            string fileName = typeof(T).Name;
+            if (_configs.ContainsKey(fileName))
+            {
+                List<T> values = null;
+                if (_configValues.ContainsKey(typeof(T)))
+                {
+                    values = _configValues[typeof(T)] as List<T>;
+                }
+
+                if (values != null)
+                {
+                    return values;
+                }
+                else
+                {
+                    values = JsonConvert.DeserializeObject<List<T>>(_configs[fileName]);
+
+                    _configValues[typeof(T)] = values as List<IConfig>;
+                    return values;
+                }
+            }
+            return null;
         }
     }
 }

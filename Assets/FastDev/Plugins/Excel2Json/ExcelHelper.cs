@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using UnityEngine;
 
 namespace Excel2Json
 {
@@ -190,6 +191,8 @@ namespace Excel2Json
                         DataColumn dataColumn = new DataColumn(columnName, type);
                         newDataTable.Columns.Add(dataColumn);
                     }
+
+                    //Debug.Log(dataTable.Rows[i][j].ToString() + " " + newDataTable.Columns[j].DataType + " " + dataTable.TableName);
                     dataRow[j] = ConvertDataTableData(dataTable.Rows[i][j].ToString(), newDataTable.Columns[j].DataType, dataTable.TableName);
                 }
             }
@@ -234,6 +237,6 @@ namespace Excel2Json
             return true;
         }
 
-       
+
     }
 }

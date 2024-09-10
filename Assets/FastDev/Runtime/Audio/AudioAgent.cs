@@ -4,24 +4,19 @@ using UnityEngine;
 
 namespace FastDev
 {
-    public class SoundAgent : IReference
+    public class AudioAgent : IReference
     {
-        public string SoundPath { get; private set; }
-        public SoundType SoundType { get; private set; }
+        public string AudioPath { get; private set; }
+        public AudioType AudioType { get; private set; }
         public AudioSource AudioSource { get; private set; }
-
-        private SoundManager soundManager;
-
-        public SoundAgent()
+        public AudioAgent()
         {
 
         }
 
-        public void Init(SoundType soundType, SoundManager soundManager)
+        public void Init(AudioType audioType)
         {
-            SoundType = soundType;
-            this.soundManager = soundManager;
-
+            AudioType = audioType;
             CheckAudioSource();
         }
 
@@ -29,11 +24,11 @@ namespace FastDev
         {
             if (AudioSource == null)
             {
-                GameObject gameObject = new GameObject($"{SoundType} AudioSource");
+                GameObject gameObject = new GameObject($"{AudioType} AudioSource");
                 AudioSource = gameObject.AddComponent<AudioSource>();
-                AudioSource.loop = SoundType == SoundType.Music;
+                AudioSource.loop = AudioType == AudioType.Music;
 
-                AudioSource.volume = soundManager.GetVolume(SoundType);
+                AudioSource.volume = AudioManager.Instance.GetVolume(AudioType);
             }
         }
 
